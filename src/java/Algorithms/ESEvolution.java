@@ -4,15 +4,19 @@
 package Algorithms;
 
 import Src.Controller;
-import Src.GlobalVariables;
 import Src.SolutionAttributes;
 import Src.Kernel;
 import Src.Profile;
 import Src.Utils;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 
 
 /**
@@ -20,8 +24,8 @@ import java.util.Random;
  */
 public class ESEvolution implements MetaHeuristic {
 
-    private List  best; //holds copies of all the current best solutions
-
+    private ArrayList<Profile> best = new ArrayList<>(); //holds copies of all the current best solutions
+    
     
     /**
      * F1.
@@ -167,22 +171,16 @@ public class ESEvolution implements MetaHeuristic {
                 }
             }
         }
-		// finally mutate the probability that the kernel is active
-        // Set scores to 0, the mutated profile being unscored as yet
-        // mutatedProf.ResetAllExistingScores();
-        // mutatedProf.ResetAllExistingHints();
-
-		// return mutatedProf;
-        // prof.printProfile();
         return true;
     }
 
    
     
     @Override
-    public void generateNextSolutions(int howMany, Profile[] nextGenerationOfProfiles) {
+    public void generateNextSolutions(int howMany, Profile[] currentGenerationOfProfiles) {
+        
     int copied, toCopy, generationnumber;
- 
+    
     //check that the working memory is not empty
     if(best.size()<=0)
         {
@@ -199,27 +197,131 @@ public class ESEvolution implements MetaHeuristic {
     for ( copied=0;copied < best.size();copied++)
         {
         //copy the profile from the set of the previous best
-        nextGenerationOfProfiles[copied].setProfile((Profile)best.get(copied));
+        currentGenerationOfProfiles[copied].setProfile((Profile)best.get(copied));
         }
             
-    //and then fill up the rest with mutated copues of the best.
+    //and then fill up the rest with mutated copies of the best.
     while(copied < howMany )
         {
-        //pick random one from the bestr set nd copy it
+        //pick random one from the best set and copy it
             toCopy = Utils.GetRandIntInRange(0, best.size());
-            nextGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));
+            currentGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));
         }
     
-    //to finish off we need to change the names in the profiles to reflect the current iteration number
-    //JIM 30-03 : Kieran, we need ot discuss whether this gets done here or in the controller class
-    // - if they get done in the controller class i could copy out the names before i overwirtw the est of the content
-    
-    
-    
-    //Jim 30-3andthen write them to filefor safe keeping - should i do this here or is it done in the controller?
-    // TODO write profile array to file for safe keeping
+      
+        // update profile names by incrementing the generation count in each name
+        for (int i = 0; i < currentGenerationOfProfiles.length; i++) {
+            String profileName = currentGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
+            String profile = profileName.substring(profileName.indexOf('-') + 1, profileName.lastIndexOf('.')); // profile_y.xml
+            int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_')+1), profileName.indexOf('-')));
+            generation++; 
+            String outProfileName = "gen_" + generation + "-" + profile + ".xml";
+            // set name in profile to match new name
+         currentGenerationOfProfiles[i].setName(outProfileName);
+            // TODO controller outputFolder variable needed but out of scope from Controller 
+         String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+         // write out the profile to file for safe keeping
+         File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
+         file.mkdir();
+         currentGenerationOfProfiles[i].writeProfileToFile(outProfilePath);
+         // get written out profile and apply xml formatting
+         File filed = new File(outProfilePath);
+         currentGenerationOfProfiles[i] = getProfile(filed);
+      
+        }
     }
     
+     public Profile getProfile(File file) {
+        Profile profile = new Profile(file);
+        try {
+            Document XmlDoc = new SAXBuilder().build(file);
+
+            Element root = XmlDoc.getRootElement();
+            Element profileNode = root.getChild("profile", root.getNamespace());
+            Iterator iterator = profileNode.getChildren().iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                Element hint = (Element) iterator.next();
+                if (hint.getName().equalsIgnoreCase("variable")) {
+                    String name = hint.getChildText("name");
+                    String type = hint.getChildText("type");
+
+                    String temp = hint.getChildText("lbound");
+                    Double dub = new Double(temp);
+                    double lbound = dub.doubleValue();
+
+                    temp = hint.getChildText("ubound");
+                    dub = new Double(temp);
+                    double ubound = dub.doubleValue();
+
+                    temp = hint.getChildText("granularity");
+                    dub = new Double(temp);
+                    double granularity = dub.doubleValue();
+
+                    temp = hint.getChildText("rateOfEvolution");
+                    dub = new Double(temp);
+                    double rateOfEvolution = dub.doubleValue();
+
+                    temp = hint.getChildText("value");
+                    dub = new Double(temp);
+                    double value = dub.doubleValue();
+
+                    String dfault = hint.getChildText("default");
+                    String flag = hint.getChildText("flag");
+                    String unit = hint.getChildText("unit");
+
+                    SolutionAttributes variable = new SolutionAttributes(name, type,
+                            lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                    profile.addVaraiable(variable);
+                } else if (hint.getName().equalsIgnoreCase("kernel")) {
+
+                    Iterator it = hint.getChildren().iterator();
+                    Element nm = (Element) it.next();
+                    String kernelName = nm.getText();
+                    Hashtable vars = new Hashtable();
+                    while (it.hasNext()) {
+                        Element hintt = (Element) it.next();
+                        String name = hintt.getChildText("name");
+                        String type = hintt.getChildText("type");
+
+                        String temp = hintt.getChildText("lbound");
+                        Double dub = new Double(temp);
+                        double lbound = dub.doubleValue();
+
+                        temp = hintt.getChildText("ubound");
+                        dub = new Double(temp);
+                        double ubound = dub.doubleValue();
+
+                        temp = hintt.getChildText("granularity");
+                        dub = new Double(temp);
+                        double granularity = dub.doubleValue();
+
+                        temp = hintt.getChildText("rateOfEvolution");
+                        dub = new Double(temp);
+                        double rateOfEvolution = dub.doubleValue();
+
+                        temp = hintt.getChildText("value");
+                        dub = new Double(temp);
+                        double value = dub.doubleValue();
+
+                        String dfault = hintt.getChildText("default");
+                        String flag = hintt.getChildText("flag");
+                        String unit = hintt.getChildText("unit");
+
+                        SolutionAttributes variable = new SolutionAttributes(name, type,
+                                lbound, ubound, granularity, rateOfEvolution, value, dfault,
+                                flag, unit);
+                        vars.put(name, variable);
+                    }
+                    Kernel kernel = new Kernel(kernelName, vars);
+                    profile.addKernel(kernel);
+                }
+            }
+        } catch (Exception pce) {
+            pce.printStackTrace();
+        }
+        return profile;
+    }
     
     public Boolean generateNextSolution(Profile profile) {
         double score=0.0, mutation_rate = 0.0;
@@ -231,17 +333,19 @@ public class ESEvolution implements MetaHeuristic {
     @Override
     public void updateWorkingMemory(Profile[] evaluatedSolutions) {
         int popmember=0; //loop variable
-        //this is an EA so we are going to start by clearing the previous population
+        //this is an EA so we are going to start by clearing the previous population if it isnt the first
         best.clear();
-        //now we want to find out whatthe best fitness seen is
+        //now we want to find out what the best fitness seen is
         double bestFitness = 0.0;
-        for(popmember=0; popmember < evaluatedSolutions.length; popmember++)
-            if( evaluatedSolutions[popmember].getGlobalScore() >bestFitness)
+        for(popmember=0; popmember < evaluatedSolutions.length; popmember++){
+            if( evaluatedSolutions[popmember].getGlobalScore() > bestFitness)
                 bestFitness = evaluatedSolutions[popmember].getGlobalScore();
+        }
         //finally see which of our evaluated solutions are the equal best and add them to the list.
-        for(popmember=0; popmember < evaluatedSolutions.length; popmember++)
-            if( evaluatedSolutions[popmember].getGlobalScore() >bestFitness)
+        for(popmember=0; popmember < evaluatedSolutions.length; popmember++){
+            if( evaluatedSolutions[popmember].getGlobalScore() >= bestFitness)
                 best.add(evaluatedSolutions[popmember]);
+        }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

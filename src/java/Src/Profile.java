@@ -28,7 +28,7 @@ public class Profile {
 	private File file;
 	
 	/** The global score. */
-	private int globalScore = 0;
+	private int globalScore = 5;
 	
 	/** The kernels. */
 	private Hashtable kernels;
@@ -60,6 +60,8 @@ public class Profile {
 		this.name = file.getName();
 	}
 
+        
+        
 	/**
 	 * Adds the kernel.
 	 *
@@ -172,6 +174,12 @@ public class Profile {
 		}
 	}
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+        
+        
 	/**
 	 * Copy profile.
 	 *
@@ -179,7 +187,7 @@ public class Profile {
 	 * @param outputPath the output path
 	 * @return true, if successful
 	 */
-	public boolean copyProfile(Profile parent, String outputPath) {
+	public boolean writeProfileToFile(Profile parent, String outputPath) {
 		System.out.println("Copy profile " + parent.getName() + " to " + outputPath);
 		String copy = "";
 		File file = parent.getFile();

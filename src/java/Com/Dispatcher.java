@@ -157,8 +157,11 @@ public class Dispatcher extends HttpServlet {
         Controller controller = new Controller(input, output, profile);
 
          controller.initialArtifacts();
-        System.out.println("");
+         session.setAttribute("Controller", controller);
+        System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
+                + "Awaiting user to update parameters to generate next generation of results.\n");
 
+        
 // TODO return results to view        
 //        request.setAttribute("results", results);
 //        RequestDispatcher dispatch = request.getRequestDispatcher("index.jsp");

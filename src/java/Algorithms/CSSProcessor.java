@@ -4,7 +4,6 @@
 package Algorithms;
 
 import Src.Artifact;
-import Src.GlobalVariables;
 import Src.SolutionAttributes;
 import Src.Kernel;
 import Src.Profile;
@@ -24,11 +23,11 @@ import java.util.Vector;
 public class CSSProcessor implements Processor {
 
     private Hashtable cssLabels;
-    private GlobalVariables globalVariables;
+  
     
-    public CSSProcessor(GlobalVariables globalVariables) {
+    public CSSProcessor() {
        this.cssLabels = setupCSSLabelStore();
-       this.globalVariables = globalVariables;
+      
     }
 
     /*
@@ -196,7 +195,7 @@ public class CSSProcessor implements Processor {
             String rawArtifactName = artifact.getFilename();
              rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
              System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
-             processedArtifactName = profileName + "_" +rawArtifactName + ".html";
+             processedArtifactName = profileName + "-" +rawArtifactName + ".html";
              System.out.println("Processed artifact name = " + processedArtifactName);
                 outHtmlPath = outputFolder + processedArtifactName;
                 String htmlFile = "";
