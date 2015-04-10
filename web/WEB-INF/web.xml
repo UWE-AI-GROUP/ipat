@@ -10,7 +10,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>main.jsp</welcome-file>
     </welcome-file-list>
     <context-param>
         <description>Location for client data</description>

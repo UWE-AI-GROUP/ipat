@@ -14,12 +14,7 @@ import Algorithms.ESEvolution;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Vector;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 public class Controller {
 
@@ -79,8 +74,8 @@ public class Controller {
     }
     
     
-    // initialises the Profiles from the profile folder, generating new ones if the count is <6
-    // or if the count is >9 takes only 6 of them 
+    // initialises the Profiles in memory from the files in the profile folder, generating new ones if the count is <6
+    // or if the count is >9 accepts only 6 of them 
     private void bootstrapApplication() {
         FilenameFilter filter = new FilenameFilter() {
             @Override
@@ -149,6 +144,8 @@ public class Controller {
 
         Artifact rawArtifact;
         Artifact processedArtifact = null;
+        processedArtifacts = new Artifact[raw_artifacts.length * noOfProfiles];
+        int count = 0;
        
         // Generate CSS based on the new profiles
         for (int profileID = 0; profileID < noOfProfiles; profileID++) {
@@ -156,10 +153,12 @@ public class Controller {
             System.out.println("Processing : " + currentProfile.getName());
             // Process the profile to generate CSS
             for (int artifactID = 0; artifactID < raw_artifacts.length; artifactID++) {
-
+                
                 rawArtifact = raw_artifacts[artifactID];
                 //System.out.println(rawArtifact.getFilename());
                 processedArtifact = cssp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                processedArtifacts[count] = processedArtifact;
+                count++;
                 
             }
         }

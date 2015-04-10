@@ -78,12 +78,11 @@ public class newGenRequest extends HttpServlet {
             System.out.println("Error, next generation button pressed before upload of input files.");
         }
         else{
-        
-        
+           // get input parameters from UI
+           // 
         }
-        // get input parameters from UI
-        
-        //  
+      
+ 
         
     }
 

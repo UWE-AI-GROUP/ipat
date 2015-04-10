@@ -5,6 +5,7 @@
  */
 package Com;
 
+import Src.Artifact;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -20,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import java.util.Enumeration;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 
 /**
@@ -155,18 +157,21 @@ public class Dispatcher extends HttpServlet {
         
         // TODO synchronize controller
         Controller controller = new Controller(input, output, profile);
-
-         controller.initialArtifacts();
+        controller.initialArtifacts();
+        Artifact[] results = controller.processedArtifacts;
+        System.out.println("RESULTS:");
+        for (Artifact result : results) {
+            System.out.println(result.getFile().getName());
+        }
          session.setAttribute("Controller", controller);
         System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
                 + "Awaiting user to update parameters to generate next generation of results.\n");
 
-        
-// TODO return results to view        
-//        request.setAttribute("results", results);
-//        RequestDispatcher dispatch = request.getRequestDispatcher("index.jsp");
-//        response.setContentType("application/javascript");
-//        dispatch.forward(request, response);
+       
+        request.setAttribute("results", results);
+       RequestDispatcher dispatch = request.getRequestDispatcher("main.jsp");
+       response.setContentType("application/javascript");
+       dispatch.forward(request, response);
     }
 
     /**
