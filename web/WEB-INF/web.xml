@@ -16,14 +16,14 @@
         <description>Location for client data</description>
         <param-name>clientFolder</param-name>
         <param-value>
-            /home/kieran/NetBeansProjects/Neat/web/Client Data/
+            /home/kieran/NetBeansProjects/ipat/web/Client Data/
         </param-value>
     </context-param>
     <context-param>
         <description>Location of Profiles</description>
         <param-name>profileFolder</param-name>
         <param-value>
-            /home/kieran/NetBeansProjects/Neat/web/data/profiles
+            /home/kieran/NetBeansProjects/ipat/web/data/profiles
         </param-value>
     </context-param>
     <listener>
@@ -42,7 +42,7 @@
         </init-param>
         <init-param>
             <param-name>fileRepository</param-name>
-            <param-value>/home/kieran/NetBeansProjects/Neat/web/temp file repository/</param-value>
+            <param-value>/home/kieran/NetBeansProjects/ipat/web/temp file repository/</param-value>
         </init-param>
     </servlet>
     <servlet>

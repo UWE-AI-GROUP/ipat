@@ -20,9 +20,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
-import java.util.Enumeration;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
+import com.google.gson.Gson;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,7 +33,6 @@ public class Dispatcher extends HttpServlet {
     int maxMemSize;
     String fileRepository;
     String webPath;
-    
 
     public void init() throws ServletException {
         this.webPath = getServletConfig().getInitParameter("clientFolder");
@@ -45,10 +43,10 @@ public class Dispatcher extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-    
+            throws ServletException, IOException {
+
     }
-    
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -118,26 +116,26 @@ public class Dispatcher extends HttpServlet {
                     long sizeInBytes = fi.getSize();
                     // Write the file to server in "/uploads/{sessionID}/"   
                     String clientDataPath = getServletContext().getInitParameter("clientFolder");
-                
+
                     if (fileName.lastIndexOf("\\") >= 0) {
-                       
-                        File input = new File( clientDataPath + session.getId() + "/input/");
+
+                        File input = new File(clientDataPath + session.getId() + "/input/");
                         input.mkdirs();
-                        File output = new File( clientDataPath + session.getId() + "/output/");
+                        File output = new File(clientDataPath + session.getId() + "/output/");
                         output.mkdirs();
                         session.setAttribute("inputFolder", clientDataPath + session.getId() + "/input/");
                         session.setAttribute("outputFolder", clientDataPath + session.getId() + "/output/");
-  
+
                         file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/")));
                     } else {
-                         File input = new File( clientDataPath + session.getId() + "/input/");
+                        File input = new File(clientDataPath + session.getId() + "/input/");
                         input.mkdirs();
-                        File output = new File( clientDataPath + session.getId() + "/output/");
+                        File output = new File(clientDataPath + session.getId() + "/output/");
                         output.mkdirs();
                         session.setAttribute("inputFolder", clientDataPath + session.getId() + "/input/");
                         session.setAttribute("outputFolder", clientDataPath + session.getId() + "/output/");
-  
-                        file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/")+1));
+
+                        file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/") + 1));
                     }
                     fi.write(file);
                 }
@@ -147,31 +145,34 @@ public class Dispatcher extends HttpServlet {
             System.out.println(ex);
             //TODO show error page for website
         }
-        
+
         // TODO make the fileRepository Folder generic so it doesnt need to be changed
         // for each migration of the program to a different server
-
         File input = new File((String) session.getAttribute("inputFolder"));
         File output = new File((String) session.getAttribute("outputFolder"));
         File profile = new File(getServletContext().getInitParameter("profileFolder"));
-        
+
         // TODO synchronize controller
         Controller controller = new Controller(input, output, profile);
         controller.initialArtifacts();
         Artifact[] results = controller.processedArtifacts;
-        System.out.println("RESULTS:");
-        for (Artifact result : results) {
-            System.out.println(result.getFile().getName());
-        }
-         session.setAttribute("Controller", controller);
+
+        session.setAttribute("Controller", controller);
         System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
                 + "Awaiting user to update parameters to generate next generation of results.\n");
 
-       
-        request.setAttribute("results", results);
-       RequestDispatcher dispatch = request.getRequestDispatcher("main.jsp");
-       response.setContentType("application/javascript");
-       dispatch.forward(request, response);
+        List<String> list = new ArrayList<String>();
+        for (Artifact result : results) {
+            //paths returned to view as "src" attributes for iframe table
+            //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
+            list.add("Client%20Data/" + session.getId() + "/output/" + result.getFilename());
+        }
+        String json = new Gson().toJson(list);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
+
     }
 
     /**

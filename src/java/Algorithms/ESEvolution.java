@@ -211,11 +211,13 @@ public class ESEvolution implements MetaHeuristic {
       
         // update profile names by incrementing the generation count in each name
         for (int i = 0; i < currentGenerationOfProfiles.length; i++) {
+            try{
             String profileName = currentGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
             String profile = profileName.substring(profileName.indexOf('-') + 1, profileName.lastIndexOf('.')); // profile_y.xml
             int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_')+1), profileName.indexOf('-')));
             generation++; 
             String outProfileName = "gen_" + generation + "-" + profile + ".xml";
+           
             // set name in profile to match new name
          currentGenerationOfProfiles[i].setName(outProfileName);
             // TODO controller outputFolder variable needed but out of scope from Controller 
@@ -227,7 +229,11 @@ public class ESEvolution implements MetaHeuristic {
          // get written out profile and apply xml formatting
          File filed = new File(outProfilePath);
          currentGenerationOfProfiles[i] = getProfile(filed);
-      
+       } catch (StringIndexOutOfBoundsException ex) {
+                System.out.println("The profile names do not follow the correct convention to be processed."
+                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
+                System.out.println( ex.getMessage() );
+            }
         }
     }
     
