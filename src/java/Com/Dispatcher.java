@@ -165,8 +165,7 @@ public class Dispatcher extends HttpServlet {
         for (Artifact result : results) {
             //paths returned to view as "src" attributes for iframe table
             //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
-            // TODO - "http://localhost:8084/Neat" domain needs to be moved to web.xml as a parameter as hardcoding = bad practice
-            list.add("http://localhost:8084/Neat/Client%20Data/" + session.getId() + "/output/" + result.getFilename()); 
+            list.add("/ipat/Client%20Data/" + session.getId() + "/output/" + result.getFilename()); 
         }
         String json = new Gson().toJson(list);
 

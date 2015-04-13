@@ -79,11 +79,11 @@ and open the template in the editor.
 }
 
 .tableframes {
-    alignment-adjust: central; 
+   // alignment-adjust: central; 
     border: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+    height: 80%;
+    width: 80%;
+    //overflow: hidden;
     -ms-zoom: 0.8;
     -ms-transform-origin: 0 0;
     -moz-transform: scale(0.8);
@@ -104,3 +104,27 @@ and open the template in the editor.
     alignment-adjust: central;
 }
 
+.sliders{
+    position: relative;
+    height: 10%;
+    width: 64%;
+}
+
+#filelist{
+width: 90%;
+height: 50%;
+}
+
+.cell{
+    width: 30%;
+    height: 100%;
+    position:relative;
+    float:left;
+}
+.overlay{
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    position:absolute;
+}

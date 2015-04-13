@@ -16,9 +16,10 @@
     <script src="http://malsup.github.com/jquery.form.js"></script> 
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="/Neat/javascript/fileUpload.js"></script>
+    <script src="javascript/fileUpload.js"></script>
     <script>$(function () {$("#tabs").tabs();});</script>
-  <link rel="stylesheet" type="text/css" href="/Neat/css/style.css"> 
+  <link rel="stylesheet" type="text/css" href="css/style.css"> 
+   <link rel="stylesheet" type="text/css" href="css/tabStyle.css"> 
 </head>
 <body>
     <!--boarder of program-->
@@ -32,7 +33,7 @@
         <div id="form">
             <!--start of top variables table-->
             <div id="variables">
-                <table class="variablesTable">
+                <table>
                     <tbody>
                         <tr>
                             <td>
@@ -55,6 +56,7 @@
                     </tbody>
                 </table>
             </div>
+       
             <!--end of top variables table-->
             <!--start of file choosing section-->
             <div id="fileChoose">
@@ -62,7 +64,7 @@
                       action="FileUpload" enctype="multipart/form-data">
                     <input class="filesToUpload" name="filesToUpload" id="filesToUpload" type="file" multiple />
                 </form>
-                <textarea id="filelist" name="filelist" rows="3" cols="100">${fileNames}</textarea>
+                <textarea id="filelist" name="filelist" rows="25" cols="70">${fileNames}</textarea>
             </div>
             <!--end of file choosing section-->
             <!--start of iframe table--> 
@@ -82,8 +84,9 @@
                 </div>
                 <!--end of iframe table-->
                 <!--start of button table-->
+                  </div>
                 <div id="buttons">
-                        <table style="width: 100%; height: 100%" border="0">
+                        <table>
                             <tbody>
                                 <tr>
                                     <td><button type="button" name="abortButton" id="abort">Abort</button>
@@ -97,11 +100,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                </div>
-                <!--end of button table-->                
-            </div>
-            <!--end of form box-->           
+                </div> 
         </div>
-        <!--end of boarder of program-->
 </body>
 </html>
