@@ -37,16 +37,17 @@ $(document).ready(function () {
         {
             if (xhr.readyState === 4)
             {
-                alert("we're in");
                 var result = JSON.parse(xhr.responseText);
               
-                var content = "<table>";
+                var content = "<table><tr>";
                 for (var i = 0; i < result.length; i++) {
-                 content += "<tr><td><iframe src='" + result[i] + "' ></iframe></td></tr>";
+                    if(i % 3 === 0){content += "<tr>";}
+                 content += "<td><iframe src='" + result[i] + "' scrolling='no' class='tableframes'></iframe></td>";
+                      if(i % 3 === 2){content += "</tr>";} 
                 }
-                content += "</table>";
+                content += "</tr></table>";
                $('#tabs-byProfile').append(content);
-            }
+          }
         };
 
         xhr.send(formData);

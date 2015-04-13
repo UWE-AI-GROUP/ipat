@@ -58,7 +58,7 @@ public class Controller {
 
     
     
-    private void mainloop(){
+    public void mainloop(){
         //set the global score of each profile in the current generation to be the same, and non-zero
         for (Profile currentGeneration  : currentGenerationOfProfiles) {
             currentGeneration.setGlobalScore(5);

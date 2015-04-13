@@ -18,6 +18,7 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="/Neat/javascript/fileUpload.js"></script>
     <script>$(function () {$("#tabs").tabs();});</script>
+  <link rel="stylesheet" type="text/css" href="/Neat/css/style.css"> 
 </head>
 <body>
     <!--boarder of program-->
@@ -82,7 +83,6 @@
                 <!--end of iframe table-->
                 <!--start of button table-->
                 <div id="buttons">
-                    <form id="buttonsForm">
                         <table style="width: 100%; height: 100%" border="0">
                             <tbody>
                                 <tr>
@@ -92,12 +92,11 @@
                                     </td>
                                     <td>
                                     </td>
-                                    <td><button type="submit" name="nextGenerationButton" id="nextGeneration">Next Generation</button>
+                                    <td><button  name="nextGenerationButton" id="nextGeneration">Next Generation</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                    </form>
                 </div>
                 <!--end of button table-->                
             </div>

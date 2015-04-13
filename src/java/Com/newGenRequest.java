@@ -5,8 +5,13 @@
  */
 package Com;
 
+import Src.Artifact;
+import Src.Controller;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -78,8 +83,21 @@ public class newGenRequest extends HttpServlet {
             System.out.println("Error, next generation button pressed before upload of input files.");
         }
         else{
-           // get input parameters from UI
-           // 
+         Controller controller =  (Controller) session.getAttribute("Controller");
+         // TODO adjust scores of artifacts to weights allocated by user here
+         controller.mainloop();
+         Artifact[] results = controller.processedArtifacts;
+          List<String> list = new ArrayList<String>();
+        for (Artifact result : results) {
+            //paths returned to view as "src" attributes for iframe table
+            //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
+            list.add("Client%20Data/" + session.getId() + "/output/" + result.getFilename());
+        }
+        String json = new Gson().toJson(list);
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
         }
       
  
