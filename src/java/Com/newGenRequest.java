@@ -8,15 +8,19 @@ package Com;
 import Src.Artifact;
 import Src.Controller;
 import com.google.gson.Gson;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -84,7 +88,14 @@ public class newGenRequest extends HttpServlet {
         }
         else{
          Controller controller =  (Controller) session.getAttribute("Controller");
-         // TODO adjust scores of artifacts to weights allocated by user here
+         
+       String[] sliderValues = request.getParameterValues("data[]");
+            for (String urlWithValue : sliderValues) {
+               int value = Integer.parseInt( urlWithValue.substring(urlWithValue.indexOf("~") + 1));
+               String file = urlWithValue.substring(urlWithValue.lastIndexOf("/") + 1, urlWithValue.indexOf("~"));
+                System.out.println("file : " + file + " /  Value : " + value);
+            }
+            
          controller.mainloop();
          Artifact[] results = controller.processedArtifacts;
           List<String> list = new ArrayList<String>();
@@ -104,6 +115,16 @@ public class newGenRequest extends HttpServlet {
         
     }
 
+    private static String getValue(Part part) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+    StringBuilder value = new StringBuilder();
+    char[] buffer = new char[1024];
+    for (int length = 0; (length = reader.read(buffer)) > 0;) {
+        value.append(buffer, 0, length);
+    }
+    return value.toString();
+}
+    
     /**
      * Returns a short description of the servlet.
      *

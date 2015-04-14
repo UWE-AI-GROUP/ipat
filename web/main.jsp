@@ -16,7 +16,7 @@
     <script src="http://malsup.github.com/jquery.form.js"></script> 
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="javascript/fileUpload.js"></script>
+    <script src="javascript/javascript.js"></script>
     <script>$(function () {$("#tabs").tabs();});</script>
   <link rel="stylesheet" type="text/css" href="css/style.css"> 
    <link rel="stylesheet" type="text/css" href="css/tabStyle.css"> 
