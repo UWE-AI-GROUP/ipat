@@ -43,7 +43,7 @@ $(document).ready(function () {
                 var content = "<table border='1px'><tr>";
                 for (var i = 0; i < result.length; i++) {
                     if(i % 3 === 0){content += "<tr>";}
-                 content += "<td class='cell'><iframe src='" + result[i] + "' scrolling='yes' class='tableframes' id='frame_"+i+"' ></iframe><div id='overlay_"+i+"'></div><input type='range' min='0' max='50' value='25' step='5'  class='sliders'/></td>";
+                 content += "<td class='cell'><iframe src='" + result[i] + "' scrolling='yes' class='cellFrames' id='frame_"+i+"' ></iframe><div id='overlay_"+i+"' class='overlay' onclick='frameClick(this.id)'></div><input type='range' min='0' max='50' value='25' step='5'  class='sliders'/></td>";
                       if(i % 3 === 2){content += "</tr>";} 
                 }
                 content += "</tr></table>";
@@ -55,6 +55,8 @@ $(document).ready(function () {
     }, false);
 });
 
-document.getElementById('nextGeneration').addEventListener("click", function(){
-    //
-}, false);
+function frameClick (id){
+      var num = id.split("_");
+  var src = document.getElementById("frame_" + num[1] ).src;
+  document.getElementById("previewFrame").src = src;
+    }
