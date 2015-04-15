@@ -206,6 +206,8 @@ public class ESEvolution implements MetaHeuristic {
         //pick random one from the best set and copy it
             toCopy = Utils.GetRandIntInRange(0, best.size());
             currentGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));
+            double rateToApply = this.F1(currentGenerationOfProfiles[copied].getGlobalScore());
+            this.mutate(currentGenerationOfProfiles[copied], rateToApply);
         }
     
       
