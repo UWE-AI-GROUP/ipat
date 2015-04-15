@@ -220,8 +220,9 @@ public class ESEvolution implements MetaHeuristic {
            
             // set name in profile to match new name
          currentGenerationOfProfiles[i].setName(outProfileName);
-            // TODO controller outputFolder variable needed but out of scope from Controller 
-         String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+            // TODO TEST ME
+           String outProfilePath = currentGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
+       //  String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
          // write out the profile to file for safe keeping
          File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
          file.mkdir();
