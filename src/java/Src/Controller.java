@@ -46,6 +46,8 @@ public class Controller {
         System.out.println("output Folder : " + outputFolder);
         System.out.println("profiles Folder : " + profileFolder);
     }
+    
+   
 
     // Generates the first set of results and returns them in the appropriate display to the view
     public void initialArtifacts() {
@@ -59,11 +61,7 @@ public class Controller {
     
     
     public void mainloop(){
-        //set the global score of each profile in the current generation to be the same, and non-zero
-        for (Profile currentGeneration  : currentGenerationOfProfiles) {
-            currentGeneration.setGlobalScore(5);
-        }
-        //2. then call esevolution.updateworking memry
+     
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //3. now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         evolution.generateNextSolutions(noOfProfiles, currentGenerationOfProfiles);

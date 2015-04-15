@@ -7,6 +7,7 @@ package Com;
 
 import Src.Artifact;
 import Src.Controller;
+import Src.Profile;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -88,12 +89,17 @@ public class newGenRequest extends HttpServlet {
         }
         else{
          Controller controller =  (Controller) session.getAttribute("Controller");
+         Profile[] profiles = controller.currentGenerationOfProfiles;
+            for (Profile profile : profiles) {
+                System.out.println( "me  " + profile.getName());
+            }
          
        String[] sliderValues = request.getParameterValues("data[]");
             for (String urlWithValue : sliderValues) {
                int value = Integer.parseInt( urlWithValue.substring(urlWithValue.indexOf("~") + 1));
-               String file = urlWithValue.substring(urlWithValue.lastIndexOf("/") + 1, urlWithValue.indexOf("~"));
-                System.out.println("file : " + file + " /  Value : " + value);
+               String file = urlWithValue.substring(urlWithValue.lastIndexOf("/") + 1, urlWithValue.lastIndexOf("-"));
+               file = file.concat(".xml");
+                System.out.println("you " +file);
             }
             
          controller.mainloop();
@@ -109,21 +115,9 @@ public class newGenRequest extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
-        }
-      
- 
-        
+        }  
     }
 
-    private static String getValue(Part part) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
-    StringBuilder value = new StringBuilder();
-    char[] buffer = new char[1024];
-    for (int length = 0; (length = reader.read(buffer)) > 0;) {
-        value.append(buffer, 0, length);
-    }
-    return value.toString();
-}
     
     /**
      * Returns a short description of the servlet.

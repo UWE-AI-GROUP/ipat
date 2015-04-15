@@ -53,4 +53,12 @@
         <servlet-name>Dispatcher</servlet-name>
         <url-pattern>/FileUpload</url-pattern>
     </servlet-mapping>
+     <servlet>
+        <servlet-name>Abort</servlet-name>
+        <servlet-class>Com.Abort</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Abort</servlet-name>
+        <url-pattern>/abort</url-pattern>
+    </servlet-mapping>
 </web-app>
