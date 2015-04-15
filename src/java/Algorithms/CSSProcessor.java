@@ -173,25 +173,17 @@ public class CSSProcessor implements Processor {
 
         // ---------- Filenames Generation------------//
     
-        String outCssPath;
-        String cssName;
+//        String outCssPath;
+//        String cssName;
         String outHtmlPath;
         String processedArtifactName;
         String profileName = profile.getName();
         // just want the name of the profile without the .xml extension
         profileName = profileName.substring(0, profileName.lastIndexOf('.'));
         
-        // TODO Jim said about being able to get the information needed to replace these variables from Profile
-        cssName = profileName + "_style.css";
-        outCssPath = outputFolder + cssName;
+        
+
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(outCssPath));
-            writer.write(CSS);
-            writer.close();
-            // TODO css get rid of?
-            //globalVariables.setCss_files_at_i(new File(outCssPath), index);
-            //for (int j = 0; j < globalVariables.getRaw_artifacts_list().length; j++) { // no need to iterate each is being processed in turn now
-              //  String rawArtifactName = globalVariables.getRaw_artifacts_list()[j].getFile().getName();
             String rawArtifactName = artifact.getFilename();
              rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
              System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
@@ -204,24 +196,17 @@ public class CSSProcessor implements Processor {
                 while ((temp = reader.readLine()) != null) {
                     htmlFile += temp + "\n";
                     if (temp.contains("<head>")) {
-
-                        // ---- If inserting link for CSS file
-                        htmlFile += "<link rel=\"stylesheet\" href=\"" + cssName + "\" Ttype=\"text/css\">";
-
-                        // ---- If embedding CSS within HTML
                         htmlFile += "<style type=\"text/css\">";
                         htmlFile += CSS;
                         htmlFile += "</style>";
                     }
                 }
 
-                writer = new BufferedWriter(new FileWriter(outHtmlPath));
+               BufferedWriter  writer = new BufferedWriter(new FileWriter(outHtmlPath));
                 writer.write(htmlFile);
                 writer.close();
               
                 return new Artifact(new File(outHtmlPath));
-        //}
-
         } catch (Exception e) {
             e.printStackTrace();
         }

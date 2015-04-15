@@ -9,12 +9,11 @@ $(document).ready(function () {
 
 
     var form = document.getElementById('fileUploadForm');
-    var fileSelect = document.getElementById('filesToUpload');
     var nextGen = document.getElementById("nextGeneration");
     var genCount = document.getElementById("generationCount");
     var abort = document.getElementById("abort");
-     var reset = document.getElementById("resetScores");
-     var image = "data/ajaxSpinner.gif";
+    var reset = document.getElementById("resetScores");
+    var image = "data/ajaxSpinner.gif";
     var populationSize;
 
 //================================================
@@ -24,34 +23,42 @@ $(document).ready(function () {
     form.addEventListener('change', function (event) {
         event.preventDefault();
 
-        $('#tabs-byProfile').html("<img src='"+image+"' />");
+        $('#tabs-byProfile').html("<img src='" + image + "' />");
 
-        var files = fileSelect.files;
+        var files = document.getElementById('filesToUpload').files;
         var formData = new FormData();
+        var valid = true;
 
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             if (!file.type.match('text/html')) {
-                continue;
-            }
+                alert('Please only select files with .htm and .html extensions.');
+                $('#tabs-byProfile').empty();
+                $('#filelist').val('');
+                $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
+                genCount.value = 0;
+                files = null;
+                valid = false;
+                break;
+            }  
             formData.append('filesToUpload', file, file.name);
             document.getElementById("filelist").value += file.name + "\n";
         }
-
+        
+        if (valid) {
+        
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'FileUpload', true);
         xhr.onload = function () {
             if (xhr.status !== 200) {
-                alert('An error occurred!');
+                alert('Server Error. We apologise for the inconvenience and will be up and running again shortly.');
+                $('#tabs-byProfile').empty();
             }
         };
         xhr.onreadystatechange = function ()
         {
             if (xhr.readyState === 4)
             {
-                
-               
-                
                 var result = JSON.parse(xhr.responseText);
                 populationSize = result.length;
                 var content = "<table border='1px'><tr>";
@@ -65,35 +72,39 @@ $(document).ready(function () {
                     }
                 }
                 content += "</tr></table>";
-     setTimeout(function(){  $('#tabs-byProfile').empty();   $('#tabs-byProfile').append(content);   },4000);
-               
+                setTimeout(function () {
+                    $('#tabs-byProfile').empty();
+                    $('#tabs-byProfile').append(content);
+                }, 5000);
             }
         };
         xhr.send(formData);
         genCount.value = 0;
         genCount.value = parseInt(genCount.value) + 1;
+        valid = false;
+        }
     }, false);
 
 
 //================================================
     nextGen.addEventListener('click', function () {
-   
+
         var data = [];
         for (var i = 0; i < populationSize; i++) {
             data.push(document.getElementById("frame_" + i).src + "~" + document.getElementById("slider_" + i).value);
         }
-      
-         $('#tabs-byProfile').empty();
-         $('#tabs-byProfile').html("<img src='"+image+"' />");
-      
+
+        $('#tabs-byProfile').empty();
+        $('#tabs-byProfile').html("<img src='" + image + "' />");
+
         $.ajax({
             url: "newGen",
             type: "POST",
             data: {data: data},
             success: function (result) {
-                
-                $('#loading').html("<img src='"+image+"' />");
-                
+
+                $('#loading').html("<img src='" + image + "' />");
+
                 populationSize = result.length;
                 var content = "<table border='1px'><tr>";
                 for (var i = 0; i < result.length; i++) {
@@ -106,23 +117,28 @@ $(document).ready(function () {
                     }
                 }
                 content += "</tr></table>";
-               
-             setTimeout(function(){  $('#tabs-byProfile').empty();   $('#tabs-byProfile').append(content);   },4000);
-              
+
+                setTimeout(function () {
+                    $('#tabs-byProfile').empty();
+                    $('#tabs-byProfile').append(content);
+                }, 5000);
+
             }
-            
+
         }, false);
-       
+
         genCount.value = parseInt(genCount.value) + 1;
     });
 
 //================================================
 
     abort.addEventListener('click', function () {
+
+
         $('#tabs-byProfile').empty();
         $('#filelist').val('');
         $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
-         genCount.value = 0;
+        genCount.value = 0;
         $.ajax({
             url: "abort",
             type: "POST",
@@ -131,15 +147,15 @@ $(document).ready(function () {
             }
         });
     }, false);
-    
+
 //================================================
-    
- reset.addEventListener('click', function () {
-         for (var i = 0; i < populationSize; i++) {
-             document.getElementById("slider_" + i).value = 5;
+
+    reset.addEventListener('click', function () {
+        for (var i = 0; i < populationSize; i++) {
+            document.getElementById("slider_" + i).value = 5;
         }
-    }, false);   
-    
+    }, false);
+
 });
 
 //================================================

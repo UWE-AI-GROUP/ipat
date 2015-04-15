@@ -102,6 +102,9 @@ public class newGenRequest extends HttpServlet {
                 System.out.println("you " +file);
             }
             
+            // TODO get the values for the radio buttons and the tick boxes which will have values for the hints, these
+            // be fed back to the profile to be processed in the metaheuristic interface
+            
          controller.mainloop();
          Artifact[] results = controller.processedArtifacts;
           List<String> list = new ArrayList<String>();

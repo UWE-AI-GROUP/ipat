@@ -61,7 +61,7 @@ public class Controller {
     
     
     public void mainloop(){
-     
+      //  
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //3. now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         evolution.generateNextSolutions(noOfProfiles, currentGenerationOfProfiles);
