@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -116,7 +117,8 @@ public class Dispatcher extends HttpServlet {
                     long sizeInBytes = fi.getSize();
                     // Write the file to server in "/uploads/{sessionID}/"   
                     String clientDataPath = getServletContext().getInitParameter("clientFolder");
-
+                    // TODO clear the client folder here
+                   // FileUtils.deleteDirectory(new File("clientDataPath"));
                     if (fileName.lastIndexOf("\\") >= 0) {
 
                         File input = new File(clientDataPath + session.getId() + "/input/");
@@ -145,13 +147,14 @@ public class Dispatcher extends HttpServlet {
             System.out.println(ex);
             //TODO show error page for website
         }
-
+        System.out.println("file uploaded" );
         // TODO make the fileRepository Folder generic so it doesnt need to be changed
         // for each migration of the program to a different server
         File input = new File((String) session.getAttribute("inputFolder"));
         File output = new File((String) session.getAttribute("outputFolder"));
         File profile = new File(getServletContext().getInitParameter("profileFolder"));
 
+        System.out.println("folders created");
         // TODO synchronize controller
         Controller controller = new Controller(input, output, profile);
         controller.initialArtifacts();

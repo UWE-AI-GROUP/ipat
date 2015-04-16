@@ -194,20 +194,26 @@ public class ESEvolution implements MetaHeuristic {
         }
     
     //now  the copy the best ones
-    for ( copied=0;copied < best.size();copied++)
-        {
+    // TODO save one profile only
+   // for ( copied=0;copied < best.size();copied++)
+        for ( copied=0;copied < 1;copied++)    
+    {
+            
         //copy the profile from the set of the previous best
         currentGenerationOfProfiles[copied].setProfile((Profile)best.get(copied));
         }
-            
+            System.out.println("number copied without change : " + best.size());
     //and then fill up the rest with mutated copies of the best.
     while(copied < howMany )
         {
         //pick random one from the best set and copy it
-            toCopy = Utils.GetRandIntInRange(0, best.size());
-            currentGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));
-            double rateToApply = this.F1(currentGenerationOfProfiles[copied].getGlobalScore());
+            toCopy = Utils.GetRandIntInRange(0, best.size()-1);
+            currentGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));    
+            //cludged to 0.9 to force mutatiobn
+            double rateToApply = 0.9;//this.F1(currentGenerationOfProfiles[copied].getGlobalScore());
             this.mutate(currentGenerationOfProfiles[copied], rateToApply);
+            copied++;
+            System.out.println("mutate profile complete");
         }
     
       
@@ -223,8 +229,8 @@ public class ESEvolution implements MetaHeuristic {
             // set name in profile to match new name
          currentGenerationOfProfiles[i].setName(outProfileName);
             // TODO TEST ME
-           String outProfilePath = currentGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
-       //  String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+          // String outProfilePath = currentGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
+         String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
          // write out the profile to file for safe keeping
          File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
          file.mkdir();

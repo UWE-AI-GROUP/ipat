@@ -173,15 +173,11 @@ public class CSSProcessor implements Processor {
 
         // ---------- Filenames Generation------------//
     
-//        String outCssPath;
-//        String cssName;
         String outHtmlPath;
         String processedArtifactName;
         String profileName = profile.getName();
         // just want the name of the profile without the .xml extension
         profileName = profileName.substring(0, profileName.lastIndexOf('.'));
-        
-        
 
         try {
             String rawArtifactName = artifact.getFilename();
