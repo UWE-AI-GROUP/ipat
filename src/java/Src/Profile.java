@@ -431,7 +431,7 @@ public class Profile {
 			Element elemi = scoreNode.getChild("value");
 			elemi.setText("0");
 			
-			System.out.println("[SetProfile] Writing score " + 0 + " to profile: " + profile.getFile().toString());
+			//System.out.println("[SetProfile] Writing score " + 0 + " to profile: " + profile.getFile().toString());
 
 			XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 			String xmlString = outputter.outputString(XmlDoc);

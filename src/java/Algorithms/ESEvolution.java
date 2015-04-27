@@ -18,15 +18,13 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
-
 /**
  * The Class ESEvolution.
  */
 public class ESEvolution implements MetaHeuristic {
 
     private ArrayList<Profile> best = new ArrayList<>(); //holds copies of all the current best solutions
-    
-    
+
     /**
      * F1.
      *
@@ -37,7 +35,7 @@ public class ESEvolution implements MetaHeuristic {
         double F1val = 0.106 - 0.0713 * x * x * x + 1.6707 * x * x - 14.6554
                 * x + 50.6783;
         return (F1val / 100);
-		//return (2 * F1val / 100);
+        //return (2 * F1val / 100);
         // "+ 0.106" : so F1(10) in not negative
     }
 
@@ -79,7 +77,7 @@ public class ESEvolution implements MetaHeuristic {
                     variable.setValue(variable.getLbound() + variable.getGranularity() * chosen);
 
                 } else if (variable.getType().equalsIgnoreCase("ordinal")) {
-					// mutation rate is interpreted as a normalised step size
+                    // mutation rate is interpreted as a normalised step size
                     // factor first pick N(0,stepsize) deviate, then convert to the
                     // allowed granularity
                     stepsize = (variable.getUbound() - variable.getLbound()) * mutation_rate;
@@ -105,10 +103,10 @@ public class ESEvolution implements MetaHeuristic {
             }
             // finally mutate the probability that the kernel is active
             if (Utils.GetRandDouble01() < mutation_rate) {
-				// mutatedProf.KernelFamily[k].active =
+                // mutatedProf.KernelFamily[k].active =
                 // (mutatedProf.KernelFamily[k].active = true)? false:true;
             }
-			// Aug 2011
+            // Aug 2011
             // need to keep track of number of active kernels
             // if(mutatedProf.KernelFamily[k].active = true)
             // numberofactivekernels++;
@@ -125,7 +123,7 @@ public class ESEvolution implements MetaHeuristic {
 
         Hashtable vars = prof.getSolutionAttributes();
         Enumeration pVar = vars.keys();
-		// finally the profile level variables
+        // finally the profile level variables
         // for(int pvar=0;pvar<vars.size();pvar++)
         while (pVar.hasMoreElements()) {
             SolutionAttributes var = (SolutionAttributes) vars.get(pVar.nextElement()
@@ -138,13 +136,13 @@ public class ESEvolution implements MetaHeuristic {
                             .getGranularity());
                     // if the values were indexed chose one index at random
                     chosen = Utils.GetRandIntInRange(0, possibilities);
-					// now compute what actual value this would be
+                    // now compute what actual value this would be
                     // mutatedProf.profile_vars[pvar] = prof.PVar_MinVal[pvar] +
                     // prof.PVar_Granularity[pvar]*chosen;
                     var.setValue(var.getLbound() + var.getGranularity() * chosen);
                 }
             } else if (var.getType().equalsIgnoreCase("ordinal")) {
-				// mutation rate is interpreted as a normalised step size factor
+                // mutation rate is interpreted as a normalised step size factor
                 // first pick N(0,stepsize) deviate, then convert to the allowed
                 // granularity
                 stepsize = (var.getUbound() - var.getLbound()) * mutation_rate * var.getRateOfEvolution();
@@ -174,79 +172,68 @@ public class ESEvolution implements MetaHeuristic {
         return true;
     }
 
-   
-    
     @Override
     public void generateNextSolutions(int howMany, Profile[] currentGenerationOfProfiles) {
-        
-    int copied, toCopy, generationnumber;
-    
-    //check that the working memory is not empty
-    if(best.size()<=0)
-        {
-        throw new UnsupportedOperationException("Can't call generateNextSolutions without calling UpdateWorkingMemory() First");
+
+        int copied, toCopy;
+        //check that the working memory is not empty
+        if (best.size() <= 0) {
+            throw new UnsupportedOperationException("Can't call generateNextSolutions without calling UpdateWorkingMemory() First");
         }
     //if the user has resized the population so that we have more "best" solutions than we want new profiles
-    // then we must lose some of our "best" solutions at rndom
-    while (best.size() >  howMany)    
-        {
-        best.remove(Utils.GetRandIntInRange(0, howMany));
+        // then we must lose some of our "best" solutions at random
+        while (best.size() > howMany) {
+            best.remove(Utils.GetRandIntInRange(0, howMany));
         }
-    
-    //now  the copy the best ones
     // TODO save one profile only
-   // for ( copied=0;copied < best.size();copied++)
-        for ( copied=0;copied < 1;copied++)    
-    {
-            
-        //copy the profile from the set of the previous best
-        currentGenerationOfProfiles[copied].setProfile((Profile)best.get(copied));
+        // for ( copied=0;copied < best.size();copied++)
+        for (copied = 0; copied < 1; copied++) {
+            //copy the profile from the set of the previous best
+            currentGenerationOfProfiles[copied].setProfile((Profile) best.get(copied));
         }
-            System.out.println("number copied without change : " + best.size());
-    //and then fill up the rest with mutated copies of the best.
-    while(copied < howMany )
-        {
-        //pick random one from the best set and copy it
-            toCopy = Utils.GetRandIntInRange(0, best.size()-1);
-            currentGenerationOfProfiles[copied].setProfile((Profile)best.get(toCopy));    
-            //cludged to 0.9 to force mutatiobn
+        System.out.println("number copied without change : " + best.size());
+        //and then fill up the rest with mutated copies of the best.
+        while (copied < howMany) {
+            //pick random one from the best set and copy it
+            toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
+            currentGenerationOfProfiles[copied].setProfile((Profile) best.get(toCopy));
+            //cludged to 0.9 to force mutation
             double rateToApply = 0.9;//this.F1(currentGenerationOfProfiles[copied].getGlobalScore());
             this.mutate(currentGenerationOfProfiles[copied], rateToApply);
             copied++;
             System.out.println("mutate profile complete");
         }
-    
-      
+
         // update profile names by incrementing the generation count in each name
         for (int i = 0; i < currentGenerationOfProfiles.length; i++) {
-            try{
-            String profileName = currentGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
-            String profile = profileName.substring(profileName.indexOf('-') + 1, profileName.lastIndexOf('.')); // profile_y.xml
-            int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_')+1), profileName.indexOf('-')));
-            generation++; 
-            String outProfileName = "gen_" + generation + "-" + profile + ".xml";
-           
-            // set name in profile to match new name
-         currentGenerationOfProfiles[i].setName(outProfileName);
+            try {
+                String profileName = currentGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
+                String profile = profileName.substring(profileName.indexOf('-') + 1, profileName.lastIndexOf('.')); // profile_y.xml
+                int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
+                generation++;
+                String outProfileName = "gen_" + generation + "-" + profile + ".xml";
+
+                // set name in profile to match new name
+                currentGenerationOfProfiles[i].setName(outProfileName);
             // TODO TEST ME
-          // String outProfilePath = currentGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
-         String outProfilePath =  Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
-         // write out the profile to file for safe keeping
-         File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
-         file.mkdir();
-         currentGenerationOfProfiles[i].writeProfileToFile(outProfilePath);
-         // get written out profile and apply xml formatting
-         File filed = new File(outProfilePath);
-         currentGenerationOfProfiles[i] = getProfile(filed);
-       } catch (StringIndexOutOfBoundsException ex) {
+                // String outProfilePath = currentGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
+                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+                // write out the profile to file for safe keeping
+                File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
+                file.mkdir();
+                currentGenerationOfProfiles[i].writeProfileToFile(outProfilePath);
+                // get written out profile and apply xml formatting
+                File filed = new File(outProfilePath);
+                currentGenerationOfProfiles[i] = getProfile(filed);
+            } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
                         + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
-                System.out.println( ex.getMessage() );
+                System.out.println(ex.getMessage());
             }
         }
     }
-    
-     public Profile getProfile(File file) {
+
+    public Profile getProfile(File file) {
         Profile profile = new Profile(file);
         try {
             Document XmlDoc = new SAXBuilder().build(file);
@@ -337,9 +324,9 @@ public class ESEvolution implements MetaHeuristic {
         }
         return profile;
     }
-    
+
     public Boolean generateNextSolution(Profile profile) {
-        double score=0.0, mutation_rate = 0.0;
+        double score = 0.0, mutation_rate = 0.0;
         score = profile.getGlobalScore();
         mutation_rate = F1(score);
         return this.mutate(profile, mutation_rate);
@@ -347,21 +334,26 @@ public class ESEvolution implements MetaHeuristic {
 
     @Override
     public void updateWorkingMemory(Profile[] evaluatedSolutions) {
-        int popmember=0; //loop variable
+        int popmember = 0; //loop variable
         //this is an EA so we are going to start by clearing the previous population if it isnt the first
         best.clear();
         //now we want to find out what the best fitness seen is
         double bestFitness = 0.0;
-        for(popmember=0; popmember < evaluatedSolutions.length; popmember++){
-            if( evaluatedSolutions[popmember].getGlobalScore() > bestFitness)
+        for (popmember = 0; popmember < evaluatedSolutions.length; popmember++) {
+            if (evaluatedSolutions[popmember].getGlobalScore() > bestFitness) {
                 bestFitness = evaluatedSolutions[popmember].getGlobalScore();
+            }
         }
         //finally see which of our evaluated solutions are the equal best and add them to the list.
-        for(popmember=0; popmember < evaluatedSolutions.length; popmember++){
-            if( evaluatedSolutions[popmember].getGlobalScore() >= bestFitness)
+        for (popmember = 0; popmember < evaluatedSolutions.length; popmember++) {
+            if (evaluatedSolutions[popmember].getGlobalScore() >= bestFitness) {
                 best.add(evaluatedSolutions[popmember]);
+            }
         }
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
+        for (Profile best : best) {
+            System.out.println("those assigned as best in ESEvolution: " + best.getName() + " : " + best.getGlobalScore());
+        }
     }
 
 }

@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class Controller {
-
-   
+    
     Display display;
     CSSProcessor cssp = new CSSProcessor();
     Profile currentProfile = null;
@@ -46,8 +45,6 @@ public class Controller {
         System.out.println("output Folder : " + outputFolder);
         System.out.println("profiles Folder : " + profileFolder);
     }
-    
-   
 
     // Generates the first set of results and returns them in the appropriate display to the view
     public void initialArtifacts() {
@@ -59,16 +56,15 @@ public class Controller {
      }
 
     
-    
+    // Generates the next generation of results and returns them to the view
     public void mainloop(){
-      //  
+        
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        //3. now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
+        //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         evolution.generateNextSolutions(noOfProfiles, currentGenerationOfProfiles);
-        //4. now apply those profiles ot the raw artefeacts to get something to display
+        //now apply those profiles ot the raw artifacts to get something to display
         getResultArtifacts();
-        //5. now display them
-        //6. load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
+        // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
     }
     
     
@@ -83,7 +79,9 @@ public class Controller {
         };
 
         File[] profiles_list = profileFolder.listFiles(filter);
-        System.out.println(profiles_list);
+        if (profiles_list == null){
+        System.out.println("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.");
+        }
         File[] new_profiles_list = new File[noOfProfiles];
 
         if (profiles_list == null || profiles_list.length < noOfProfiles) {
@@ -93,7 +91,7 @@ public class Controller {
                 new_profiles_list[i] = profiles_list[i];
             }
             for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
-                new_profiles_list[i + j] = profiles_list[1];// IpatEA.make_random_profile();
+                new_profiles_list[i + j] = profiles_list[1];
             }
             System.out.println("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake);
 
