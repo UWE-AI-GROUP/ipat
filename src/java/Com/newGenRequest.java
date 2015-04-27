@@ -95,7 +95,7 @@ public class newGenRequest extends HttpServlet {
                 file = file.concat(".xml");
                 // TESTING : check to see if slider values have been updated and if correct number of them are present
                 //System.out.println("SLIDER VALUES : " + file + ": " + value);
-                
+
                 // check for duplicates (one for each input file the user entered) and add their values to the valuesList 
                 if (sliderNames.containsKey(file)) {
                     ArrayList<Integer> get = sliderNames.get(file);
@@ -109,30 +109,31 @@ public class newGenRequest extends HttpServlet {
             }
 
             // loop through sessions profiles and update their scores
-            
             // get the controllers currentGeneration of profiles
             Controller controller = (Controller) session.getAttribute("Controller");
             Profile[] profiles = controller.currentGenerationOfProfiles;
-            
-           // Loop through current gerenation of profiles
+
+            // Loop through current gerenation of profiles
             for (Profile profile : profiles) {
                 Iterator<String> iterator = sliderNames.keySet().iterator();
                 System.out.println("ITERATING THROUGH CURRENT GEN PROFILES IN CONTROLLER : " + profile.getName());
-            
+
                 //  for each profile cycle through the results
                 while (iterator.hasNext()) {
                     String file = iterator.next();
-                
+
                     // if the result profile name is the same as the controllers profile name
                     if (profile.getName().equalsIgnoreCase(file)) {
-                    
+
                         // assign the average value of the valuesList to currentGenerationProfiles global score.
                         ArrayList<Integer> get = sliderNames.get(file);
                         int newScore = 0;
-                        for (Integer get1 : get) {newScore += get1;}
+                        for (Integer get1 : get) {
+                            newScore += get1;
+                        }
                         newScore = newScore / get.size();
                         profile.setGlobalScore(newScore);
-                        System.out.println("PROFILE MATCHED, " + file + " SCORES : " + sliderNames.get(file) + ",   AVERAGE SCORE :  "  + newScore);
+                        System.out.println("PROFILE MATCHED, " + file + " SCORES : " + sliderNames.get(file) + ",   AVERAGE SCORE :  " + newScore);
                         break;
                     }
                 }
@@ -142,19 +143,17 @@ public class newGenRequest extends HttpServlet {
             Artifact[] results = controller.processedArtifacts;
             List<String> list = new ArrayList<String>();
             for (Artifact result : results) {
-            //paths returned to view as "src" attributes for the iframe table
+                //paths returned to view as "src" attributes for the iframe table
                 //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
                 list.add("Client%20Data/" + session.getId() + "/output/" + result.getFilename());
             }
-            
-            
+
 //             //TESTING : check for profile global scores have been reset to 5
-//               Profile[] prof = controller.currentGenerationOfProfiles;
-//            for (Profile prof1 : prof) {
-//                System.out.println(prof1.getName() + "   :  " + prof1.getGlobalScore());
+//                Profile[] prof = controller.currentGenerationOfProfiles;
+//                for (Profile prof1 : prof) {
+//                    System.out.println(prof1.getName() + "   :  " + prof1.getGlobalScore());
 //            }
-            
-            
+
             String json = new Gson().toJson(list);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

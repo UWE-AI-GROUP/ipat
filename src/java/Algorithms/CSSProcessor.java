@@ -182,7 +182,8 @@ public class CSSProcessor implements Processor {
         try {
             String rawArtifactName = artifact.getFilename();
              rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
-             System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
+             // TESTING : distinguishing the raw artifact name from the processed one (processed one)
+           //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
              processedArtifactName = profileName + "-" +rawArtifactName + ".html";
              System.out.println("Processed artifact name = " + processedArtifactName);
                 outHtmlPath = outputFolder + processedArtifactName;

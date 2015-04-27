@@ -62,7 +62,14 @@ $(document).ready(function () {
                 var result = JSON.parse(xhr.responseText);
                 populationSize = result.length;
                 var content = "<table border='1px'><tr>";
+                //for all the results
                 for (var i = 0; i < result.length; i++) {
+                    // TODO : make profileTableArray[profile + num][], make imageTableArray[ image + name][]
+                    // split the name up {profile + num, image + name}
+                    // add result to profileTableArray[profile + num][i]
+                    // make imageTableArray[ image + name][i]
+                 
+                    
                     if (i % 3 === 0) {
                         content += "<tr>";
                     }

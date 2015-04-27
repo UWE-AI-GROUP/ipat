@@ -26,6 +26,13 @@
          /home/kieran/NetBeansProjects/IPAT_WebApplication/web/data/profiles
         </param-value>
     </context-param>
+    <context-param>
+        <description>For Debugging and verbose log messages</description>
+        <param-name>DEBUG</param-name>
+        <param-value>
+         true
+        </param-value>
+    </context-param>
     <listener>
         <listener-class>Com.SessionCounterListener</listener-class>
     </listener>

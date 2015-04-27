@@ -20,7 +20,7 @@
       <ubound>255.0</ubound>
       <granularity>5.0</granularity>
       <rateOfEvolution>0.4</rateOfEvolution>
-      <value>13.0</value>
+      <value>173.0</value>
       <default>random</default>
       <unit>pt</unit>
       <flag>active</flag>
@@ -32,7 +32,7 @@
       <ubound>255.0</ubound>
       <granularity>5.0</granularity>
       <rateOfEvolution>0.4</rateOfEvolution>
-      <value>65.0</value>
+      <value>250.0</value>
       <default>random</default>
       <unit>pt</unit>
       <flag>active</flag>
@@ -70,7 +70,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>0.0</value>
+        <value>255.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -106,7 +106,7 @@
         <ubound>10.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>1.0</rateOfEvolution>
-        <value>0.0</value>
+        <value>7.0</value>
         <default>2</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -142,7 +142,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>0.0</value>
+        <value>239.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -181,7 +181,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>164.0</value>
+        <value>0.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -193,7 +193,7 @@
         <ubound>1.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>1.0</rateOfEvolution>
-        <value>0.0</value>
+        <value>1.0</value>
         <default>0.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -217,7 +217,7 @@
         <ubound>10.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>1.0</rateOfEvolution>
-        <value>2.0</value>
+        <value>6.0</value>
         <default>2</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -253,7 +253,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>0.0</value>
+        <value>16.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -319,7 +319,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>0.0</value>
+        <value>255.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -331,7 +331,7 @@
         <ubound>1.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>1.0</rateOfEvolution>
-        <value>1.0</value>
+        <value>0.0</value>
         <default>0.0</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -355,7 +355,7 @@
         <ubound>10.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>1.0</rateOfEvolution>
-        <value>10.0</value>
+        <value>3.0</value>
         <default>2</default>
         <unit>pt</unit>
         <flag>active</flag>
@@ -391,7 +391,7 @@
         <ubound>255.0</ubound>
         <granularity>1.0</granularity>
         <rateOfEvolution>0.4</rateOfEvolution>
-        <value>0.0</value>
+        <value>255.0</value>
         <default>128.0</default>
         <unit>pt</unit>
         <flag>active</flag>

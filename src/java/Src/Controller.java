@@ -146,7 +146,9 @@ public class Controller {
         // Generate CSS based on the new profiles
         for (int profileID = 0; profileID < noOfProfiles; profileID++) {
             currentProfile = currentGenerationOfProfiles[profileID];
-            System.out.println("Processing : " + currentProfile.getName());
+            // TESTING : distinguishing the Raw artifact name from the processed one (raw artifact)
+          //  System.out.println("Processing : " + currentProfile.getName());
+            
             // Process the profile to generate CSS
             for (int artifactID = 0; artifactID < raw_artifacts.length; artifactID++) {
                 

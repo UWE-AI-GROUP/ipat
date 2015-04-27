@@ -55,7 +55,7 @@ public class ESEvolution implements MetaHeuristic {
         Hashtable kernels = prof.getKernels();
         Enumeration enuKer = kernels.elements();
 
-        // loop through each kernel,in turn,
+        // loop through each kernel in turn,
         while (enuKer.hasMoreElements()) {
             Kernel kernel = (Kernel) enuKer.nextElement();
             Hashtable vars = kernel.getVariables();
@@ -188,17 +188,21 @@ public class ESEvolution implements MetaHeuristic {
     // TODO save one profile only
         // for ( copied=0;copied < best.size();copied++)
         for (copied = 0; copied < 1; copied++) {
-            //copy the profile from the set of the previous best
+            //copy the profile from the first of the set of the previous best
             currentGenerationOfProfiles[copied].setProfile((Profile) best.get(copied));
+            // TESTING : check to ensure profiles from the best set are being applied to the currentGenerationOfProfiles correctly
+            System.out.println("BEST COPY; "  + best.get(copied).getName()  + "     COPIED TO;  " + currentGenerationOfProfiles[copied].getName());
         }
         System.out.println("number copied without change : " + best.size());
         //and then fill up the rest with mutated copies of the best.
         while (copied < howMany) {
             //pick random one from the best set and copy it
             toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
+            // TESTING : check to ensure profiles from the best set are being applied to the currentGenerationOfProfiles correctly
+            System.out.println("BEST COPY; " + best.get(toCopy).getFile().getName() + "     COPIED TO;  " + currentGenerationOfProfiles[copied].getName());
             currentGenerationOfProfiles[copied].setProfile((Profile) best.get(toCopy));
             //cludged to 0.9 to force mutation
-            double rateToApply = 0.9;//this.F1(currentGenerationOfProfiles[copied].getGlobalScore());
+            double rateToApply = this.F1(currentGenerationOfProfiles[copied].getGlobalScore()); // 0.9;
             this.mutate(currentGenerationOfProfiles[copied], rateToApply);
             copied++;
             System.out.println("mutate profile complete");
