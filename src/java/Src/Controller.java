@@ -51,7 +51,8 @@ public class Controller {
         bootstrapApplication();
         loadRawArtifacts();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        evolution.generateNextSolutions(noOfProfiles, currentGenerationOfProfiles);
+        Profile[] nextGenerationProfiles = evolution.generateNextSolutions(noOfProfiles);
+       currentGenerationOfProfiles = nextGenerationProfiles;
         getResultArtifacts();
      }
 
@@ -61,7 +62,8 @@ public class Controller {
         
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
-        evolution.generateNextSolutions(noOfProfiles, currentGenerationOfProfiles);
+        Profile[] nextGenerationProfiles = evolution.generateNextSolutions(noOfProfiles);
+      currentGenerationOfProfiles = nextGenerationProfiles;
         //now apply those profiles ot the raw artifacts to get something to display
         getResultArtifacts();
         // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
