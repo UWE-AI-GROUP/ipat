@@ -40,67 +40,40 @@ public class ESEvolution implements MetaHeuristic {
     }
 
     /**
-     * Mutate.
+     * mutateProfile.
      *
      * @param prof the prof
      * @param mutation_rate the mutation_rate
      * @return true, if successful
      */
-    private boolean mutate(Profile prof, double mutation_rate) {
+    private boolean mutateProfile(Profile prof, double mutation_rate) {
         Profile mutatedProf = prof;
-        int possibilities, chosen;
         int numberofactivekernels = 0;
-        double stepsize, dchosen;
-
+        double newval;
+        
+        
+        
+        System.out.println(".......mutation parameter is " +mutation_rate);
         Hashtable kernels = prof.getKernels();
         Enumeration enuKer = kernels.elements();
-
+           SolutionAttributes currentVariable = null;
         // loop through each kernel in turn,
-        while (enuKer.hasMoreElements()) {
+        while (enuKer.hasMoreElements()) 
+        {
+            //get the next kernel
             Kernel kernel = (Kernel) enuKer.nextElement();
+            //get all of its variables
             Hashtable vars = kernel.getVariables();
             Enumeration eVar = vars.keys();
-            SolutionAttributes variable = null;
+ 
 
-            // variables within kernel
-            while (eVar.hasMoreElements()) {
-                variable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-                double oldVal = variable.getValue();
-
-                if (variable.getType().equalsIgnoreCase("cardinal")) {
-                    // how many discrete values could this variable take?
-                    possibilities = (int) ((variable.getUbound() - variable
-                            .getLbound()) / variable.getGranularity());
-                    // if the values were indexed chose one index at random
-                    chosen = Utils.GetRandIntInRange(0, possibilities);
-                    // now compute what actual value this would be
-                    variable.setValue(variable.getLbound() + variable.getGranularity() * chosen);
-
-                } else if (variable.getType().equalsIgnoreCase("ordinal")) {
-                    // mutation rate is interpreted as a normalised step size
-                    // factor first pick N(0,stepsize) deviate, then convert to the
-                    // allowed granularity
-                    stepsize = (variable.getUbound() - variable.getLbound()) * mutation_rate;
-                    dchosen = Utils.GetGaussN01Double() * stepsize;
-                    dchosen = variable.getGranularity() * Math.floor(0.5 + dchosen / variable.getGranularity());
-                    variable.setValue(oldVal + dchosen);
-                    if (variable.getValue() < variable.getLbound()) {
-                        variable.setValue(variable.getLbound());
-                    }
-                    if (variable.getValue() > variable.getUbound()) {
-                        variable.setValue(variable.getUbound());
-                    }
-                } else // Boolean
-                {
-                    if (Utils.GetRandDouble01() < mutation_rate) {
-                        if (variable.getValue() == 1.0) {
-                            variable.setValue(0.0);
-                        } else {
-                            variable.setValue(1.0);
-                        }
-                    }
-                }
-            }
+            // and then mutate each of the variables within kernel in turn
+            while (eVar.hasMoreElements()) 
+            {
+                currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
+                 newval = mutateVariable(currentVariable, mutation_rate);
+                currentVariable.setValue(newval);
+            }    
             // finally mutate the probability that the kernel is active
             if (Utils.GetRandDouble01() < mutation_rate) {
                 // mutatedProf.KernelFamily[k].active =
@@ -125,53 +98,94 @@ public class ESEvolution implements MetaHeuristic {
         Enumeration pVar = vars.keys();
         // finally the profile level variables
         // for(int pvar=0;pvar<vars.size();pvar++)
-        while (pVar.hasMoreElements()) {
-            SolutionAttributes var = (SolutionAttributes) vars.get(pVar.nextElement()
-                    .toString());
-            double oval = var.getValue();
-            if (var.getType().equalsIgnoreCase("cardinal")) { // how many discrete values could this variable take?
-
-                if (Utils.GetRandDouble01() < mutation_rate * var.getRateOfEvolution()) {
-                    possibilities = (int) ((var.getUbound() - var.getLbound()) / var
-                            .getGranularity());
-                    // if the values were indexed chose one index at random
-                    chosen = Utils.GetRandIntInRange(0, possibilities);
-                    // now compute what actual value this would be
-                    // mutatedProf.profile_vars[pvar] = prof.PVar_MinVal[pvar] +
-                    // prof.PVar_Granularity[pvar]*chosen;
-                    var.setValue(var.getLbound() + var.getGranularity() * chosen);
-                }
-            } else if (var.getType().equalsIgnoreCase("ordinal")) {
-                // mutation rate is interpreted as a normalised step size factor
-                // first pick N(0,stepsize) deviate, then convert to the allowed
-                // granularity
-                stepsize = (var.getUbound() - var.getLbound()) * mutation_rate * var.getRateOfEvolution();
-                dchosen = Utils.GetGaussN01Double() * stepsize;
-
-                dchosen = var.getGranularity()
-                        * Math.floor(0.5 + dchosen / var.getGranularity());
-                var.setValue(oval + dchosen);
-                if (var.getValue() < var.getLbound()) {
-                    var.setValue(var.getLbound());
-                }
-                if (var.getValue() > var.getUbound()) {
-                    var.setValue(var.getUbound());
-                }
-
-            } else // Boolean
+        while (pVar.hasMoreElements()) 
             {
-                if (Utils.GetRandDouble01() < mutation_rate * var.getRateOfEvolution()) {
-                    if (var.getValue() == 1.0) {
-                        var.setValue(0.0);
-                    } else {
-                        var.setValue(1.0);
-                    }
-                }
-            }
+                currentVariable = (SolutionAttributes) vars.get(pVar.nextElement().toString());
+                 newval = mutateVariable(currentVariable, mutation_rate);
+                currentVariable.setValue(newval);
         }
         return true;
     }
 
+    /**
+     * mutateVariable.
+     *
+     * @param variableToChange the variable to be changed
+     * @param mutation_rate the mutation_rate
+     * @return new  value for variable
+     */
+    private double mutateVariable(SolutionAttributes variableToChange, double mutation_rate)
+    {
+        double oldVal = variableToChange.getValue();
+        int possibilities, chosen;
+        double stepsize, dchosen,myrand;
+        double newValue=0;
+                
+        //pick a random numnber
+         myrand = Utils.GetRandDouble01();
+        System.out.println("my random number is " + myrand);
+                
+        //the way that mutation paramter is interpreted, and mutation worksd, depedns on the type of variable
+        if ((variableToChange.getType().equalsIgnoreCase("Boolean")) && (myrand < mutation_rate* variableToChange.getRateOfEvolution()) ) 
+            {//Boolean - mutation sets 1s to 0s and vice versa
+                if (variableToChange.getValue() == 1.0) 
+                {
+                    newValue = 0.0;
+                    
+                } else 
+                {
+                    newValue = 1.0;
+                        
+                }
+                        
+                System.out.println("flipping binary variable " + variableToChange.getName() + "to value " + variableToChange.getValue());
+                    
+            }
+        
+        else if ((variableToChange.getType().equalsIgnoreCase("cardinal")) && (myrand < mutation_rate* variableToChange.getRateOfEvolution()) )
+            {// a list of different catgorical values with no natural oerdering so just pick a new value at random
+     
+                // how many discrete values could this variable take?
+                possibilities = (int) ((variableToChange.getUbound() - variableToChange
+                    .getLbound()) / variableToChange.getGranularity());
+                // if the values were indexed chose one index at random
+                chosen = Utils.GetRandIntInRange(0, possibilities);
+                 // now compute what actual value this would be
+                newValue = variableToChange.getLbound() + variableToChange.getGranularity() * chosen;
+                System.out.println("randomly choosing new value " + newValue + "for cardinal variable " + variableToChange.getName() );
+             } 
+                
+        else if (variableToChange.getType().equalsIgnoreCase("ordinal")) 
+            {
+                // ordinal varibles - for exanmple continuos variables of integers where sequence counts 
+                //mutation rate is interpreted as a normalised step size
+                // factor first pick N(0,stepsize) deviate, then convert to the
+                // allowed granularity
+                stepsize = (variableToChange.getUbound() - variableToChange.getLbound()) * mutation_rate* variableToChange.getRateOfEvolution();
+                dchosen = Utils.GetGaussN01Double() * stepsize;
+                dchosen = variableToChange.getGranularity() * Math.floor(0.5 + dchosen / variableToChange.getGranularity());
+                newValue= oldVal + dchosen;
+                if (newValue < variableToChange.getLbound()) 
+                    {
+                        newValue = variableToChange.getLbound();
+                    }
+                if (newValue > variableToChange.getUbound()) 
+                    {
+                        newValue = variableToChange.getUbound();
+                    }
+                    System.out.println("choosing nerw value " + newValue + "for ordinal variable " + variableToChange.getName() );
+            } 
+   
+         else 
+            {
+                System.out.println("Error - unkown variable type " + variableToChange.getType() + "for variable " + variableToChange.getName());
+            }
+        return newValue;
+    }
+    
+    
+    
+    
     @Override
     public Profile[] generateNextSolutions(int howMany) {
 
@@ -222,7 +236,7 @@ public class ESEvolution implements MetaHeuristic {
             // double rateToApply = 1.0; 
             //  double rateToApply = 0.0; // this.F1(nextGenerationOfProfiles[copied].getGlobalScore());
             //now apply mutation with this parameter
-            this.mutate(nextGenerationOfProfiles[copied], rateToApply);
+            this.mutateProfile(nextGenerationOfProfiles[copied], rateToApply);
             copied++;
             System.out.println("..... mutate profile " + copied + " complete");
         }
@@ -301,7 +315,7 @@ public class ESEvolution implements MetaHeuristic {
 
                     SolutionAttributes variable = new SolutionAttributes(name, type,
                             lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
-                    profile.addVaraiable(variable);
+                    profile.addVariable(variable);
                 } else if (hint.getName().equalsIgnoreCase("kernel")) {
 
                     Iterator it = hint.getChildren().iterator();
@@ -356,7 +370,7 @@ public class ESEvolution implements MetaHeuristic {
         double score = 0.0, mutation_rate = 0.0;
         score = profile.getGlobalScore();
         mutation_rate = F1(score);
-        return this.mutate(profile, mutation_rate);
+        return this.mutateProfile(profile, mutation_rate);
     }
 
     @Override
