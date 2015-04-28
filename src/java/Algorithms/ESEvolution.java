@@ -188,36 +188,56 @@ public class ESEvolution implements MetaHeuristic {
             best.remove(Utils.GetRandIntInRange(0, howMany));
         }
    
+  
          for ( copied=0;copied < best.size();copied++) {
     
-            //copy the profile from the first of the set of the previous best
-            nextGenerationOfProfiles[copied].setProfile((Profile) best.get(copied));
-            // TESTING : check to ensure profiles from the best set are being applied to the nextGenerationOfProfiles correctly
+            //copy all the profiles from the  set of the previous best
+             File thisFile = best.get(copied).getFile();
+             nextGenerationOfProfiles[copied] = new Profile(thisFile);
+             System.out.println("have made a copy of best[" + copied +"]");
+             
+            //nextGenerationOfProfiles[copied].setProfile((Profile) best.get(copied));
+            
+// TESTING : check to ensure profiles from the best set are being applied to the nextGenerationOfProfiles correctly
             System.out.println("BEST COPY; "  + best.get(copied).getName()  + "     COPIED TO;  " + nextGenerationOfProfiles[copied].getName());
         }
         System.out.println("number copied without change : " + best.size());
+        
+        
         //and then fill up the rest with mutated copies of the best.
+        System.out.println("about to copy and mutate another " + (howMany-copied) + " and there are " + best.size() + " in best");
         while (copied < howMany) {
             //pick random one from the best set and copy it
-            toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
-            // TESTING : check to ensure profiles from the best set are being applied to the nextGenerationOfProfiles correctly
-            System.out.println("BEST COPY; " + best.get(toCopy).getFile().getName() + "     COPIED TO;  " + nextGenerationOfProfiles[copied].getName());
-            nextGenerationOfProfiles[copied].setProfile((Profile) best.get(toCopy));
-            //cludged to 0.9 to force mutation
-            double rateToApply = 0.0; // this.F1(nextGenerationOfProfiles[copied].getGlobalScore()); // 0.9;
+            if(best.size()==1)
+                toCopy = 0;
+            else
+                toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
+            System.out.println(".... chosen to copy number " + toCopy);
+            File thisFile = best.get(toCopy).getFile();
+             nextGenerationOfProfiles[copied] = new Profile(thisFile);
+             System.out.println("..... have made a copy of best[" + toCopy +"]");
+            
+            //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
+            double rateToApply = 0.5; 
+            // double rateToApply = 1.0; 
+            //  double rateToApply = 0.0; // this.F1(nextGenerationOfProfiles[copied].getGlobalScore());
+            //now apply mutation with this parameter
             this.mutate(nextGenerationOfProfiles[copied], rateToApply);
             copied++;
-            System.out.println("mutate profile complete");
+            System.out.println("..... mutate profile " + copied + " complete");
         }
 
+       
         // update profile names by incrementing the generation count in each name
         for (int i = 0; i < nextGenerationOfProfiles.length; i++) {
             try {
                 String profileName = nextGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
-                String profile = profileName.substring(profileName.indexOf('-') + 1, profileName.lastIndexOf('.')); // profile_y.xml
+               
+                String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // profile_.xml
                 int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
                 generation++;
-                String outProfileName = "gen_" + generation + "-" + profile + ".xml";
+                String outProfileName = "gen_" + generation + profile + i + ".xml";
+                System.out.println("outprofilename = " + outProfileName);
 
                 // set name in profile to match new name
                 nextGenerationOfProfiles[i].setName(outProfileName);
@@ -228,6 +248,9 @@ public class ESEvolution implements MetaHeuristic {
                 File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
                 file.mkdir();
                 nextGenerationOfProfiles[i].writeProfileToFile(outProfilePath);
+                //jim 28/4, having delted the next two lines on 27/4 I haveput them basck in case tyhat is why the info is gettijg lost
+                File filed = new File(outProfilePath);
+                nextGenerationOfProfiles[i] = getProfile(filed);
             } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
                         + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
@@ -356,7 +379,7 @@ public class ESEvolution implements MetaHeuristic {
         }
         // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
         for (Profile best : best) {
-            System.out.println("those assigned as best in ESEvolution: " + best.getName() + " : " + best.getGlobalScore());
+            System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best.getName() + " : " + best.getGlobalScore());
         }
     }
 

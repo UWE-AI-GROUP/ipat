@@ -52,7 +52,12 @@ public class Controller {
         loadRawArtifacts();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         Profile[] nextGenerationProfiles = evolution.generateNextSolutions(noOfProfiles);
-       currentGenerationOfProfiles = nextGenerationProfiles;
+        //rather long-winded copy but i want ot see if this works
+       //for (int i=0;i<noOfProfiles;i++){
+         //  File thisFile = nextGenerationProfiles[i].getFile();
+           //Profile profileToCopy = new Profile(thisFile);
+           //currentGenerationOfProfiles[i] = profileToCopy;
+       //}
         getResultArtifacts();
      }
 
@@ -64,6 +69,12 @@ public class Controller {
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         Profile[] nextGenerationProfiles = evolution.generateNextSolutions(noOfProfiles);
       currentGenerationOfProfiles = nextGenerationProfiles;
+        //rather long-winded copy but i want ot see if this works
+       //for (int i=0;i<noOfProfiles;i++){
+         //  File thisFile = nextGenerationProfiles[i].getFile();
+           //Profile profileToCopy = new Profile(thisFile);
+          // currentGenerationOfProfiles[i] = profileToCopy;
+       //}
         //now apply those profiles ot the raw artifacts to get something to display
         getResultArtifacts();
         // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
