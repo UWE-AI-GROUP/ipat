@@ -76,7 +76,7 @@ public class Profile {
 	 *
 	 * @param var the var
 	 */
-	public void addVaraiable(SolutionAttributes var) {
+	public void addVariable(SolutionAttributes var) {
 		solutionAttributes.put(var.getName(), var);
 	}
 
@@ -262,7 +262,7 @@ public class Profile {
 					
 					SolutionAttributes variable = new SolutionAttributes(name, type,
 							lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
-					profile.addVaraiable(variable);
+					profile.addVariable(variable);
 				}
 
 				else if (hint.getName().equalsIgnoreCase("kernel")) {
