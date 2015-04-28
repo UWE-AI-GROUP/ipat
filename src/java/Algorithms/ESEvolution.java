@@ -57,7 +57,7 @@ public class ESEvolution implements MetaHeuristic {
         File thisfile = prof.getFile();
         
         
-        Profile mutatedProf = new Profile(thisfile);
+        Profile mutatedProf = getProfile(thisfile);
         int numberofactivekernels = 0;
         double newval;
         
@@ -119,7 +119,7 @@ public class ESEvolution implements MetaHeuristic {
         }
         
         //finally write the mutated profile back to file
-        mutatedProf.printProfile();
+        mutatedProf.writeProfileToFile(mutatedProf.getName());
         
         
         return true;
@@ -141,36 +141,38 @@ public class ESEvolution implements MetaHeuristic {
                 
         //pick a random numnber
          myrand = Utils.GetRandDouble01();
-        System.out.println("my random number is " + myrand);
+        //System.out.println("my random number is " + myrand);
                 
         //the way that mutation paramter is interpreted, and mutation worksd, depedns on the type of variable
-        if ((variableToChange.getType().equalsIgnoreCase("Boolean")) && (myrand < mutation_rate* variableToChange.getRateOfEvolution()) ) 
-            {//Boolean - mutation sets 1s to 0s and vice versa
-                if (variableToChange.getValue() == 1.0) 
-                {
-                    newValue = 0.0;
-                    
-                } else 
-                {
-                    newValue = 1.0;
-                        
+        if (variableToChange.getType().equalsIgnoreCase("boolean"))  
+            {
+                if(myrand < mutation_rate* variableToChange.getRateOfEvolution()) 
+                {//Boolean - mutation sets 1s to 0s and vice versa
+                    if (variableToChange.getValue() == 1.0) 
+                      {
+                       newValue = 0.0;
+                      } 
+                    else 
+                      {
+                       newValue = 1.0;        
+                      }
+                    //System.out.println("..................flipping binary variable " + variableToChange.getName() + "to value " + variableToChange.getValue()) ;
                 }
-                        
-                System.out.println("flipping binary variable " + variableToChange.getName() + "to value " + variableToChange.getValue());
-                    
             }
         
-        else if ((variableToChange.getType().equalsIgnoreCase("cardinal")) && (myrand < mutation_rate* variableToChange.getRateOfEvolution()) )
-            {// a list of different catgorical values with no natural oerdering so just pick a new value at random
+        else if (variableToChange.getType().equalsIgnoreCase("cardinal")) 
+            {
+                if(myrand < mutation_rate* variableToChange.getRateOfEvolution()) 
+                    {// a list of different catgorical values with no natural oerdering so just pick a new value at random
      
-                // how many discrete values could this variable take?
-                possibilities = (int) ((variableToChange.getUbound() - variableToChange
-                    .getLbound()) / variableToChange.getGranularity());
-                // if the values were indexed chose one index at random
-                chosen = Utils.GetRandIntInRange(0, possibilities);
-                 // now compute what actual value this would be
-                newValue = variableToChange.getLbound() + variableToChange.getGranularity() * chosen;
-                System.out.println("randomly choosing new value " + newValue + "for cardinal variable " + variableToChange.getName() );
+                        // how many discrete values could this variable take?
+                        possibilities = (int) ((variableToChange.getUbound() - variableToChange.getLbound()) / variableToChange.getGranularity());
+                        // if the values were indexed chose one index at random
+                        chosen = Utils.GetRandIntInRange(0, possibilities);
+                        // now compute what actual value this would be
+                        newValue = variableToChange.getLbound() + variableToChange.getGranularity() * chosen;
+                        //System.out.println("...............randomly choosing new value " + newValue + "for cardinal variable " + variableToChange.getName() );
+                    }
              } 
                 
         else if (variableToChange.getType().equalsIgnoreCase("ordinal")) 
@@ -191,7 +193,7 @@ public class ESEvolution implements MetaHeuristic {
                     {
                         newValue = variableToChange.getUbound();
                     }
-                    System.out.println("choosing nerw value " + newValue + "for ordinal variable " + variableToChange.getName() );
+                    //System.out.println("...................choosing new value " + newValue + "for ordinal variable " + variableToChange.getName() );
             } 
    
          else 
@@ -254,7 +256,7 @@ public class ESEvolution implements MetaHeuristic {
         }
 
        
-        // update profile names by incrementing the generation count in each name
+        // update profile names by incrementing the generation count in each name and write them to file
         for (int i = 0; i < nextGenerationOfProfiles.length; i++) 
         {
             try {
@@ -286,9 +288,8 @@ public class ESEvolution implements MetaHeuristic {
         }
         
         
-        //finally apply mutation where necessary - i.e. not ot the duplicates of the best
+        //finally apply mutation where necessary - i.e. not to the duplicates of the best
         for(int toMutate = best.size(); toMutate < howMany;toMutate++)
-        
         {
             //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
             //double rateToApply = 0.5; 
