@@ -32,9 +32,16 @@ public class ESEvolution implements MetaHeuristic {
      * @return the double
      */
     private double F1(double x) {
-        double F1val = 0.106 - 0.0713 * x * x * x + 1.6707 * x * x - 14.6554
-                * x + 50.6783;
-        return (F1val / 100);
+        
+        double F1val = x*10;
+        //0.106 - 0.0713 * x * x * x + 1.6707 * x * x - 14.6554 * x + 50.6783;
+        if (F1val>100)
+            F1val=100;
+        if (F1val <0)
+            F1val=0;
+        F1val = 0.5 - F1val/200.0;//truncate to range 0-0.5
+        
+        return (F1val );
         //return (2 * F1val / 100);
         // "+ 0.106" : so F1(10) in not negative
     }
@@ -47,14 +54,18 @@ public class ESEvolution implements MetaHeuristic {
      * @return true, if successful
      */
     private boolean mutateProfile(Profile prof, double mutation_rate) {
-        Profile mutatedProf = prof;
+        File thisfile = prof.getFile();
+        
+        
+        Profile mutatedProf = new Profile(thisfile);
         int numberofactivekernels = 0;
         double newval;
         
         
         
         System.out.println(".......mutation parameter is " +mutation_rate);
-        Hashtable kernels = prof.getKernels();
+        Hashtable kernels = mutatedProf.getKernels();
+        System.out.println(".....the number of kernels is " + kernels.size());
         Enumeration enuKer = kernels.elements();
            SolutionAttributes currentVariable = null;
         // loop through each kernel in turn,
@@ -62,10 +73,11 @@ public class ESEvolution implements MetaHeuristic {
         {
             //get the next kernel
             Kernel kernel = (Kernel) enuKer.nextElement();
+            
             //get all of its variables
             Hashtable vars = kernel.getVariables();
             Enumeration eVar = vars.keys();
- 
+             System.out.println(".....Kernel " + kernel.getName() + "has " + vars.size() + "elements");
 
             // and then mutate each of the variables within kernel in turn
             while (eVar.hasMoreElements()) 
@@ -94,7 +106,8 @@ public class ESEvolution implements MetaHeuristic {
          * numberofactivekernels++; } }
          */
 
-        Hashtable vars = prof.getSolutionAttributes();
+        Hashtable vars = mutatedProf.getSolutionAttributes();
+        System.out.println(".....the number of profile variables is " + vars.size());
         Enumeration pVar = vars.keys();
         // finally the profile level variables
         // for(int pvar=0;pvar<vars.size();pvar++)
@@ -104,6 +117,11 @@ public class ESEvolution implements MetaHeuristic {
                  newval = mutateVariable(currentVariable, mutation_rate);
                 currentVariable.setValue(newval);
         }
+        
+        //finally write the mutated profile back to file
+        mutatedProf.printProfile();
+        
+        
         return true;
     }
 
@@ -202,8 +220,9 @@ public class ESEvolution implements MetaHeuristic {
             best.remove(Utils.GetRandIntInRange(0, howMany));
         }
    
-  
-         for ( copied=0;copied < best.size();copied++) {
+        //make copies if all the best
+         for ( copied=0;copied < best.size();copied++)
+         {
     
             //copy all the profiles from the  set of the previous best
              File thisFile = best.get(copied).getFile();
@@ -220,7 +239,8 @@ public class ESEvolution implements MetaHeuristic {
         
         //and then fill up the rest with mutated copies of the best.
         System.out.println("about to copy and mutate another " + (howMany-copied) + " and there are " + best.size() + " in best");
-        while (copied < howMany) {
+        while (copied < howMany) 
+        {
             //pick random one from the best set and copy it
             if(best.size()==1)
                 toCopy = 0;
@@ -230,20 +250,13 @@ public class ESEvolution implements MetaHeuristic {
             File thisFile = best.get(toCopy).getFile();
              nextGenerationOfProfiles[copied] = new Profile(thisFile);
              System.out.println("..... have made a copy of best[" + toCopy +"]");
-            
-            //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
-            double rateToApply = 0.5; 
-            // double rateToApply = 1.0; 
-            //  double rateToApply = 0.0; // this.F1(nextGenerationOfProfiles[copied].getGlobalScore());
-            //now apply mutation with this parameter
-            this.mutateProfile(nextGenerationOfProfiles[copied], rateToApply);
-            copied++;
-            System.out.println("..... mutate profile " + copied + " complete");
+             copied++;
         }
 
        
         // update profile names by incrementing the generation count in each name
-        for (int i = 0; i < nextGenerationOfProfiles.length; i++) {
+        for (int i = 0; i < nextGenerationOfProfiles.length; i++) 
+        {
             try {
                 String profileName = nextGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
                
@@ -271,9 +284,24 @@ public class ESEvolution implements MetaHeuristic {
                 System.out.println(ex.getMessage());
             }
         }
+        
+        
+        //finally apply mutation where necessary - i.e. not ot the duplicates of the best
+        for(int toMutate = best.size(); toMutate < howMany;toMutate++)
+        
+        {
+            //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
+            //double rateToApply = 0.5; 
+            // double rateToApply = 1.0; 
+            double rateToApply = this.F1(nextGenerationOfProfiles[toMutate].getGlobalScore());
+            System.out.println("global score for this profile is " + nextGenerationOfProfiles[toMutate].getGlobalScore() + "and mutation parameter is " + rateToApply);
+            //now apply mutation with this parameter
+            this.mutateProfile(nextGenerationOfProfiles[toMutate], rateToApply);
+            System.out.println("..... mutate profile " + toMutate + " complete");
+        }
         return nextGenerationOfProfiles;
     }
-
+//TODO  why do we have  this function with the same name in two different classes?
     public Profile getProfile(File file) {
         Profile profile = new Profile(file);
         try {
@@ -366,12 +394,6 @@ public class ESEvolution implements MetaHeuristic {
         return profile;
     }
 
-    public Boolean generateNextSolution(Profile profile) {
-        double score = 0.0, mutation_rate = 0.0;
-        score = profile.getGlobalScore();
-        mutation_rate = F1(score);
-        return this.mutateProfile(profile, mutation_rate);
-    }
 
     @Override
     public void updateWorkingMemory(Profile[] evaluatedSolutions) {

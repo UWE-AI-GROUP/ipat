@@ -39,7 +39,7 @@ public class Profile {
 	/** The no of kernels. */
 	private int noOfKernels;
 	
-	/** The no of kernerl solutionAttributes. */
+	/** The no of kernel solutionAttributes. */
 	private int noOfKernerlVariables;
 	
 	/** The no of profile solutionAttributes. */
