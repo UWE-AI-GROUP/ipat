@@ -62,7 +62,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         double newval;
      
         String profilename = nextGen.get(which).getName();
-        System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
+        //System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
         //System.out.println(".......mutation parameter is " +mutation_rate);
         Hashtable kernels = nextGen.get(which).getKernels();
         //System.out.println(".....the number of kernels is " + kernels.size());
@@ -83,23 +83,37 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             // and then mutate each of the variables within kernel in turn
             while (eVar.hasMoreElements()) 
             {
-                currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
+                currentvarname = eVar.nextElement().toString();
+                currentVariable = (SolutionAttributes) vars.get(currentvarname);
                  newval = mutateVariable(currentVariable, mutation_rate);
-                currentVariable.setValue(newval);
-                currentvarname = currentVariable.getName();
-                //System.out.println("trying to write back new value for variable " + currentvarname);
-                //nextGen.get(which).setProfileVariableValue( currentvarname, newval);
+                 if (newval != currentVariable.getValue())
+                 {
+                    //  System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
+                    //  System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+ 
+                     // change value in local copy of variable
+                    currentVariable.setValue(newval);
+                    // System.out.println("........have set value in currentVariable ");
+ 
+                    //change value in local copy of hashtable
+                    vars.replace(currentvarname, currentVariable);
+                    //currentVariable = (SolutionAttributes) vars.get(currentvarname);
+                     //System.out.println("Value in vars is now" + currentVariable.getValue()    );
+                 }
             }    
             // finally mutate the probability that the kernel is active
-            if (Utils.GetRandDouble01() < mutation_rate) {
+            if (Utils.GetRandDouble01() < mutation_rate) 
+                {
                 // mutatedProf.KernelFamily[k].active =
                 // (mutatedProf.KernelFamily[k].active = true)? false:true;
-            }
+                }
             // Aug 2011
-            // need to keep track of number of active kernels
-            // if(mutatedProf.KernelFamily[k].active = true)
-            // numberofactivekernels++;
-            // Aug 2011
+           
+            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+            //delete the old one the add the new one
+            nextGen.get(which).removeKernel(kernel.getName());
+            nextGen.get(which).addKernel(kernel);
+            
         }// end of loop mutating individual kernels
         // need to ensure that enough kernels are still active
 		/*
@@ -117,19 +131,35 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         // for(int pvar=0;pvar<vars.size();pvar++)
         while (pVar.hasMoreElements()) 
             {
-                currentVariable = (SolutionAttributes) vars.get(pVar.nextElement().toString());
+                currentvarname = pVar.nextElement().toString();
+                currentVariable = (SolutionAttributes) vars.get(currentvarname);
                  newval = mutateVariable(currentVariable, mutation_rate);
-                currentVariable.setValue(newval);
-                currentvarname = currentVariable.getName();
-                System.out.println("trying to write back new value for variable " + currentvarname);
-                nextGen.get(which).setProfileVariableValue( currentvarname, newval);
+                if (newval != currentVariable.getValue())
+                 {
+                      //System.out.println("mutating profile variable " + currentvarname );
+                     //System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+                     //set the new value in the local copy of the variable
+                     currentVariable.setValue(newval);
+                     //System.out.println("........have set value in currentVariable ");
+                     //replace it in the local hash table
+                    vars.replace(currentvarname, currentVariable);
+                    currentVariable = (SolutionAttributes) vars.get(currentvarname);
+                     //System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
+                     //System.out.println("....now changing the profile in the nextgen arraylist");
+                    //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
+                     nextGen.get(which).removeVariable(currentvarname);
+                     nextGen.get(which).addVariable(currentVariable);
+                     //Hashtable tmpvars = nextGen.get(which).getSolutionAttributes();
+                     //currentVariable = (SolutionAttributes) tmpvars.get(currentvarname);
+                     //System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
+                 }
         }
         
         //finally write the mutated profile back to file
         
-        //nextGen.get(which).writeProfileToFile(profilename);
-        
-        
+        nextGen.get(which).writeProfileToFile(profilename);
+        nextGen.get(which).printProfile();
+        System.out.println("finished mutating profle" + which);
         return true;
     }
 
@@ -221,9 +251,12 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         else
             {
                 //System.out.println("in evolution.getNextGenProfileAtIndex with index: " + which );
-                File thisfile = nextGen.get(which).getFile();
+                //File thisfile = nextGen.get(which).getFile();
                 //System.out.println("... nextgen profile name is: " + nextGen.get(which).getName() + " and filename " + thisfile.getName());
-                return getProfileFromFile(thisfile);
+                //return getProfileFromFile(thisfile);
+                
+                Profile toreturn = nextGen.get(which);
+                return toreturn;
             } 
         
     }

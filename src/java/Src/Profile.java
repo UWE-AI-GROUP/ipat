@@ -70,6 +70,9 @@ public class Profile {
 	public void addKernel(Kernel kernel) {
 		kernels.put(kernel.getName(), kernel);
 	}
+        public void removeKernel(String kernelName) {
+		kernels.remove(kernelName);
+	}
 
 	/**
 	 * Adds the varaiable.
@@ -79,6 +82,11 @@ public class Profile {
 	public void addVariable(SolutionAttributes var) {
 		solutionAttributes.put(var.getName(), var);
 	}
+        
+        public void removeVariable(String varname)
+        {
+            solutionAttributes.remove(varname);
+        }
 
 	/**
 	 * Gets the file.
