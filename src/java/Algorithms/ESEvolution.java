@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import jdk.nashorn.internal.parser.TokenType;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -24,6 +25,7 @@ import org.jdom.input.SAXBuilder;
 public class ESEvolution implements MetaHeuristic {
 
     private ArrayList<Profile> best = new ArrayList<>(); //holds copies of all the current best solutions
+private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all the new generation of  solutions
 
     /**
      * F1.
@@ -53,21 +55,20 @@ public class ESEvolution implements MetaHeuristic {
      * @param mutation_rate the mutation_rate
      * @return true, if successful
      */
-    private boolean mutateProfile(Profile prof, double mutation_rate) {
-        File thisfile = prof.getFile();
+    private boolean mutateProfile(int which, double mutation_rate) 
+    {
         
-        
-        Profile mutatedProf = getProfile(thisfile);
         int numberofactivekernels = 0;
         double newval;
-        
-        
-        
-        System.out.println(".......mutation parameter is " +mutation_rate);
-        Hashtable kernels = mutatedProf.getKernels();
-        System.out.println(".....the number of kernels is " + kernels.size());
+     
+        String profilename = nextGen.get(which).getName();
+        System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
+        //System.out.println(".......mutation parameter is " +mutation_rate);
+        Hashtable kernels = nextGen.get(which).getKernels();
+        //System.out.println(".....the number of kernels is " + kernels.size());
         Enumeration enuKer = kernels.elements();
            SolutionAttributes currentVariable = null;
+           String currentvarname;
         // loop through each kernel in turn,
         while (enuKer.hasMoreElements()) 
         {
@@ -77,7 +78,7 @@ public class ESEvolution implements MetaHeuristic {
             //get all of its variables
             Hashtable vars = kernel.getVariables();
             Enumeration eVar = vars.keys();
-             System.out.println(".....Kernel " + kernel.getName() + "has " + vars.size() + "elements");
+             //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
 
             // and then mutate each of the variables within kernel in turn
             while (eVar.hasMoreElements()) 
@@ -85,6 +86,9 @@ public class ESEvolution implements MetaHeuristic {
                 currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
                  newval = mutateVariable(currentVariable, mutation_rate);
                 currentVariable.setValue(newval);
+                currentvarname = currentVariable.getName();
+                //System.out.println("trying to write back new value for variable " + currentvarname);
+                //nextGen.get(which).setProfileVariableValue( currentvarname, newval);
             }    
             // finally mutate the probability that the kernel is active
             if (Utils.GetRandDouble01() < mutation_rate) {
@@ -106,8 +110,8 @@ public class ESEvolution implements MetaHeuristic {
          * numberofactivekernels++; } }
          */
 
-        Hashtable vars = mutatedProf.getSolutionAttributes();
-        System.out.println(".....the number of profile variables is " + vars.size());
+        Hashtable vars = nextGen.get(which).getSolutionAttributes();
+        //System.out.println(".....the number of profile variables is " + vars.size());
         Enumeration pVar = vars.keys();
         // finally the profile level variables
         // for(int pvar=0;pvar<vars.size();pvar++)
@@ -116,10 +120,14 @@ public class ESEvolution implements MetaHeuristic {
                 currentVariable = (SolutionAttributes) vars.get(pVar.nextElement().toString());
                  newval = mutateVariable(currentVariable, mutation_rate);
                 currentVariable.setValue(newval);
+                currentvarname = currentVariable.getName();
+                System.out.println("trying to write back new value for variable " + currentvarname);
+                nextGen.get(which).setProfileVariableValue( currentvarname, newval);
         }
         
         //finally write the mutated profile back to file
-        mutatedProf.writeProfileToFile(mutatedProf.getName());
+        
+        //nextGen.get(which).writeProfileToFile(profilename);
         
         
         return true;
@@ -203,83 +211,84 @@ public class ESEvolution implements MetaHeuristic {
         return newValue;
     }
     
-    
+        @Override
+    public Profile getNextGenProfileAtIndex(int which)
+    {
+        if(which <0)
+            throw new UnsupportedOperationException("tried to acces nextGen item with negative index");
+        else if (which > nextGen.size())
+            throw new UnsupportedOperationException("tried to acces nextGen item with index " + which + "but there are only" + best.size());
+        else
+            {
+                //System.out.println("in evolution.getNextGenProfileAtIndex with index: " + which );
+                File thisfile = nextGen.get(which).getFile();
+                //System.out.println("... nextgen profile name is: " + nextGen.get(which).getName() + " and filename " + thisfile.getName());
+                return getProfileFromFile(thisfile);
+            } 
+        
+    }
     
     
     @Override
-    public Profile[] generateNextSolutions(int howMany) {
+    public void generateNextSolutions(int howMany) {
 
         int copied, toCopy;
         //check that the working memory is not empty
         if (best.size() <= 0) {
             throw new UnsupportedOperationException("Can't call generateNextSolutions without calling UpdateWorkingMemory() First");
         }
-        // creating space to return the Profiles which are generated by this method
-        Profile[] nextGenerationOfProfiles = new Profile[howMany];
+        //clear  the array nextGen
+        nextGen.clear();
+    
     //if the user has resized the population so that we have more "best" solutions than we want new profiles
         // then we must lose some of our "best" solutions at random
         while (best.size() > howMany) {
             best.remove(Utils.GetRandIntInRange(0, howMany));
         }
    
-        //make copies if all the best
-         for ( copied=0;copied < best.size();copied++)
+        //make at least one copy of all the best and howMany in total
+         for ( copied=0;copied < howMany;copied++)
          {
-    
-            //copy all the profiles from the  set of the previous best
-             File thisFile = best.get(copied).getFile();
-             nextGenerationOfProfiles[copied] = new Profile(thisFile);
-             System.out.println("have made a copy of best[" + copied +"]");
-             
-            //nextGenerationOfProfiles[copied].setProfile((Profile) best.get(copied));
-            
-// TESTING : check to ensure profiles from the best set are being applied to the nextGenerationOfProfiles correctly
-            System.out.println("BEST COPY; "  + best.get(copied).getName()  + "     COPIED TO;  " + nextGenerationOfProfiles[copied].getName());
-        }
-        System.out.println("number copied without change : " + best.size());
-        
-        
-        //and then fill up the rest with mutated copies of the best.
-        System.out.println("about to copy and mutate another " + (howMany-copied) + " and there are " + best.size() + " in best");
-        while (copied < howMany) 
-        {
-            //pick random one from the best set and copy it
-            if(best.size()==1)
+            if(copied < best.size())//at least one copy of each
+                 toCopy = copied;
+             else if(best.size()==1)//if there s only one clone it repeatedly
                 toCopy = 0;
-            else
+             else  //oherwise fill up with clones of randomly selected members of best
                 toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
-            System.out.println(".... chosen to copy number " + toCopy);
-            File thisFile = best.get(toCopy).getFile();
-             nextGenerationOfProfiles[copied] = new Profile(thisFile);
-             System.out.println("..... have made a copy of best[" + toCopy +"]");
-             copied++;
+            //copy all the profiles from the  set of the previous best
+             File thisfile = best.get(toCopy).getFile();
+             Profile toAdd = getProfileFromFile(thisfile);
+             nextGen.add(toAdd);
+             //System.out.println("have made a copy of best[" + copied +"] with filename " + thisfile.getName());
+             
         }
+        //System.out.println("number copied without change : " + best.size());
+        
 
        
         // update profile names by incrementing the generation count in each name and write them to file
-        for (int i = 0; i < nextGenerationOfProfiles.length; i++) 
-        {
+        //first make the folde to hold them
+         File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
+         file.mkdir();
+         for (int i = 0; i < nextGen.size(); i++) 
+          {
             try {
-                String profileName = nextGenerationOfProfiles[i].getName(); // "gen_x-profile_y.xml"
+                String profileName = nextGen.get(i).getName(); // "gen_x-profile_y.xml"
                
                 String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // profile_.xml
                 int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
                 generation++;
                 String outProfileName = "gen_" + generation + profile + i + ".xml";
-                System.out.println("outprofilename = " + outProfileName);
+                //System.out.println("outprofilename = " + outProfileName);
 
                 // set name in profile to match new name
-                nextGenerationOfProfiles[i].setName(outProfileName);
-            // TODO TEST ME
-                // String outProfilePath = nextGenerationOfProfiles[i].getFile().getParent()   + "/generations/" + outProfileName;
-                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+                nextGen.get(i).setName(outProfileName);
+            
                 // write out the profile to file for safe keeping
-                File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
-                file.mkdir();
-                nextGenerationOfProfiles[i].writeProfileToFile(outProfilePath);
-                //jim 28/4, having delted the next two lines on 27/4 I haveput them basck in case tyhat is why the info is gettijg lost
-                File filed = new File(outProfilePath);
-                nextGenerationOfProfiles[i] = getProfile(filed);
+                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+                nextGen.get(i).writeProfileToFile(outProfilePath);
+                File thisfile = new File(outProfilePath);
+                nextGen.get(i).setFile(thisfile);
             } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
                         + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
@@ -287,23 +296,37 @@ public class ESEvolution implements MetaHeuristic {
             }
         }
         
+         //System.out.println("changed names and saved files");
         
-        //finally apply mutation where necessary - i.e. not to the duplicates of the best
+        // apply mutation where necessary - i.e. not to the duplicates of the best
         for(int toMutate = best.size(); toMutate < howMany;toMutate++)
         {
             //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
             //double rateToApply = 0.5; 
             // double rateToApply = 1.0; 
-            double rateToApply = this.F1(nextGenerationOfProfiles[toMutate].getGlobalScore());
-            System.out.println("global score for this profile is " + nextGenerationOfProfiles[toMutate].getGlobalScore() + "and mutation parameter is " + rateToApply);
+            double rateToApply = this.F1(nextGen.get(toMutate).getGlobalScore());
+               //System.out.println("global score for the profile " + nextGen.get(toMutate).getName() 
+               //        + " is " + nextGen.get(toMutate).getGlobalScore() 
+               //       + " and mutation parameter is " + rateToApply);
             //now apply mutation with this parameter
-            this.mutateProfile(nextGenerationOfProfiles[toMutate], rateToApply);
+            this.mutateProfile(toMutate, rateToApply);
             System.out.println("..... mutate profile " + toMutate + " complete");
         }
-        return nextGenerationOfProfiles;
+        
+        //finally write all ofthe profiles to file for safe keeping
+        for(int toSave=0; toSave < howMany;toSave++)
+        {
+            String outProfileName= nextGen.get(toSave).getName();
+            String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+            //System.out.println("saving next gen profile to file: " + outProfileName);
+            nextGen.get(toSave).writeProfileToFile(outProfilePath);
+            
+        }
+        
+ 
     }
 //TODO  why do we have  this function with the same name in two different classes?
-    public Profile getProfile(File file) {
+    public Profile getProfileFromFile(File file) {
         Profile profile = new Profile(file);
         try {
             Document XmlDoc = new SAXBuilder().build(file);

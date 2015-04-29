@@ -7,13 +7,15 @@ import Src.Profile;
  */
 public interface MetaHeuristic {
 
-    
+    //controller provides a set of profiles each having a name and aglobal score
+    //metaheuristic updates its working memory
     public void updateWorkingMemory(Profile[] evaluatedSolutions);
-    //Jim 30/3 changed signature for method to take the array of profiles as a parameter so we know how many ot make and where ot put them
-    public Profile[] generateNextSolutions( int howMany);
+    //controller asks metaheuristic to generate howMany new solutions
+    //metaheuristic makes them, updates the generation counter in the name and stores them
+    public void generateNextSolutions( int howMany);
+    //controller asks for one of the next generation of solutions
+    public Profile getNextGenProfileAtIndex(int which);
 
-    //controller gives x number of profiles with some ID (generation)
-    // generate next solutions creates x Profiles and writes them into file with the ID attached
-    
+  
 
 }
