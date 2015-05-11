@@ -70,14 +70,19 @@ public class Profile {
 	public void addKernel(Kernel kernel) {
 		kernels.put(kernel.getName(), kernel);
 	}
-        public void removeKernel(String kernelName) {
+
+    /**
+     *
+     * @param kernelName
+     */
+    public void removeKernel(String kernelName) {
 		kernels.remove(kernelName);
 	}
 
 	/**
-	 * Adds the varaiable.
+	 * Adds the variable.
 	 *
-	 * @param var the var
+	 * @param var the variable to be added to the solutionattributes hashtable
 	 */
 	public void addVariable(SolutionAttributes var) {
 		solutionAttributes.put(var.getName(), var);
@@ -91,7 +96,7 @@ public class Profile {
 	/**
 	 * Gets the file.
 	 *
-	 * @return the file
+	 * @return the file associated with this profile
 	 */
 	public File getFile() {
 		return file;

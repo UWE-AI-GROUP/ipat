@@ -157,9 +157,9 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         
         //finally write the mutated profile back to file
         
-        nextGen.get(which).writeProfileToFile(profilename);
-        nextGen.get(which).printProfile();
-        System.out.println("finished mutating profle" + which);
+        //nextGen.get(which).writeProfileToFile(profilename);
+        //nextGen.get(which).printProfile();
+        //System.out.println("finished mutating profle" + which);
         return true;
     }
 
@@ -279,38 +279,53 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             best.remove(Utils.GetRandIntInRange(0, howMany));
         }
    
-        //make at least one copy of all the best and howMany in total
+        //make at least one copy of all the best, and howMany in total
          for ( copied=0;copied < howMany;copied++)
-         {
+           {
             if(copied < best.size())//at least one copy of each
                  toCopy = copied;
              else if(best.size()==1)//if there s only one clone it repeatedly
                 toCopy = 0;
-             else  //oherwise fill up with clones of randomly selected members of best
+             else  //otherwise fill up with clones of randomly selected members of best
                 toCopy = Utils.GetRandIntInRange(0, best.size() - 1);
             //copy all the profiles from the  set of the previous best
              File thisfile = best.get(toCopy).getFile();
              Profile toAdd = getProfileFromFile(thisfile);
              nextGen.add(toAdd);
-             //System.out.println("have made a copy of best[" + copied +"] with filename " + thisfile.getName());
-             
-        }
-        //System.out.println("number copied without change : " + best.size());
+             //System.out.println("have made a copy of best[" + copied +"] with filename " + thisfile.getName());           
+          }
+      
+             // apply mutation where necessary - i.e. leaving one dulicate of each of the best
+        for(int toMutate = best.size(); toMutate < howMany;toMutate++)
+          {
+            //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
+            //double rateToApply = 0.5; 
+            // double rateToApply = 1.0; 
+            double rateToApply = 0.1* this.F1(nextGen.get(toMutate).getGlobalScore());
+               //System.out.println("global score for the profile " + nextGen.get(toMutate).getName() 
+               //        + " is " + nextGen.get(toMutate).getGlobalScore() 
+               //       + " and mutation parameter is " + rateToApply);
+            //now apply mutation with this parameter
+            this.mutateProfile(toMutate, rateToApply);
+            //System.out.println("..... mutate profile " + toMutate + " complete");
+          }
         
-
-       
-        // update profile names by incrementing the generation count in each name and write them to file
-        //first make the folde to hold them
+        //make the folder to hold the files in which we will store the next generation
          File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
          file.mkdir();
+         
+        // finally update profile names by incrementing the generation count in each name and write them to file for safe keeping
          for (int i = 0; i < nextGen.size(); i++) 
           {
             try {
-                String profileName = nextGen.get(i).getName(); // "gen_x-profile_y.xml"
-               
-                String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // profile_.xml
+                String profileName = nextGen.get(i).getName(); // should be of form "gen_x-profile_y.xml"
+                //get base name for profile
+                String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // should be of form "profile_"
+                //get generation and increment it
                 int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
                 generation++;
+                
+                //build string holding new name - note that we hav not kept traack of the profile indices
                 String outProfileName = "gen_" + generation + profile + i + ".xml";
                 //System.out.println("outprofilename = " + outProfileName);
 
@@ -318,10 +333,14 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                 nextGen.get(i).setName(outProfileName);
             
                 // write out the profile to file for safe keeping
+                //build the path by fetching the session details from the controller and adding generaios + this file name
                 String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+                
+                //write to file
                 nextGen.get(i).writeProfileToFile(outProfilePath);
                 File thisfile = new File(outProfilePath);
                 nextGen.get(i).setFile(thisfile);
+   
             } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
                         + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
@@ -331,30 +350,17 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         
          //System.out.println("changed names and saved files");
         
-        // apply mutation where necessary - i.e. not to the duplicates of the best
-        for(int toMutate = best.size(); toMutate < howMany;toMutate++)
-        {
-            //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
-            //double rateToApply = 0.5; 
-            // double rateToApply = 1.0; 
-            double rateToApply = this.F1(nextGen.get(toMutate).getGlobalScore());
-               //System.out.println("global score for the profile " + nextGen.get(toMutate).getName() 
-               //        + " is " + nextGen.get(toMutate).getGlobalScore() 
-               //       + " and mutation parameter is " + rateToApply);
-            //now apply mutation with this parameter
-            this.mutateProfile(toMutate, rateToApply);
-            System.out.println("..... mutate profile " + toMutate + " complete");
-        }
+    
         
         //finally write all ofthe profiles to file for safe keeping
-        for(int toSave=0; toSave < howMany;toSave++)
-        {
-            String outProfileName= nextGen.get(toSave).getName();
-            String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+        //for(int toSave=0; toSave < howMany;toSave++)
+        //{
+          //  String outProfileName= nextGen.get(toSave).getName();
+           // String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
             //System.out.println("saving next gen profile to file: " + outProfileName);
-            nextGen.get(toSave).writeProfileToFile(outProfilePath);
+           // nextGen.get(toSave).writeProfileToFile(outProfilePath);
             
-        }
+        //}
         
  
     }
