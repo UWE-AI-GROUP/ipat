@@ -16,14 +16,14 @@
         <description>Location for client data</description>
         <param-name>clientFolder</param-name>
         <param-value>
-          /home/kieran/NetBeansProjects/IPAT_WebApplication/web/Client Data/
+          /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/Client Data/
         </param-value>
     </context-param>
     <context-param>
         <description>Location of Profiles</description>
         <param-name>profileFolder</param-name>
         <param-value>
-         /home/kieran/NetBeansProjects/IPAT_WebApplication/web/data/profiles
+         /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/data/profiles
         </param-value>
     </context-param>
     <context-param>
@@ -49,7 +49,7 @@
         </init-param>
         <init-param>
             <param-name>fileRepository</param-name>
-            <param-value>/home/kieran/NetBeansProjects/IPAT_WebApplication/web/temp file repository/</param-value>
+            <param-value>/Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/temp file repository/</param-value>
         </init-param>
     </servlet>
     <servlet>

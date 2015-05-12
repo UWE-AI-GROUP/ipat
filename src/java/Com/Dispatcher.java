@@ -158,9 +158,10 @@ public class Dispatcher extends HttpServlet {
         // TODO synchronize controller
         Controller controller = new Controller(input, output, profile);
         controller.initialArtifacts();
+        session.setAttribute("Controller", controller);
         Artifact[] results = controller.processedArtifacts;
 
-        session.setAttribute("Controller", controller);
+        
         System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
                 + "Awaiting user to update parameters to generate next generation of results.\n");
 
