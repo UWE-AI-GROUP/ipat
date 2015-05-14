@@ -11,11 +11,16 @@ package Src;
  */
 import Algorithms.CSSProcessor;
 import Algorithms.ESEvolution;
+import Algorithms.HintsProcessor;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Vector;
 
+/**
+ *
+ * @author kieran
+ */
 public class Controller {
     
     Display display;
@@ -27,17 +32,57 @@ public class Controller {
     long lastTime = 0;
 
     // From GlobalVariables
-    public int iterationCount = 0;
+
+    /**
+     *
+     */
+        public int iterationCount = 0;
+
+    /**
+     *
+     */
     public int noOfProfiles = 6;
+
+    /**
+     *
+     */
     public Artifact[] raw_artifacts;
+
+    /**
+     *
+     */
     public Artifact[] processedArtifacts;
+
+    /**
+     *
+     */
     public Profile[] currentGenerationOfProfiles;
+
+    /**
+     *
+     */
     public static File inputFolder;
+
+    /**
+     *
+     */
     public static File outputFolder;
+
+    /**
+     *
+     */
     public static File profileFolder;
 
     // TODO Constructor which takes Artifact + what view to use
-    public Controller(File inputFolder, File outputFolder, File profileFolder) throws IOException {
+
+    /**
+     *
+     * @param inputFolder
+     * @param outputFolder
+     * @param profileFolder
+     * @throws IOException
+     */
+        public Controller(File inputFolder, File outputFolder, File profileFolder) throws IOException {
         this.outputFolder = outputFolder;
         this.inputFolder = inputFolder;
         this.profileFolder = profileFolder;
@@ -47,7 +92,11 @@ public class Controller {
     }
 
     // Generates the first set of results and returns them in the appropriate display to the view
-    public void initialArtifacts() {
+
+    /**
+     *
+     */
+        public void initialArtifacts() {
         bootstrapApplication();
         loadRawArtifacts();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
@@ -60,8 +109,20 @@ public class Controller {
 
     
     // Generates the next generation of results and returns them to the view
-    public void mainloop(){
-        
+
+    /**
+     *
+     */
+        public void mainloop(){
+            
+            HintsProcessor myHintsProcessor = new HintsProcessor();
+        //deal with the hints the user provided
+            //TODO test this before  and after
+        for(int i=0;i < noOfProfiles;i++)
+            {
+            currentGenerationOfProfiles[i] = myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[i]);
+            }
+        //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         evolution.generateNextSolutions(noOfProfiles);

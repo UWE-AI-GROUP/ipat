@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
-import jdk.nashorn.internal.parser.TokenType;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -96,8 +94,9 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                     // System.out.println("........have set value in currentVariable ");
  
                     //change value in local copy of hashtable
-                    //TODO vars.put returns the old value so we could test that it is non-null to make sure we have not changed the old key
+                 
                     vars.put(currentvarname, currentVariable);
+                    
                     //currentVariable = (SolutionAttributes) vars.get(currentvarname);
                      //System.out.println("Value in vars is now" + currentVariable.getValue()    );
                  }
@@ -148,6 +147,8 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                      //System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
                      //System.out.println("....now changing the profile in the nextgen arraylist");
                     //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
+                    
+                    
                      nextGen.get(which).removeVariable(currentvarname);
                      nextGen.get(which).addVariable(currentVariable);
                      //Hashtable tmpvars = nextGen.get(which).getSolutionAttributes();
@@ -242,7 +243,12 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         return newValue;
     }
     
-        @Override
+    /**
+     *
+     * @param which
+     * @return
+     */
+    @Override
     public Profile getNextGenProfileAtIndex(int which)
     {
         if(which <0)
@@ -262,7 +268,10 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         
     }
     
-    
+    /**
+     *
+     * @param howMany
+     */
     @Override
     public void generateNextSolutions(int howMany) {
 
@@ -365,8 +374,14 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         
  
     }
-//TODO  why do we have  this function with the same name in two different classes?
-    public Profile getProfileFromFile(File file) {
+// TODO read in the global scores from the profile.xml files
+
+    /**
+     *
+     * @param file
+     * @return
+     */
+        public Profile getProfileFromFile(File file) {
         Profile profile = new Profile(file);
         try {
             Document XmlDoc = new SAXBuilder().build(file);
@@ -450,6 +465,8 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                     }
                     Kernel kernel = new Kernel(kernelName, vars);
                     profile.addKernel(kernel);
+                } else if (hint.getName().equalsIgnoreCase("interaction")) {
+                // TODO 
                 }
             }
         } catch (Exception pce) {
@@ -458,7 +475,10 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         return profile;
     }
 
-
+    /**
+     *
+     * @param evaluatedSolutions
+     */
     @Override
     public void updateWorkingMemory(Profile[] evaluatedSolutions) {
         int popmember = 0; //loop variable

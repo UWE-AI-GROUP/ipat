@@ -49,6 +49,7 @@ public class SolutionAttributes {
 	 * @param lbound the lbound
 	 * @param ubound the ubound
 	 * @param granularity the granularity
+     * @param rateOfEvolution
 	 * @param value the value
 	 * @param dfault the dfault
 	 * @param flag the flag
@@ -93,6 +94,15 @@ public class SolutionAttributes {
 	 */
 	public double getRateOfEvolution() {
 		return rateOfEvolution;
+	}
+        
+        /**
+	 * Sets the rateOfEvolution.
+	 *
+	 * @param the new rateOfEvolution
+	 */
+	public double setRateOfEvolution(double newval) {
+		 this.rateOfEvolution = newval;
 	}
 
 	/**
