@@ -7,6 +7,7 @@ package Com;
 
 import Src.Artifact;
 import Src.Controller;
+import Src.Interaction;
 import Src.Profile;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -15,11 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.google.gson.Gson;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -84,68 +90,48 @@ public class newGenRequest extends HttpServlet {
         if (session == null) {
             System.out.println("Error, next generation button pressed before upload of input files.");
         } else {
-            // get slider values
-            String[] sliderValues = request.getParameterValues("data[]");
-            // split slider values into key value pairs (name of profile / slider value) and assign to hashmap
-            HashMap<String, ArrayList<Integer>> sliderNames = new HashMap<>();
-            for (String urlWithValue : sliderValues) {
-                ArrayList<Integer> valuesList = new ArrayList<Integer>();
-                int value = Integer.parseInt(urlWithValue.substring(urlWithValue.indexOf("~") + 1));
-                String file = urlWithValue.substring(urlWithValue.lastIndexOf("/") + 1, urlWithValue.lastIndexOf("-"));
-                file = file.concat(".xml");
-                // TESTING : check to see if slider values have been updated and if correct number of them are present
-                //System.out.println("SLIDER VALUES : " + file + ": " + value);
-
-                // check for duplicates (one for each input file the user entered) and add their values to the valuesList 
-                if (sliderNames.containsKey(file)) {
-                    ArrayList<Integer> get = sliderNames.get(file);
-                    get.add(value);
-                    sliderNames.put(file, get);
-                    // else initilise another valuesList with the result profile's value and add as the value to the  result profiles name key in hashmap
-                } else {
-                    valuesList.add(value);
-                    sliderNames.put(file, valuesList);
-                }
-            }
-
-            // loop through sessions profiles and update their scores
-            // get the controllers currentGeneration of profiles
+            // get hint (interaction) values allocated by the user :
+            Gson gson = new Gson();
+            HashMap data = gson.fromJson(request.getParameter("data"), HashMap.class);
             Controller controller = (Controller) session.getAttribute("Controller");
-            Profile[] profiles = controller.currentGenerationOfProfiles;
+           Interaction interaction = new Interaction();
+           interaction.updateProfileHints(data, controller);
+            controller.mainloop();
+            
+            Artifact[] results = controller.processedArtifacts;
+            HashMap<String, ArrayList<String>> HM = new HashMap();
+            for (Artifact result : results) {
+                // cut out the generation (gen_y)
+                String name = result.getFilename().substring(result.getFilename().indexOf("-") + 1);
+                // split the result into its profile_x  and  fileName
+                String[] parts = name.split("-");
+                String fileName = parts[1];
+                String profileNum = parts[0].substring(parts[0].indexOf("_") + 1);
 
-            // Loop through current gerenation of profiles
-            for (Profile profile : profiles) {
-                Iterator<String> iterator = sliderNames.keySet().iterator();
-                System.out.println("ITERATING THROUGH CURRENT GEN PROFILES IN CONTROLLER : " + profile.getName());
+                // if the hashmap is empty add the first element to it
+                if (HM.isEmpty()) {
+                    System.out.println("CREATING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
+                    ArrayList<String> imageList = new ArrayList<>();
+                    imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
+                    HM.put(profileNum, imageList);
 
-                //  for each profile cycle through the results
-                while (iterator.hasNext()) {
-                    String file = iterator.next();
+                    // if the hashmap is not empty 
+                } else {
+                    // check if hashmap already has the profile with a result in it and add the current result to this list
+                    if (HM.containsKey(profileNum)) {
+                        System.out.println("ADDING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
+                        ArrayList<String> imageList = (ArrayList<String>) HM.get(profileNum);
+                        imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
+                        HM.put(profileNum, imageList);
 
-                    // if the result profile name is the same as the controllers profile name
-                    if (profile.getName().equalsIgnoreCase(file)) {
-
-                        // assign the average value of the valuesList to currentGenerationProfiles global score.
-                        ArrayList<Integer> get = sliderNames.get(file);
-                        int newScore = 0;
-                        for (Integer get1 : get) {
-                            newScore += get1;
-                        }
-                        newScore = newScore / get.size();
-                        profile.setGlobalScore(newScore);
-                        System.out.println("PROFILE MATCHED, " + file + " SCORES : " + sliderNames.get(file) + ",   AVERAGE SCORE :  " + newScore);
-                        break;
+                        // if there are no matches, add a new hashmap element with the current result placed into a new list 
+                    } else {
+                        System.out.println("CREATING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
+                        ArrayList<String> imageList = new ArrayList<>();
+                        imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
+                        HM.put(profileNum, imageList);
                     }
                 }
-            }
-
-            controller.mainloop();
-            Artifact[] results = controller.processedArtifacts;
-            List<String> list = new ArrayList<String>();
-            for (Artifact result : results) {
-                //paths returned to view as "src" attributes for the iframe table
-                //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
-                list.add("Client%20Data/" + session.getId() + "/output/" + result.getFilename());
             }
 
 //             //TESTING : check for profile global scores have been reset to 5
@@ -153,8 +139,7 @@ public class newGenRequest extends HttpServlet {
 //                for (Profile prof1 : prof) {
 //                    System.out.println(prof1.getName() + "   :  " + prof1.getGlobalScore());
 //            }
-
-            String json = new Gson().toJson(list);
+            String json = new Gson().toJson(HM);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
