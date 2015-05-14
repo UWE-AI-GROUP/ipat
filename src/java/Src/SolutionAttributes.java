@@ -101,7 +101,7 @@ public class SolutionAttributes {
 	 *
 	 * @param the new rateOfEvolution
 	 */
-	public double setRateOfEvolution(double newval) {
+	public void setRateOfEvolution(double newval) {
 		 this.rateOfEvolution = newval;
 	}
 
