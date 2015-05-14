@@ -19,7 +19,7 @@ public class HintsProcessor {
      * @param thisProfile
      * @return changed profile
      */
-    public Profile InterpretHintInProfile( Profile toChange)
+    public void InterpretHintInProfile( Profile toChange)
   {
     Profile thisProfile =  toChange;
     SolutionAttributes currentVariable = null;
@@ -27,97 +27,112 @@ public class HintsProcessor {
     Hashtable kernels =thisProfile.getKernels();
     String currentVarName;
     
+    //for now I'll use an arraylist holding the names of all of the hints
+    //mainly so i cna code in the logic of checking the name before deidnign what to do
+    ArrayList hintList = new ArrayList();
+    hintList.add("freezeBGColour");
+    hintList.add("freezeFGFonts");
+    hintList.add("changeFontSize");
+    hintList.add("changeFGContrast");
+    
     ArrayList variablesAffected = new ArrayList();
-    ArrayList textKernels = new ArrayList();
-    textKernels.add("h1");
-    textKernels.add("h2");
-    textKernels.add("p");   
+    ArrayList textKernelNames = new ArrayList();
+    textKernelNames.add("h1");
+    textKernelNames.add("h2");
+    textKernelNames.add("p");   
           
           
     
-    //free back ground colour affects the page bg RGB values
-    //relatively simple becuase these are profile level variables
-      if (thisProfile.isFreezeBGColour())
+    //loop over all of the hints that might be available
+      for (Iterator hintIterator = hintList.iterator(); hintIterator.hasNext();)
         {
-          variablesAffected.clear();
-          variablesAffected.add("Page_bg_Red");
-          variablesAffected.add("Page_bg_Blue");
-          variablesAffected.add("Page_bg_Green");          
+          String nextHint = (String) hintIterator.next();
           
-            for (Iterator iterator = variablesAffected.iterator(); iterator.hasNext();)
-              {
-                 currentVarName = (String) iterator.next();
-                //get the variable from the local copy in the hashtable
-                currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
-                //set the rate of evoltion to zero so mutation has no effect
-                currentVariable.setRateOfEvolution(0.0);
-                //remove thee old variable with this name from thisProfile
-                thisProfile.removeVariable(currentVarName);
-                //write back in the changed variable
-                thisProfile.addVariable(currentVariable);
-              }
-           variablesAffected.clear(); 
-        }//end of code to freeze background colours
-      
-    //next hint freezes the colour and size of the foreground fonts
-    //so it need ot do it in each kernel that represents a paragraph style
-    if(thisProfile.isFreezeFGFonts())
-      {     
-        //get a list of all the kernels present
-        Enumeration enuKer = kernels.elements();
-        // loop through each kernel in turn,
-        while (enuKer.hasMoreElements()) 
-        {
-            //get the next kernel
-            Kernel kernel = (Kernel) enuKer.nextElement();
-            //see if it is one of the paragraph types affected
-            for (Iterator kerneliterator = textKernels.iterator(); kerneliterator.hasNext();)
-              if (kernel.getName().equalsIgnoreCase((String) kerneliterator.next()))
-                {
-                //get all of its variables
-                Hashtable vars = kernel.getVariables();
-                Enumeration eVar = vars.keys();
-                //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
-
-                // and then set the value each of the variables within kernel in turn
-                while (eVar.hasMoreElements()) 
+          if (nextHint.equalsIgnoreCase("freezeBGColour"))
+            {
+                //System.out.println("dealing with bg colour");;
+                //free back ground colour affects the page bg RGB values
+                //relatively simple because these are profile level variables
+                variablesAffected.clear();
+                variablesAffected.add("Page_bg_Red");
+                variablesAffected.add("Page_bg_Blue");
+                variablesAffected.add("Page_bg_Green");          
+          
+                for (Iterator varIterator = variablesAffected.iterator(); varIterator.hasNext();)
                     {
-                        currentVarName = eVar.nextElement().toString();
-                        currentVariable = (SolutionAttributes) vars.get(currentVarName);
-                      //set the rate of evoltion to zero so mutation has no effect
-                        currentVariable.setRateOfEvolution(0.0);
-                        vars.put(currentVarName, currentVariable);
-                    }    
-                Kernel changedKernel = new Kernel(kernel.getName(), vars);
-                //finally need to write this new kernel back to the profile in the  nextGen arraylist
-                //delete the old one the add the new one
-                thisProfile.removeKernel(kernel.getName());
-                thisProfile.addKernel(changedKernel);
-                } //end of code dealing with paragrpah kerel
-        }//end of loop over all kernels
-      }//end of code to freeze all aspects of foreground fonts
+                        currentVarName = (String) varIterator.next();
+                        //get the variable from the local copy in the hashtable
+                        currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+                        //set the rate of evoltion to zero so mutation has no effect
+                        if (thisProfile.isFreezeBGColour())
+                            currentVariable.setRateOfEvolution(0.0);
+                        else
+                           currentVariable.setRateOfEvolution(1.0);
+                       //remove the old variable with this name from thisProfile
+                       thisProfile.removeVariable(currentVarName);
+                        //write back in the changed variable
+                        thisProfile.addVariable(currentVariable);
+                    }
+                variablesAffected.clear(); 
+            }//end of code to freeze background colours
+      
+          if (nextHint.equalsIgnoreCase("freezeFGFonts"))
+            { //freeze FG fonts needs to go through each text kernel in turn and set the rate
+              //System.out.println("dealing with freeze fg fonts");;
+              for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
+                {//loop over the names in my listarray of strings
+                  //eventually replace loop criteria with loop over AffectedKernels for this hint
+                  String kernelName = (String) kerneliterator.next();
+                  //System.out.println("... paragraph type " + kernelName );
+                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
+                  //  System.out.println( "... kernel name " + thisKernel.getName());
+                   //get all of its variables
+                        Hashtable vars = thisKernel.getVariables();
+                        Enumeration eVar = vars.keys();
+                        //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
+
+                        // and then set the value each of the variables within kernel in turn
+                        while (eVar.hasMoreElements()) 
+                          {
+                            currentVarName = eVar.nextElement().toString();
+                              //System.out.println("current var name is " +currentVarName );
+                            currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                            //if asked to freeze then set the rate of evoltion to zero so mutation has no effect
+                            if(thisProfile.isFreezeFGFonts())  
+                                currentVariable.setRateOfEvolution(0.0);
+                            //otherwise set it back to 1 again if unfrozen
+                            else    
+                                currentVariable.setRateOfEvolution(0.0);
+                            
+                            vars.put(currentVarName, currentVariable);
+                          }    
+                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
+                    //finally need to write this new kernel back to the profile in the  nextGen arraylist
+                    //delete the old one the add the new one
+                    thisProfile.removeKernel(thisKernel.getName());
+                    thisProfile.addKernel(changedKernel);
+                }
+
+            }//end of code to freeze all aspects of foreground fonts
             
       
-    //next piece of code deals with the text size slider - 5 is the default value
-    // this version is deterministic because we dnt yet have a bias value in a soltion attribute as well as a rate of evolution
-    if(thisProfile.getChangeFontSize() !=1)
-      {
-        //state which variables are affected - just th font size in this case
-        variablesAffected.clear();
-          variablesAffected.add("font-size");
+            //next piece of code deals with the text size slider - 5 is the default value
+            // this version is deterministic because we dnt yet have a bias value in a soltion attribute as well as a rate of evolution
+          if (nextHint.equalsIgnoreCase("changeFontSize"))
+            {
+             // System.out.println("dealing with change font size");;
+            //state which variables are affected - just th font size in this case
+            variablesAffected.clear();
+            variablesAffected.add("font-size");
             //get a list of all the kernels present
-        Enumeration enuKer = kernels.elements();
-        // loop through each kernel in turn,
-        while (enuKer.hasMoreElements()) 
-        {
-            //get the next kernel
-            Kernel kernel = (Kernel) enuKer.nextElement();
-            //see if it is one of the paragraph types affected
-            for (Iterator kerneliterator = textKernels.iterator(); kerneliterator.hasNext();)
-              if (kernel.getName().equalsIgnoreCase((String) kerneliterator.next()))
-                {
+            for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
+                {//loop over the names in my listarray of strings
+                  //eventually replace loop criteria with loop over AffectedKernels for this hint
+                  String kernelName = (String) kerneliterator.next();
+                  //System.out.println("... paragraph type " + kernelName );
+                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
                     //get all of its  variables
-                    Hashtable vars = kernel.getVariables();
+                    Hashtable vars = thisKernel.getVariables();
                     //loop through the ones ot be changed
                     for (Iterator iterator = variablesAffected.iterator(); iterator.hasNext();)
                      {
@@ -132,13 +147,15 @@ public class HintsProcessor {
                            {
                              if( thisProfile.getChangeFontSize()==0)///"smaller"
                                 value = value*0.5;
-                            else if ( thisProfile.getChangeFontSize()==0)///"bigger"
+                             else if ( thisProfile.getChangeFontSize()==1)///"leave the same"
+                                value = value;
+                            else if ( thisProfile.getChangeFontSize()==2)///"bigger"
                                 value = value*2.0;
                             else //anything else
                                 throw new UnsupportedOperationException("thisProfile.getChangeFontSize() returned a value that is not 0 1 or 2");
                            } catch (Exception e)
                            {
-                              e.printStackTrace();
+                              //e.printStackTrace();
                            }
                        
                         //write this new value into the current variable
@@ -146,20 +163,20 @@ public class HintsProcessor {
                         //put this back into the hash table of vars for the kernel  
                           vars.put(currentVarName, currentVariable);
                      }    
-                    Kernel changedKernel = new Kernel(kernel.getName(), vars);
+                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
                     //finally need to write this new kernel back to the local copy of the profile 
                     //delete the old one the add the new one
-                    thisProfile.removeKernel(kernel.getName());
+                    thisProfile.removeKernel(thisKernel.getName());
                     thisProfile.addKernel(changedKernel);
                 }//end of relevant kernels
-   
-        
-        }//end of loop over all kernels
-        
-      }//end of text size case
+            }//end of text size case
        
+         if (nextHint.equalsIgnoreCase("changeFGContrast"))
+           {
+               //System.out.println("dealing with fg contrast");
+             ;
+           }
+        }// all hints have been dealt with - we can exit
       
-      // all hints have been dealt with - we can exit
-      return thisProfile;
   }
 }

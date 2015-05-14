@@ -15,6 +15,7 @@ import Algorithms.HintsProcessor;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Vector;
 
 /**
@@ -118,9 +119,68 @@ public class Controller {
             HintsProcessor myHintsProcessor = new HintsProcessor();
         //deal with the hints the user provided
             //TODO test this before  and after
+            boolean testing = true;
+         // testing
+              if (testing==true) 
+                {
+                    System.out.println("setting freeze bg colour on");
+                    currentGenerationOfProfiles[0].setFreezeBGColour(true);
+                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
+                    System.out.println("page bg rate of evolution R G B are now" 
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution()
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution()
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution());
+  
+ 
+                    System.out.println("setting freeze bg colour off");
+                    currentGenerationOfProfiles[0].setFreezeBGColour(false);
+                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
+                    System.out.println("page bg rate of evolution R G B are now" 
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution()
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution()
+                        + " " + ((SolutionAttributes) currentGenerationOfProfiles[0].getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution());
+  
+                   
+                    System.out.println("original font sizes for h1, h2 and p are:" 
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h1")).getVariables().get("font-size")).getValue()
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables().get("font-size")).getValue()
+                            + " " + ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables().get("font-size")).getValue());
+                     
+                    System.out.println("setting reduce font sizes");
+                    currentGenerationOfProfiles[0].setChangeFontSize(0);
+                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
+                    System.out.println("original font sizes for h1, h2 and p are: " 
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h1")).getVariables().get("font-size")).getValue()
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables().get("font-size")).getValue()
+                            + " " + ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables().get("font-size")).getValue());
+                          
+                    System.out.println("setting leave font sizes");
+                    currentGenerationOfProfiles[0].setChangeFontSize(1);
+                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
+                    System.out.println("unchanged font sizes for h1, h2 and p are:" 
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h1")).getVariables().get("font-size")).getValue()
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables().get("font-size")).getValue()
+                            + " " + ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables().get("font-size")).getValue());
+                     System.out.println("setting increase font sizes");
+                    currentGenerationOfProfiles[0].setChangeFontSize(2);
+                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
+                    System.out.println("increased  font sizes for h1, h2 and p are:" 
+                            + " " + ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h1")).getVariables().get("font-size")).getValue()
+                            + " " +  ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables().get("font-size")).getValue()
+                            + " " + ( (SolutionAttributes) ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables().get("font-size")).getValue());
+                               
+                }
+              
+              
         for(int i=0;i < noOfProfiles;i++)
             {
-            currentGenerationOfProfiles[i] = myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[i]);
+            //apply hints to each profile     
+             myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[i]);
+            //then reset the hints buttons and sliders to their default values
+            currentGenerationOfProfiles[i].setChangeFontSize(1);
+            currentGenerationOfProfiles[i].setChangeGFContrast(1);
+            currentGenerationOfProfiles[i].setFreezeBGColour(false);
+            currentGenerationOfProfiles[i].setFreezeFGFonts(false);
             }
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
