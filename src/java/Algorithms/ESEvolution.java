@@ -498,8 +498,8 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             }
         }
         // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
-        for (Profile best : best) {
-            System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best.getName() + " : " + best.getGlobalScore());
+        for (Profile best1 : best) {
+            System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best1.getName() + " : " + best1.getGlobalScore());
         }
     }
 
