@@ -22,7 +22,7 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="javascript/javascript.js"></script>
     <script>$(function () {$("#tabs").tabs();});</script>
-  <link rel="stylesheet" type="text/css" href="css/style.css"> 
+  <link rel="stylesheet" type="text/css" href="css/StyleSheet.css"> 
    <link rel="stylesheet" type="text/css" href="css/tabStyle.css"> 
 </head>
 <body>
