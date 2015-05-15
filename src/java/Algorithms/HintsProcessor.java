@@ -78,7 +78,7 @@ public class HintsProcessor {
       
           if (nextHint.equalsIgnoreCase("freezeFGFonts"))
             { //freeze FG fonts needs to go through each text kernel in turn and set the rate
-              //System.out.println("dealing with freeze fg fonts");;
+              //System.out.println("dealing with freeze fg fonts, value in profile is " + thisProfile.isFreezeFGFonts());;
               for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
                 {//loop over the names in my listarray of strings
                   //eventually replace loop criteria with loop over AffectedKernels for this hint
@@ -102,7 +102,7 @@ public class HintsProcessor {
                                 currentVariable.setRateOfEvolution(0.0);
                             //otherwise set it back to 1 again if unfrozen
                             else    
-                                currentVariable.setRateOfEvolution(0.0);
+                                currentVariable.setRateOfEvolution(1.0);
                             
                             vars.put(currentVarName, currentVariable);
                           }    
@@ -174,7 +174,56 @@ public class HintsProcessor {
          if (nextHint.equalsIgnoreCase("changeFGContrast"))
            {
                //System.out.println("dealing with fg contrast");
-             ;
+                       // System.out.println("dealing with change font size");;
+            //state which variables are affected - just the font size in this case
+            variablesAffected.clear();
+            variablesAffected.add("bold");
+            variablesAffected.add("italic");
+            //get a list of all the kernels present
+            for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
+                {//loop over the names in my listarray of strings
+                  //eventually replace loop criteria with loop over AffectedKernels for this hint
+                  String kernelName = (String) kerneliterator.next();
+                  //System.out.println("... paragraph type " + kernelName );
+                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
+                    //get all of its  variables
+                    Hashtable vars = thisKernel.getVariables();
+                    //loop through the ones ot be changed
+                    for (Iterator iterator = variablesAffected.iterator(); iterator.hasNext();)
+                     {
+                       currentVarName = (String) iterator.next();
+                       //get the variable from the local copy in the hashtable
+                       currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                       //get the old value
+                       double value = currentVariable.getValue();
+                        //change it according to the hint: for less[more] contrast turn italic and bold off[on] 
+                        
+                         try
+                           {
+                             if( thisProfile.getChangeGFContrast()==0)///"less"
+                                value = 0;
+                             else if ( thisProfile.getChangeGFContrast()==1)///"leave the same"
+                                value = value;
+                            else if ( thisProfile.getChangeGFContrast()==2)///"more"
+                                value = 1;
+                            else //anything else
+                                throw new UnsupportedOperationException("thisProfile.getChangeFontSize() returned a value that is not 0 1 or 2");
+                           } catch (Exception e)
+                           {
+                              //e.printStackTrace();
+                           }
+                       
+                        //write this new value into the current variable
+                          currentVariable.setValue(value);
+                        //put this back into the hash table of vars for the kernel  
+                          vars.put(currentVarName, currentVariable);
+                     }    
+                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
+                    //finally need to write this new kernel back to the local copy of the profile 
+                    //delete the old one the add the new one
+                    thisProfile.removeKernel(thisKernel.getName());
+                    thisProfile.addKernel(changedKernel);
+                }//end of relevant kernels
            }
         }// all hints have been dealt with - we can exit
       
