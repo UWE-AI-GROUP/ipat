@@ -67,7 +67,7 @@ $(document).ready(function () {
                     // [layer one] create the list for the profile tabs 
                     var content = "<div id='tabs-container'><ul class='tabs-menu'>";
                     for (var i = 0; i < size; i++) {
-                        content += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>Profile " + (i+1) + "</a></li>";
+                        content += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>Profile " + i + "</a></li>";
                     }
                     // [layer two] create div which will contain all the seporate tabs and their content this is needed for the CSS 
                     content += " </ul> <div class='tabstuff'>";
@@ -158,7 +158,7 @@ $(document).ready(function () {
                 // [layer one] create the list for the profile tabs 
                 var content = "<div id='tabs-container'><ul class='tabs-menu'>";
                 for (var i = 0; i < size; i++) {
-                    content += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>Profile " + (i+1) + "</a></li>";
+                    content += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>Profile " + i + "</a></li>";
                 }
                 // [layer two] create div which will contain all the seporate tabs and their content this is needed for the CSS 
                 content += " </ul> <div class='tabstuff'>";
@@ -181,9 +181,9 @@ $(document).ready(function () {
                                 + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + populationSize + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + populationSize + "' class='label'>Change Contrast</label></div>";
                         populationSize += 1;
                     }
-                    content += "</div></div>";
+                    content += "</div>";
                 }
-                content += "</div>";
+                content += "</div></div>";
                 // populate the byProfiles tab 
                 setTimeout(function () {
                     $('#tabs-byProfile').empty();
