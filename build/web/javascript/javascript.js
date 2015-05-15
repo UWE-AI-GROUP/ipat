@@ -181,9 +181,9 @@ $(document).ready(function () {
                                 + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + populationSize + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + populationSize + "' class='label'>Change Contrast</label></div>";
                         populationSize += 1;
                     }
-                    content += "</div>";
+                    content += "</div></div>";
                 }
-                content += "</div></div>";
+                content += "</div>";
                 // populate the byProfiles tab 
                 setTimeout(function () {
                     $('#tabs-byProfile').empty();
