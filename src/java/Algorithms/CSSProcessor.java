@@ -40,6 +40,7 @@ public class CSSProcessor implements Processor {
 
         
         Hashtable kernels = profile.getKernels();
+        if (kernels == null) {System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");}
 
 	// ----------- CSS Formatters -------------------------------//
         String CSS_Start_Braces = "{";
@@ -50,6 +51,7 @@ public class CSSProcessor implements Processor {
         // ------------ CSS Generation ------------------------------//
         String css = "";
         Hashtable pv = profile.getSolutionAttributes();
+        if (pv == null) { System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");}
         Enumeration pvarsEnu = pv.keys();
         String csspLine = "body{";
         int colorCheck = 0;
@@ -205,6 +207,7 @@ public class CSSProcessor implements Processor {
               
                 return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
+            System.out.println("");
             e.printStackTrace();
         }
         return null;
