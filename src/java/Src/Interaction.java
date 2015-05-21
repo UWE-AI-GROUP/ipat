@@ -107,7 +107,7 @@ public class Interaction {
                         for (Integer GFContrast : GFContrasts) {
                             sum += GFContrast;
                             int average = sum / GFContrasts.size();
-                            profile.setChangeGFContrast(average);
+                            profile.setChangeFGContrast(average);
                             System.out.println(i + " ChangeGFContrast " + average);
                         }
                         break;
