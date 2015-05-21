@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet-mapping>
+        <servlet-name>newGenRequest</servlet-name>
+        <url-pattern>/newGen</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>main.jsp</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <description>Location for client data</description>
+        <param-name>clientFolder</param-name>
+        <param-value>
+          /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/Client Data/
+        </param-value>
+    </context-param>
+    <context-param>
+        <description>Location of Profiles</description>
+        <param-name>profileFolder</param-name>
+        <param-value>
+         /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/data/profiles
+        </param-value>
+    </context-param>
+    <context-param>
+        <description>For Debugging and verbose log messages</description>
+        <param-name>DEBUG</param-name>
+        <param-value>
+         true
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>Com.SessionCounterListener</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>Com.Dispatcher</servlet-class>
+        <init-param>
+            <param-name>maxFileSize</param-name>
+            <param-value>51200</param-value>
+        </init-param>
+        <init-param>
+            <param-name>maxMemSize</param-name>
+            <param-value>4096</param-value>
+        </init-param>
+        <init-param>
+            <param-name>fileRepository</param-name>
+            <param-value>/Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/web/temp file repository/</param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>newGenRequest</servlet-name>
+        <servlet-class>Com.newGenRequest</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dispatcher</servlet-name>
+        <url-pattern>/FileUpload</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>Abort</servlet-name>
+        <servlet-class>Com.Abort</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Abort</servlet-name>
+        <url-pattern>/abort</url-pattern>
+    </servlet-mapping>
+</web-app>
