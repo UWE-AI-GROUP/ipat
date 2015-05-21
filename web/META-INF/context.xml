@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <Context antiJARLocking="true" path=""/>
+=======
+<Context antiJARLocking="true" path="/IPAT_WebApplication"/>
+>>>>>>> parent of fa1b479... ijim trying to sort out the commit mess 21/5

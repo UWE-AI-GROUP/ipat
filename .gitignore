@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 *.class
 web/Client*
 web/Client*/*
 *.war
 nbproject/*
 
+=======
+/dist/
+>>>>>>> parent of fa1b479... ijim trying to sort out the commit mess 21/5
