@@ -129,10 +129,9 @@ public class Controller {
               HintsProcessor hint;
               hint = hints.get("FreezeBGColours");
               //TODO test that i got a hint back
-              System.out.println("hint name is " +  hint.getHintName());
               if(i==1)
                 {
-                  currentGenerationOfProfiles[i].setGlobalScore(9);
+                  currentGenerationOfProfiles[i].setGlobalScore(7);
                   currentGenerationOfProfiles[i].setFreezeBGColour(true);
                 }
               if (currentGenerationOfProfiles[i].isFreezeBGColour())
