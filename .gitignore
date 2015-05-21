@@ -1,5 +1,4 @@
 *.class
-build/*
 web/Client*
 web/Client*/*
 *.war
