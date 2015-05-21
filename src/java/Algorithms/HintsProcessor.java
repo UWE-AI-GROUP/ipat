@@ -8,18 +8,200 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+
 /**
  *
  * @author kieran
  */
 public class HintsProcessor {
+private ArrayList profileVariablesAffected;
+private    ArrayList kernelsAffected; 
+private ArrayList kernelVariablesAffected;
+private String hintName;
+private String displaytype;
+private String displaytext;
+private double rangeMin;
+private double rangeMax;
+private double defaultValue;
+private String effect;
 
+   
+
+
+public HintsProcessor()
+      {
+        profileVariablesAffected = new ArrayList();
+        kernelsAffected = new ArrayList();
+        kernelVariablesAffected = new ArrayList();
+        hintName = null;
+      }
+
+    public HintsProcessor(String name)
+      {
+        profileVariablesAffected = new ArrayList();
+        kernelsAffected = new ArrayList();
+        kernelVariablesAffected = new ArrayList();
+        hintName = name;
+      }
+
+    
+   public HintsProcessor(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, double theDefaultVal,String theEffect)
+      {
+        profileVariablesAffected = new ArrayList();
+        kernelsAffected = new ArrayList();
+        kernelVariablesAffected = new ArrayList();
+        hintName = theName;
+        displaytype = theDisplaytype;
+        displaytext = theDisplaytext;
+        if(theRangeMax<theRangeMin)//check that they haven;t been entered the wrong way around
+          {
+            rangeMax = theRangeMin;
+            rangeMin = theRangeMax;
+          }
+        else
+          {
+            rangeMin = theRangeMin;
+            rangeMax=theRangeMax;
+          }
+        
+        
+        defaultValue = theDefaultVal;
+        effect = theEffect;
+      }
+    
+    
+    
+    public void AddAffectedKernel(String kernelName)
+      {
+        kernelsAffected.add(kernelName);
+      }
+    
+    
+    public ArrayList getKernelsAffected()
+      {
+        return kernelsAffected;
+      }
+
+    public String getHintName()
+      {
+        return hintName;
+      }
+    
+
+   public void setHintName(String hintName)
+      {
+        this.hintName = hintName;
+      }
+
+    public void addAffectedProfileVariable(String newVarName)
+     {
+        profileVariablesAffected.add(newVarName);
+      }
+
+    public ArrayList getProfileVariablesAffected()
+      {
+            return profileVariablesAffected;
+      }
+    
+    
+
+   public void addAffectedKernelVariable(String newVarName)
+    {
+      kernelVariablesAffected.add(newVarName);
+     }
+
+   public ArrayList getKernelVariablesAffected()
+         {
+           return kernelVariablesAffected;
+         }
+
+ public String getDisplaytype()
+      {
+        return displaytype;
+      }
+
+    public void setDisplaytype(String displaytype)
+      {
+        this.displaytype = displaytype;
+      }
+
+    public String getDisplaytext()
+      {
+        return displaytext;
+      }
+
+    public void setDisplaytext(String displaytext)
+      {
+        this.displaytext = displaytext;
+      }
+
+    public double getRangeMin()
+      {
+        return rangeMin;
+      }
+
+    public void setRangeMin(double rangeMin)
+      {
+        this.rangeMin = rangeMin;
+      }
+
+    public double getRangeMax()
+      {
+        return rangeMax;
+      }
+
+    public void setRangeMax(double rangeMax)
+      {
+        this.rangeMax = rangeMax;
+      }
+
+    public double getDefaultValue()
+      {
+        return this.defaultValue;
+      }
+
+    public void setDefaultValue(double defaultValue)
+      {
+        this.defaultValue = defaultValue;
+      }
+
+    public String getEffect()
+      {
+        return effect;
+      }
+
+    public void setEffect(String effect)
+      {
+        this.effect = effect;
+      }
+                
+public Profile InterpretHintInProfile( Profile toChange, double amount)
+  {
+    Profile thisProfile =  toChange;
+    if (effect.equalsIgnoreCase("Freeze"))
+      {
+        if ((amount != 1.0)&&(amount != 0.0))
+            System.out.println("wrong value for amount with freezinf hint should be 0 or 1");
+         else
+            thisProfile =InterpretFreezingHintInProfile(  toChange,  amount);
+      }
+    else if (effect.equalsIgnoreCase("moderateByValue"))
+           thisProfile =InterpretModeratingHintInProfile(toChange, amount);
+    else
+     thisProfile = toChange;//no other ttypes impl;emetned yet
+    
+    return thisProfile;
+  }
+        
+        
+        
+        
     /**
      * method that interprets the hints provided by the user and makes appropriate application-specific changes ot the profile variables
      * @param thisProfile
      * @return changed profile
      */
-    public void InterpretHintInProfile( Profile toChange)
+    public Profile InterpretFreezingHintInProfile( Profile toChange, double amount)
   {
     Profile thisProfile =  toChange;
     SolutionAttributes currentVariable = null;
@@ -27,205 +209,159 @@ public class HintsProcessor {
     Hashtable kernels =thisProfile.getKernels();
     String currentVarName;
     
-    //for now I'll use an arraylist holding the names of all of the hints
-    //mainly so i cna code in the logic of checking the name before deidnign what to do
-    ArrayList hintList = new ArrayList();
-    hintList.add("freezeBGColour");
-    hintList.add("freezeFGFonts");
-    hintList.add("changeFontSize");
-    hintList.add("changeFGContrast");
-    
-    ArrayList variablesAffected = new ArrayList();
-    ArrayList textKernelNames = new ArrayList();
-    textKernelNames.add("h1");
-    textKernelNames.add("h2");
-    textKernelNames.add("p");   
-          
-          
-    
-    //loop over all of the hints that might be available
-      for (Iterator hintIterator = hintList.iterator(); hintIterator.hasNext();)
-        {
-          String nextHint = (String) hintIterator.next();
-          
-          if (nextHint.equalsIgnoreCase("freezeBGColour"))
+   
+        //first freeze all of the profile level variables
+        for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();)
+              {
+                 currentVarName = (String) profileVariableIterator.next();
+                //get the variable from the local copy in the hashtable
+                currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+                //set the rate of evoltion to zero so mutation has no effect
+                currentVariable.setRateOfEvolution(amount);
+                //remove the old variable with this name from thisProfile
+                thisProfile.removeVariable(currentVarName);
+                //write back in the changed variable
+                thisProfile.addVariable(currentVariable);
+              }
+        
+        //then for each of the affected kernels
+        for(Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext(); )
+          {
+            String kernelname = (String) kernelIterator.next();
+            Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
+            if (0==1) ;//TODO if kernel == null throw an exception
+            else
             {
-                //System.out.println("dealing with bg colour");;
-                //free back ground colour affects the page bg RGB values
-                //relatively simple because these are profile level variables
-                variablesAffected.clear();
-                variablesAffected.add("Page_bg_Red");
-                variablesAffected.add("Page_bg_Blue");
-                variablesAffected.add("Page_bg_Green");          
-          
-                for (Iterator varIterator = variablesAffected.iterator(); varIterator.hasNext();)
-                    {
-                        currentVarName = (String) varIterator.next();
-                        //get the variable from the local copy in the hashtable
-                        currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
-                        //set the rate of evoltion to zero so mutation has no effect
-                        if (thisProfile.isFreezeBGColour())
-                            currentVariable.setRateOfEvolution(0.0);
-                        else
-                           currentVariable.setRateOfEvolution(1.0);
-                       //remove the old variable with this name from thisProfile
-                       thisProfile.removeVariable(currentVarName);
-                        //write back in the changed variable
-                        thisProfile.addVariable(currentVariable);
-                    }
-                variablesAffected.clear(); 
-            }//end of code to freeze background colours
-      
-          if (nextHint.equalsIgnoreCase("freezeFGFonts"))
-            { //freeze FG fonts needs to go through each text kernel in turn and set the rate
-              //System.out.println("dealing with freeze fg fonts, value in profile is " + thisProfile.isFreezeFGFonts());;
-              for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
-                {//loop over the names in my listarray of strings
-                  //eventually replace loop criteria with loop over AffectedKernels for this hint
-                  String kernelName = (String) kerneliterator.next();
-                  //System.out.println("... paragraph type " + kernelName );
-                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
-                  //  System.out.println( "... kernel name " + thisKernel.getName());
-                   //get all of its variables
-                        Hashtable vars = thisKernel.getVariables();
-                        Enumeration eVar = vars.keys();
-                        //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
-
-                        // and then set the value each of the variables within kernel in turn
-                        while (eVar.hasMoreElements()) 
-                          {
-                            currentVarName = eVar.nextElement().toString();
-                              //System.out.println("current var name is " +currentVarName );
-                            currentVariable = (SolutionAttributes) vars.get(currentVarName);
-                            //if asked to freeze then set the rate of evoltion to zero so mutation has no effect
-                            if(thisProfile.isFreezeFGFonts())  
-                                currentVariable.setRateOfEvolution(0.0);
-                            //otherwise set it back to 1 again if unfrozen
-                            else    
-                                currentVariable.setRateOfEvolution(1.0);
-                            
-                            vars.put(currentVarName, currentVariable);
-                          }    
-                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
-                    //finally need to write this new kernel back to the profile in the  nextGen arraylist
-                    //delete the old one the add the new one
-                    thisProfile.removeKernel(thisKernel.getName());
-                    thisProfile.addKernel(changedKernel);
+              Hashtable vars = kernel.getVariables();
+              Iterator kvarIterator; 
+                // if we don't have a list of which kernel variables to change use all
+              if (kernelVariablesAffected.isEmpty())
+                {//boring conversion because Profile uses hashmaps and enumerators
+                  ArrayList allKernelVariables = new ArrayList();
+                  Enumeration kVarNames = vars.keys();
+                  while (kVarNames.hasMoreElements())
+                    allKernelVariables.add(kVarNames.nextElement().toString());
+                  kvarIterator = allKernelVariables.iterator();
                 }
+ 
+              else // otherwise, if we have some specified, just use them
+                kvarIterator = kernelVariablesAffected.iterator();
+              
+                while (kvarIterator.hasNext()) 
+                    {
+                        currentVarName = (String) kvarIterator.next();
+                        currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                      //set the rate of evoltion to zero so mutation has no effect
+                        currentVariable.setRateOfEvolution(amount);
+                        vars.put(currentVarName, currentVariable);
+                    }    
+                Kernel changedKernel = new Kernel(kernel.getName(), vars);
+                //finally need to write this new kernel back to the profile in the  nextGen arraylist
+                //delete the old one the add the new one
+                thisProfile.removeKernel(kernel.getName());
+                thisProfile.addKernel(changedKernel);
+                } //end of code dealing with affected kernels
+          }
+        
+     
+      
+      // all hints have been dealt with - we can exit
+      return thisProfile;
+  }
+    
+    /**
+     * method that interprets the hints provided by the user and makes appropriate application-specific changes ot the profile variables
+     * @param thisProfile
+     * @return changed profile
+     */
+    public Profile InterpretModeratingHintInProfile( Profile toChange, double amount)
+  {
+    Profile thisProfile =  toChange;
+    SolutionAttributes currentVariable = null;
+    Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
+    Hashtable kernels =thisProfile.getKernels();
+    String currentVarName;
+    
+    
+    double range = rangeMax - rangeMin;
+    double midpoint = rangeMin + 0.5*range;
+    amount = (amount - midpoint)/range;
+    double multiplier = Math.pow(2.0, amount);
+        
+        
+    //start off with the profile variables that are affected
+    for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();)
+          {
+             currentVarName = (String) profileVariableIterator.next();
+            //get the variable from the local copy in the hashtable
+            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            //set the rate of evoltion to zero so mutation has no effect
+            double oldValue = currentVariable.getValue();
 
-            }//end of code to freeze all aspects of foreground fonts
-            
-      
-            //next piece of code deals with the text size slider - 5 is the default value
-            // this version is deterministic because we dnt yet have a bias value in a soltion attribute as well as a rate of evolution
-          if (nextHint.equalsIgnoreCase("changeFontSize"))
-            {
-             // System.out.println("dealing with change font size");;
-            //state which variables are affected - just th font size in this case
-            variablesAffected.clear();
-            variablesAffected.add("font-size");
-            //get a list of all the kernels present
-            for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
-                {//loop over the names in my listarray of strings
-                  //eventually replace loop criteria with loop over AffectedKernels for this hint
-                  String kernelName = (String) kerneliterator.next();
-                  //System.out.println("... paragraph type " + kernelName );
-                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
-                    //get all of its  variables
-                    Hashtable vars = thisKernel.getVariables();
-                    //loop through the ones ot be changed
-                    for (Iterator iterator = variablesAffected.iterator(); iterator.hasNext();)
-                     {
-                       currentVarName = (String) iterator.next();
-                       //get the variable from the local copy in the hashtable
-                       currentVariable = (SolutionAttributes) vars.get(currentVarName);
-                       //get the old value
-                       double value = currentVariable.getValue();
-                        //change it according to the hint 
-                       //THIS IS THE DETERMIISTIC BIT 
-                         try
-                           {
-                             if( thisProfile.getChangeFontSize()==0)///"smaller"
-                                value = value*0.5;
-                             else if ( thisProfile.getChangeFontSize()==1)///"leave the same"
-                                value = value;
-                            else if ( thisProfile.getChangeFontSize()==2)///"bigger"
-                                value = value*2.0;
-                            else //anything else
-                                throw new UnsupportedOperationException("thisProfile.getChangeFontSize() returned a value that is not 0 1 or 2");
-                           } catch (Exception e)
-                           {
-                              //e.printStackTrace();
-                           }
-                       
-                        //write this new value into the current variable
-                          currentVariable.setValue(value);
-                        //put this back into the hash table of vars for the kernel  
-                          vars.put(currentVarName, currentVariable);
-                     }    
-                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
-                    //finally need to write this new kernel back to the local copy of the profile 
-                    //delete the old one the add the new one
-                    thisProfile.removeKernel(thisKernel.getName());
-                    thisProfile.addKernel(changedKernel);
-                }//end of relevant kernels
-            }//end of text size case
-       
-         if (nextHint.equalsIgnoreCase("changeFGContrast"))
-           {
-               //System.out.println("dealing with fg contrast");
-                       // System.out.println("dealing with change font size");;
-            //state which variables are affected - just the font size in this case
-            variablesAffected.clear();
-            variablesAffected.add("bold");
-            variablesAffected.add("italic");
-            //get a list of all the kernels present
-            for (Iterator kerneliterator = textKernelNames.iterator(); kerneliterator.hasNext();)
-                {//loop over the names in my listarray of strings
-                  //eventually replace loop criteria with loop over AffectedKernels for this hint
-                  String kernelName = (String) kerneliterator.next();
-                  //System.out.println("... paragraph type " + kernelName );
-                  Kernel thisKernel =  (Kernel) thisProfile.getKernels().get(kernelName);
-                    //get all of its  variables
-                    Hashtable vars = thisKernel.getVariables();
-                    //loop through the ones ot be changed
-                    for (Iterator iterator = variablesAffected.iterator(); iterator.hasNext();)
-                     {
-                       currentVarName = (String) iterator.next();
-                       //get the variable from the local copy in the hashtable
-                       currentVariable = (SolutionAttributes) vars.get(currentVarName);
-                       //get the old value
-                       double value = currentVariable.getValue();
-                        //change it according to the hint: for less[more] contrast turn italic and bold off[on] 
-                        
-                         try
-                           {
-                             if( thisProfile.getChangeGFContrast()==0)///"less"
-                                value = 0;
-                             else if ( thisProfile.getChangeGFContrast()==1)///"leave the same"
-                                value = value;
-                            else if ( thisProfile.getChangeGFContrast()==2)///"more"
-                                value = 1;
-                            else //anything else
-                                throw new UnsupportedOperationException("thisProfile.getChangeFontSize() returned a value that is not 0 1 or 2");
-                           } catch (Exception e)
-                           {
-                              //e.printStackTrace();
-                           }
-                       
-                        //write this new value into the current variable
-                          currentVariable.setValue(value);
-                        //put this back into the hash table of vars for the kernel  
-                          vars.put(currentVarName, currentVariable);
-                     }    
-                    Kernel changedKernel = new Kernel(thisKernel.getName(), vars);
-                    //finally need to write this new kernel back to the local copy of the profile 
-                    //delete the old one the add the new one
-                    thisProfile.removeKernel(thisKernel.getName());
-                    thisProfile.addKernel(changedKernel);
-                }//end of relevant kernels
-           }
-        }// all hints have been dealt with - we can exit
-      
+            //calculate raw new value
+            double newValue = oldValue * multiplier;
+            //take account of granularity
+            newValue = newValue - Math.IEEEremainder(newValue, currentVariable.getGranularity());
+            //truncate to range
+            newValue=  Math.max(currentVariable.getLbound(),newValue);
+            newValue = Math.min(currentVariable.getUbound(), newValue);
+
+            //reset the value in thecopy of the variable
+            currentVariable.setValue(newValue);
+            //remove the old variable with this name from thisProfile
+            thisProfile.removeVariable(currentVarName);
+            //write back in the changed variable
+            thisProfile.addVariable(currentVariable);
+          }
+    //then for each of the affected kernels
+    for(Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext(); )
+      {
+        String kernelname = (String) kernelIterator.next();
+        Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
+        if (0==1) ;//TODO if kernel == null throw an exception
+        else
+        {
+          Hashtable vars = kernel.getVariables();
+          Iterator kvarIterator; 
+            // if we don't have a list of which kernel variables to change use all
+          if (kernelVariablesAffected.isEmpty())
+            {//boring conversion because Profile uses hashmaps and enumerators
+              ArrayList allKernelVariables = new ArrayList();
+              Enumeration kVarNames = vars.keys();
+              while (kVarNames.hasMoreElements())
+                allKernelVariables.add(kVarNames.nextElement().toString());
+              kvarIterator = allKernelVariables.iterator();
+            }
+
+          else // otherwise, if we have some specified, just use them
+            kvarIterator = kernelVariablesAffected.iterator();
+
+           while (kvarIterator.hasNext()) 
+                {
+                    currentVarName = (String) kvarIterator.next();
+                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                    double oldValue = currentVariable.getValue();
+
+                    //calculate raw new value
+                    double newValue = oldValue * multiplier;
+                    //take account of granularity
+                    newValue = newValue - Math.IEEEremainder(newValue, currentVariable.getGranularity());
+                    //truncate to range
+                    newValue=  Math.max(currentVariable.getLbound(),newValue);
+                    newValue = Math.min(currentVariable.getUbound(), newValue);
+
+                    //reset the value in thecopy of the variable
+                    currentVariable.setValue(newValue);
+                    vars.put(currentVarName, currentVariable);
+                }    
+            Kernel changedKernel = new Kernel(kernel.getName(), vars);
+            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+            //delete the old one the add the new one
+            thisProfile.removeKernel(kernel.getName());
+            thisProfile.addKernel(changedKernel);
+            } //end of code dealing with affected kernels
+          }
+        
+      return thisProfile;
   }
 }

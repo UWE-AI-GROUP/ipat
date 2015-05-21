@@ -34,7 +34,7 @@ public class Profile {
     * PROFILE HINTS
     */
     private boolean FreezeBGColour = false;
-    private int ChangeGFContrast = 1;
+    private int ChangeFGContrast = 1;
     private int ChangeFontSize = 1;
     private boolean FreezeFGFonts = false;
 
@@ -88,6 +88,20 @@ public class Profile {
 		kernels.remove(kernelName);
 	}
 
+    /**
+     *
+     * @param kernelName string 
+     * @return Kernel with the name kernelName if that key-value pair exists in thisProfile.kernels else null
+     */
+    public Kernel getKernelCalled(String kernelName)
+      {
+        Kernel found = null;
+        found = (Kernel) kernels.get(kernelName);
+        return found;
+      }
+    
+    
+    
 	/**
 	 * Adds the variable.
 	 *
@@ -110,12 +124,12 @@ public class Profile {
         this.FreezeBGColour = FreezeBGColour;
     }
 
-    public int getChangeGFContrast() {
-        return ChangeGFContrast;
+    public int getChangeFGContrast() {
+        return ChangeFGContrast;
     }
 
-    public void setChangeGFContrast(int ChangeGFContrast) {
-        this.ChangeGFContrast = ChangeGFContrast;
+    public void setChangeFGContrast(int ChangeFGContrast) {
+        this.ChangeFGContrast = ChangeFGContrast;
     }
 
     public int getChangeFontSize() {
