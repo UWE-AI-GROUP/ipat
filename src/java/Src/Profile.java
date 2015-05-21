@@ -91,6 +91,20 @@ public class Profile {
 	/**
 	 * Adds the variable.
 	 *
+     * @param kernelName string 
+     * @return Kernel with the name kernelName if that key-value pair exists in thisProfile.kernels else null
+     */
+    public Kernel getKernelCalled(String kernelName)
+      {
+        Kernel found = null;
+        found = (Kernel) kernels.get(kernelName);
+        return found;
+      }
+    
+    
+	/**
+	 * Adds the profile level variable to the hashtable in thisProfile
+	 *
 	 * @param var the variable to be added to the solutionattributes hashtable
 	 */
 	public void addVariable(SolutionAttributes var) {
