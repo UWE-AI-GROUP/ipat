@@ -187,6 +187,9 @@ public Profile InterpretHintInProfile( Profile toChange, double amount)
       }
     else if (effect.equalsIgnoreCase("moderateByValue"))
            thisProfile =InterpretModeratingHintInProfile(toChange, amount);
+    else if (effect.equalsIgnoreCase("toggle"))
+           thisProfile =InterpretToggleHintInProfile(toChange, amount);
+    
     else
      thisProfile = toChange;//no other ttypes impl;emetned yet
     
@@ -282,13 +285,13 @@ public Profile InterpretHintInProfile( Profile toChange, double amount)
     Hashtable kernels =thisProfile.getKernels();
     String currentVarName;
     
-    
+    assert( (amount >= rangeMin) &&(amount<= rangeMax));
     double range = rangeMax - rangeMin;
     double midpoint = rangeMin + 0.5*range;
-    amount = (amount - midpoint)/range;
+    amount = (amount - midpoint);
     double multiplier = Math.pow(2.0, amount);
         
-        
+    //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
     //start off with the profile variables that are affected
     for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();)
           {
@@ -364,4 +367,93 @@ public Profile InterpretHintInProfile( Profile toChange, double amount)
         
       return thisProfile;
   }
+    
+     /**
+     * method that interprets the hints provided by the user and makes appropriate application-specific changes ot the profile variables
+     * @param thisProfile
+     * @return changed profile
+     */
+    public Profile InterpretToggleHintInProfile( Profile toChange, double amount)
+  {
+    Profile thisProfile =  toChange;
+    SolutionAttributes currentVariable = null;
+    Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
+    Hashtable kernels =thisProfile.getKernels();
+    String currentVarName;
+    double newValue;
+        
+        
+    //start off with the profile variables that are affected
+    for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();)
+          {
+             currentVarName = (String) profileVariableIterator.next();
+            //get the variable from the local copy in the hashtable
+            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            
+            //toggle the value of the variables
+            if(amount==rangeMin)
+                newValue = currentVariable.getLbound();
+            else if (amount == rangeMax)
+                newValue = currentVariable.getUbound();
+            else
+                newValue = currentVariable.getValue();
+            //reset the value in thecopy of the variable
+            currentVariable.setValue(newValue);
+            //remove the old variable with this name from thisProfile
+            thisProfile.removeVariable(currentVarName);
+            //write back in the changed variable
+            thisProfile.addVariable(currentVariable);
+          }
+    //then for each of the affected kernels
+    for(Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext(); )
+      {
+        String kernelname = (String) kernelIterator.next();
+        Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
+        if (0==1) ;//TODO if kernel == null throw an exception
+        else
+        {
+          Hashtable vars = kernel.getVariables();
+          Iterator kvarIterator; 
+            // if we don't have a list of which kernel variables to change use all
+          if (kernelVariablesAffected.isEmpty())
+            {//boring conversion because Profile uses hashmaps and enumerators
+              ArrayList allKernelVariables = new ArrayList();
+              Enumeration kVarNames = vars.keys();
+              while (kVarNames.hasMoreElements())
+                allKernelVariables.add(kVarNames.nextElement().toString());
+              kvarIterator = allKernelVariables.iterator();
+            }
+
+          else // otherwise, if we have some specified, just use them
+            kvarIterator = kernelVariablesAffected.iterator();
+
+           while (kvarIterator.hasNext()) 
+                {
+                    currentVarName = (String) kvarIterator.next();
+                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                            //toggle the value of the variables
+                    if(amount==rangeMin)
+                        newValue = currentVariable.getLbound();
+                    else if (amount == rangeMax)
+                       newValue = currentVariable.getUbound();
+                    else
+                       newValue = currentVariable.getValue();
+
+                    //reset the value in thecopy of the variable
+                    currentVariable.setValue(newValue);
+                    vars.put(currentVarName, currentVariable);
+                }    
+            Kernel changedKernel = new Kernel(kernel.getName(), vars);
+            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+            //delete the old one the add the new one
+            thisProfile.removeKernel(kernel.getName());
+            thisProfile.addKernel(changedKernel);
+            } //end of code dealing with affected kernels
+          }
+        
+      return thisProfile;
+  }  
+    
+    
+    
 }

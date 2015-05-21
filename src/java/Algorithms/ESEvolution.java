@@ -311,7 +311,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             //decide on a mutation rate parameter  according to how the user rated it.  We can use fixed rates to test the operation of the EA
             //double rateToApply = 0.5; 
             // double rateToApply = 1.0; 
-            double rateToApply = 0.1* this.F1(nextGen.get(toMutate).getGlobalScore());
+            double rateToApply =  this.F1(nextGen.get(toMutate).getGlobalScore());
                //System.out.println("global score for the profile " + nextGen.get(toMutate).getName() 
                //        + " is " + nextGen.get(toMutate).getGlobalScore() 
                //       + " and mutation parameter is " + rateToApply);

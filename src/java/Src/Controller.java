@@ -5,8 +5,8 @@ package Src;
  metaHeuristic interface in order to generate the next solution based on what kind of heuristic
  it uses.
 
- When user requests next generation the Controller may also call a virtual display that implements 
- a surrogate model instead of the real web or app several times between actual user interactions via
+ When user requests next generation the Controller may also call pKernel virtual display that implements 
+ pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
 import Algorithms.CSSProcessor;
@@ -122,86 +122,91 @@ public class Controller {
         public void mainloop()
       {          
         //deal with the hints the user provided
-  
+        Kernel h1Kernel, h2Kernel, pKernel ;//used for testing
         for(int i=0;i < noOfProfiles;i++)
           {
               //I'm putting the code explicitly in here for now - need sorting out but first I want to deal with more generic hints
               HintsProcessor hint;
-              hint = hints.get("FreezeBGColours");
-              //TODO test that i got a hint back
-              if(i==1)
-                {
-                  currentGenerationOfProfiles[i].setGlobalScore(7);
-                  currentGenerationOfProfiles[i].setFreezeBGColour(true);
-                }
+              hint = hints.get("FreezeBGColours");//TODO test that i got pKernel hint back
               if (currentGenerationOfProfiles[i].isFreezeBGColour())
                  currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],0.0);
               else
                  currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],1.0);
-             
+              System.out.println("profile " + i + "freeze BG colours is " + currentGenerationOfProfiles[i].isFreezeBGColour() 
+                      + " page bg RGB rates of evolution  are " 
+                      + " " + ((SolutionAttributes)(currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Red"))).getRateOfEvolution() 
+                      + " " + ((SolutionAttributes)(currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Green"))).getRateOfEvolution() 
+                      + " " + ((SolutionAttributes)(currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Blue"))).getRateOfEvolution() );
+    
               hint = hints.get("FreezeFGFonts");
-              if (currentGenerationOfProfiles[i].isFreezeBGColour())
+              if (currentGenerationOfProfiles[i].isFreezeFGFonts())
                     currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],0.0);
               else
                   currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],1.0);
-
-              //hint = hints.get("ChangeFontSize");
-              //currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],currentGenerationOfProfiles[i].getChangeFontSize() );
-                          
-              //hint = hints.get("ChangeFGContrast");
-              //currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],currentGenerationOfProfiles[i].getChangeFGContrast());
+              
+               h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
+               h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
+               pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
+//               System.out.println("profile " + i + "freeze FG fonts is " 
+//                        + currentGenerationOfProfiles[i].isFreezeFGFonts() 
+//                        + " p italic,  and font-family rates of evolution  are " 
+//                        + ((SolutionAttributes)(pKernel.getVariables().get("italic"))).getRateOfEvolution()
+//                        + " " + ((SolutionAttributes)(pKernel.getVariables().get("font-family"))).getRateOfEvolution() 
+//                        + " h1 bold,  and font-size rates of evolution  are " 
+//                        +  ((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getRateOfEvolution()
+//                        +  " " + ((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getRateOfEvolution() );
+              
+              
+              
+              hint = hints.get("ChangeFontSize");
+//              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
+//              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
+//              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
+//               System.out.println("profile " + i 
+//                        + " h1, h2 and  p,  font-sizes were  " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("font-size"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("font-size"))).getValue());
+              currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],currentGenerationOfProfiles[i].getChangeFontSize() );
+//              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
+//              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
+//              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
+//               System.out.println("profile " + i + "ChangeFontSize is " 
+//                        + currentGenerationOfProfiles[i].getChangeFontSize() 
+//                        + " h1, h2 and  p,  font-sizes are now  " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("font-size"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("font-size"))).getValue());
+               
+              hint = hints.get("ChangeFGContrast");
+              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
+              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
+              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
+//               System.out.println("profile " + i 
+//                        + " h1, h2 and  p,  bold values were   " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("bold"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("bold"))).getValue()
+//                        + " h1, h2 and  p,  italic values were   " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("italic"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("italic"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("italic"))).getValue()               );
+              currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i],currentGenerationOfProfiles[i].getChangeFGContrast());
+//              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
+//              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
+//              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
+//               System.out.println("profile " + i + "ChangeFGContrast is " 
+//                        + currentGenerationOfProfiles[i].getChangeFGContrast() 
+//                        + " h1, h2 and  p,  bold values are now   " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("bold"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("bold"))).getValue()
+//                        + " h1, h2 and  p,  italic values are now   " 
+//                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("italic"))).getValue()
+//                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("italic"))).getValue()
+//                        + " " +((SolutionAttributes)(pKernel.getVariables().get("italic"))).getValue()               );
           }       
-//                    vars = ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables();
-//                    eVar = vars.keys();
-//                    while (eVar.hasMoreElements()) 
-//                          {
-//                            currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-//                              System.out.println("   h2 variable " + currentVariable.getName() + " has rate of evolution " + currentVariable.getRateOfEvolution());
-//                          }
-//                    vars = ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables();
-//                    eVar = vars.keys();
-//                    while (eVar.hasMoreElements()) 
-//                          {
-//                            currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-//                              System.out.println("   p variable " + currentVariable.getName() + " has rate of evolution " + currentVariable.getRateOfEvolution());
-//                          }
-//                    currentGenerationOfProfiles[0].setFreezeFGFonts(true);
-//                    System.out.println("frozen profile with freeze FG fonts = " + currentGenerationOfProfiles[0].isFreezeFGFonts());
-//                    myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[0]);
-//                    vars = ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h1")).getVariables();
-//                    eVar = vars.keys();
-//                    while (eVar.hasMoreElements()) 
-//                          {
-//                            currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-//                              System.out.println("   h1 variable " + currentVariable.getName() + " has rate of evolution " + currentVariable.getRateOfEvolution());
-//                          }
-//                    vars = ((Kernel) currentGenerationOfProfiles[0].getKernels().get("h2")).getVariables();
-//                    eVar = vars.keys();
-//                    while (eVar.hasMoreElements()) 
-//                          {
-//                            currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-//                              System.out.println("   h2 variable " + currentVariable.getName() + " has rate of evolution " + currentVariable.getRateOfEvolution());
-//                          }
-//                    vars = ((Kernel) currentGenerationOfProfiles[0].getKernels().get("p")).getVariables();
-//                    eVar = vars.keys();
-//                    while (eVar.hasMoreElements()) 
-//                          {
-//                            currentVariable = (SolutionAttributes) vars.get(eVar.nextElement().toString());
-//                              System.out.println("   p variable " + currentVariable.getName() + " has rate of evolution " + currentVariable.getRateOfEvolution());
-//                          }
-//                }
-//              
-//              
-//        for(int i=0;i < noOfProfiles;i++)
-//            {
-//            //apply hints to each profile     
-//             myHintsProcessor.InterpretHintInProfile(currentGenerationOfProfiles[i]);
-//            //then reset the hints buttons and sliders to their default values
-//            currentGenerationOfProfiles[i].setChangeFontSize(1);
-//            currentGenerationOfProfiles[i].setChangeFGContrast(1);
-//            currentGenerationOfProfiles[i].setFreezeBGColour(false);
-//            currentGenerationOfProfiles[i].setFreezeFGFonts(false);
-//            }
+
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
@@ -222,7 +227,7 @@ public class Controller {
     private void bootstrapApplication() {
         
         
-        //set up a filter ot pick up all the filesending with .xml
+        //set up pKernel filter ot pick up all the filesending with .xml
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -256,7 +261,7 @@ public class Controller {
             } 
         else if (profiles_list.length > noOfProfiles
                 && profiles_list.length < 9) 
-            {//if there ar a few more but less than 9
+            {//if there ar pKernel few more but less than 9
                 //just increase the number used and copy all the seeds
                 noOfProfiles = profiles_list.length;
                 new_profiles_list = new File[noOfProfiles];
@@ -285,7 +290,7 @@ public class Controller {
     
     // populates the Artifacts in memory from the new_profiles_list found in the input folder
     private void loadRawArtifacts() {
-        //create a filter to pick put all the files ending .htm
+        //create pKernel filter to pick put all the files ending .htm
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -354,7 +359,7 @@ public class Controller {
         ChangeFontSize.addAffectedKernelVariable("font-size");
         hints.put("ChangeFontSize",ChangeFontSize);
         
-         HintsProcessor ChangeFGContrast = new HintsProcessor("ChangeFGContrast", "slider","Text Contrast",  0.0, 2.0, 1.0, "moderateByValue");
+         HintsProcessor ChangeFGContrast = new HintsProcessor("ChangeFGContrast", "slider","Text Contrast",  0.0, 2.0, 1.0, "toggle");
         ChangeFGContrast.AddAffectedKernel("h1");
         ChangeFGContrast.AddAffectedKernel("h2");
         ChangeFGContrast.AddAffectedKernel("p");
