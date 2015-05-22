@@ -22,7 +22,7 @@ private String displaytype;
 private String displaytext;
 private double rangeMin;
 private double rangeMax;
-private double defaultValue;
+private String defaultValue;
 private String effect;
 
    
@@ -45,7 +45,7 @@ public HintsProcessor()
       }
 
     
-   public HintsProcessor(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, double theDefaultVal,String theEffect)
+   public HintsProcessor(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, String theDefaultVal,String theEffect)
       {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
@@ -155,12 +155,12 @@ public HintsProcessor()
         this.rangeMax = rangeMax;
       }
 
-    public double getDefaultValue()
+    public String getDefaultValue()
       {
         return this.defaultValue;
       }
 
-    public void setDefaultValue(double defaultValue)
+    public void setDefaultValue(String defaultValue)
       {
         this.defaultValue = defaultValue;
       }

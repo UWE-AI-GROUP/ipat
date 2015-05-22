@@ -154,10 +154,11 @@ public class Dispatcher extends HttpServlet {
         File input = new File((String) session.getAttribute("inputFolder"));
         File output = new File((String) session.getAttribute("outputFolder"));
         File profile = new File(getServletContext().getInitParameter("profileFolder"));
+        File hintsXML = new File(getServletContext().getInitParameter("hintsXML"));
 
         System.out.println("folders created");
         // TODO synchronize controller
-        Controller controller = new Controller(input, output, profile);
+        Controller controller = new Controller(input, output, profile, hintsXML);
         //commented out code below looks older than what Kieran sent me on 14/5
 //        controller.initialArtifacts();
 //        session.setAttribute("Controller", controller);
