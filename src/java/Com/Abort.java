@@ -67,9 +67,7 @@ public class Abort extends HttpServlet {
             System.out.println("Error, abort button pressed before upload of input files.");
         }
         else{
-         Controller controller =  (Controller) session.getAttribute("Controller");
-         controller = null;
-         session.setAttribute("Controller", controller);
+         session.invalidate();
             System.out.println("Project Aborted by user");
         }
  response.setContentType("text/html");

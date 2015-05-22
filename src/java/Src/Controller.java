@@ -386,8 +386,10 @@ public class Controller {
                                         hint.setEffect(value);
                                         break;
                                     default:
+                                      
                                         System.out.println("Error with Hint [ " + i + " ] = Tag: " + att + " / Value: " + value);
-                                        break;
+                                        System.out.println("Check hints.xml for incorrect Tag names");
+                                        throw new AssertionError();
                                 }
                             }
                         }
