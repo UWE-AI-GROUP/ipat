@@ -5,6 +5,9 @@
  */
 package Src;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author kieran
@@ -14,7 +17,9 @@ public abstract class Display {
     /*
     
     */
-
-    
+    public HashMap loadDisplay(){
+    HashMap<String, ArrayList> hashmap = null;
+    return hashmap;
+    } 
 
 }

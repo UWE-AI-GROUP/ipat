@@ -71,15 +71,19 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new MainFrame().setVisible(true);
+//            }
+//        });
 
         // TODO move to config file output and profile folder paths
-        String outputFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/output/";
-        String profilesFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/profiles";
+//        String outputFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/output/";
+//        String profilesFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/profiles";
+        String bob = "C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\BA59F3F947C9A22ACAD4AE29555AD94E\\output\\gen_1-profile_0-HTMLPage1.html";
+  String name = bob.substring(bob.indexOf("-") + 1);
+        System.out.println(name.substring(name.indexOf("-")+1));
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

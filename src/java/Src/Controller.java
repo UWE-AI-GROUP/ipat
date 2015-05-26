@@ -17,6 +17,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -110,7 +112,7 @@ public class Controller {
     public void initialArtifacts() {
         bootstrapApplication();
         loadRawArtifacts();
-        loadHintsXML(hintsXML);
+        hints = loadHintsXML(hintsXML);
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
@@ -118,6 +120,7 @@ public class Controller {
         }
 
         getResultArtifacts();
+        this.loadWebDisplay();
     }
 
     // Generates the next generation of results and returns them to the view
@@ -386,7 +389,7 @@ public class Controller {
                                         hint.setEffect(value);
                                         break;
                                     default:
-                                      
+
                                         System.out.println("Error with Hint [ " + i + " ] = Tag: " + att + " / Value: " + value);
                                         System.out.println("Check hints.xml for incorrect Tag names");
                                         throw new AssertionError();
@@ -401,5 +404,97 @@ public class Controller {
             System.out.println(e.getMessage());
         }
         return hintMap;
+    }
+
+    public HashMap loadWebDisplay() {
+        HashMap hintMap = this.hints;
+        Artifact[] artifacts = this.processedArtifacts;
+        HashMap<String, String> byImageArray = new HashMap<>();
+        HashMap<String, String> HM = new HashMap();
+        int resultCount = 0;
+
+        // [layer one] create the list for the profile tabs 
+        String cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // div_1
+        for (int i = 0; i < noOfProfiles; i++) {
+            cells += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>" + i + "</a></li>";
+        }
+
+        // [layer two] create div which will contain all the seporate tabs and their cells this is needed for the CSS 
+        cells += " </ul> <div class='tabstuff'>"; // div_2
+
+        // populate div sections containing tables for each profile tab
+        for (int i = 0; i < noOfProfiles; i++) {
+            cells += "\n\n<div id='byProfile_" + i + "' class='tab-content'>"; // div_3
+            String cell = "";
+            // TODO inject hints into HTML Strings
+            for (int j = 0; j < artifacts.length; j++) {
+
+                // if the artifact matches the profile number
+                String name = artifacts[j].getFilename().substring(artifacts[j].getFilename().indexOf("-") + 1);
+                String[] parts = name.split("-");
+                int profileNum = Integer.parseInt(parts[0].substring(parts[0].indexOf("_") + 1));
+                if (profileNum == i) {
+                    
+                    String relativeSrcPath = artifacts[j].getFilepath().substring(artifacts[j].getFilepath().lastIndexOf("Client Data"));
+
+                    cell = "<div class='cell'>" // div_4
+                            + "<div id='overlay_" + resultCount + "' class='overlay' onclick='frameClick(this.id)'></div>"
+                            + "<iframe src='" + relativeSrcPath + "' scrolling='no' class='cellFrames' id='frame_" + resultCount + "' ></iframe>"
+                            + "<div class='hint'><input type='checkbox' id='FreezeBGColour_" + resultCount + "' class='FreezeBGColour' ><label for='FreezeBGColour_" + resultCount + "' class='label'>Freeze Background</label></div>"
+                            + "<div class='hint'><input type='checkbox' id='FreezeFGFonts_" + resultCount + "' class='FreezeFGFonts' ><label for='FreezeFGFonts_" + resultCount + "' class='label'>Freeze Fonts</label></div>"
+                            + "<div class='hint'><input type='range' id ='score_" + resultCount + "' min='0' max='10' value='5' step='1'/><label for='score_" + resultCount + "' class='label'>Score</label></div>"
+                            + "<div class='hint'><input type='range' id ='ChangeFontSize_" + resultCount + "' min='0' max='2' value='1' step='1' /><label for='ChangeFontSize_" + resultCount + "' class='label'>Change Font</label></div>"
+                            + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + resultCount + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + resultCount + "' class='label'>Change Contrast</label></div>";
+
+                    resultCount += 1;
+
+                    String key = name.substring(name.indexOf("-") + 1);
+                    if (byImageArray.containsKey(key)) {
+                        String get = byImageArray.get(key);
+                        get += cell;
+                        byImageArray.put(key, get);
+                    } else {
+                        byImageArray.put(key, cell);
+                    }
+
+                }
+                cells += cell;
+                cell = "";
+            }
+        }
+        cells += "</div></div>"; // div_/4, div_/3
+
+        System.out.println(cells);
+         
+        HM.put("byProfile", cells);
+
+        //=================================================================
+        // Create by Image String for view.
+        cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // div_1
+        Set<String> keySet = byImageArray.keySet();
+        Iterator<String> iterator = keySet.iterator();
+        int count = 0;
+
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            cells += "<li  id='li_" + count + "' onclick='tabClicked(this.id)'><a href='#byImage_" + count + "'>" + next + "</a></li>";
+            count++;
+        }
+        cells += " </ul> <div class='tabstuff'>"; // div_2
+        iterator = keySet.iterator();
+        count = 0;
+
+        while (iterator.hasNext()) {
+            cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
+            String get = byImageArray.get(iterator.next());
+            cells += get + "</div>"; // div_/3
+            count++;
+        }
+        cells += "</div>"; // div_/2
+        System.out.println("--------------------");
+        System.out.println(cells);
+        
+        HM.put("byImage", cells);
+        return HM;
     }
 }
