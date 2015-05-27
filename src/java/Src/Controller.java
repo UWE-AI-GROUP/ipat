@@ -108,8 +108,9 @@ public class Controller {
     // Generates the first set of results and returns them in the appropriate display to the view
     /**
      *
+     * @return 
      */
-    public void initialArtifacts() {
+    public HashMap initialArtifacts() {
         bootstrapApplication();
         loadRawArtifacts();
         hints = loadHintsXML(hintsXML);
@@ -120,7 +121,8 @@ public class Controller {
         }
 
         getResultArtifacts();
-        this.loadWebDisplay();
+        HashMap loadWebDisplay = loadWebDisplay();
+        return loadWebDisplay;
     }
 
     // Generates the next generation of results and returns them to the view
@@ -444,7 +446,7 @@ public class Controller {
                             + "<div class='hint'><input type='checkbox' id='FreezeFGFonts_" + resultCount + "' class='FreezeFGFonts' ><label for='FreezeFGFonts_" + resultCount + "' class='label'>Freeze Fonts</label></div>"
                             + "<div class='hint'><input type='range' id ='score_" + resultCount + "' min='0' max='10' value='5' step='1'/><label for='score_" + resultCount + "' class='label'>Score</label></div>"
                             + "<div class='hint'><input type='range' id ='ChangeFontSize_" + resultCount + "' min='0' max='2' value='1' step='1' /><label for='ChangeFontSize_" + resultCount + "' class='label'>Change Font</label></div>"
-                            + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + resultCount + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + resultCount + "' class='label'>Change Contrast</label></div>";
+                            + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + resultCount + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + resultCount + "' class='label'>Change Contrast</label></div></div></div>";
 
                     resultCount += 1;
 
@@ -462,7 +464,7 @@ public class Controller {
                 cell = "";
             }
         }
-        cells += "</div></div>"; // div_/4, div_/3
+        cells += "</div>"; // div_/4, div_/3
 
         System.out.println(cells);
          
@@ -487,7 +489,7 @@ public class Controller {
         while (iterator.hasNext()) {
             cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
             String get = byImageArray.get(iterator.next());
-            cells += get + "</div>"; // div_/3
+            cells += get; // div_/3    cells += get + "</div>"; // div_/3
             count++;
         }
         cells += "</div>"; // div_/2

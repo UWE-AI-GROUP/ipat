@@ -57,47 +57,12 @@ $(document).ready(function () {
            xhr.onreadystatechange = function () {
                if (xhr.readyState === 4) {
                    var result = JSON.parse(xhr.responseText);
-                   // get number of profiles in result
-                   var size = 0, key;
-                   for (key in result) {
-                       if (result.hasOwnProperty(key))
-                           size++;
-                   }
-
-                   // [layer one] create the list for the profile tabs 
-                   var content = "<div id='tabs-container'><ul class='tabs-menu'>";
-                   for (var i = 0; i < size; i++) {
-                       content += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>Profile " + i + "</a></li>";
-                   }
-                   // [layer two] create div which will contain all the seporate tabs and their content this is needed for the CSS 
-                   content += " </ul> <div class='tabstuff'>";
-
-                   // populate div sections containing tables for each profile tab
-                   for (var i = 0; i < size; i++) {
-                       var cnt = i.toString();
-                       var res = result[cnt];
-                       var imageArray = res.toString().split(",");
-                       content += "<div id='byProfile_" + i + "' class='tab-content'>";
-                       // commented sections here allow the table cells to create new rows every 3 columns
-                       for (var j = 0; j < imageArray.length; j++) {
-                           content += "<div class='cell'>"
-                                   + "<div id='overlay_" + populationSize + "' class='overlay' onclick='frameClick(this.id)'></div>"
-                                   + "<iframe src='" + imageArray[j] + "' scrolling='no' class='cellFrames' id='frame_" + populationSize + "' ></iframe>"
-                                   + "<div class='hint'><input type='checkbox' id='FreezeBGColour_" + populationSize + "' class='FreezeBGColour' ><label for='FreezeBGColour_" + populationSize + "' class='label'>Freeze Background</label></div>"
-                                   + "<div class='hint'><input type='checkbox' id='FreezeFGFonts_" + populationSize + "' class='FreezeFGFonts' ><label for='FreezeFGFonts_" + populationSize + "' class='label'>Freeze Fonts</label></div>"
-                                   + "<div class='hint'><input type='range' id ='score_" + populationSize + "' min='0' max='10' value='5' step='1'/><label for='score_" + populationSize + "' class='label'>Score</label></div>"
-                                   + "<div class='hint'><input type='range' id ='ChangeFontSize_" + populationSize + "' min='0' max='2' value='1' step='1' /><label for='ChangeFontSize_" + populationSize + "' class='label'>Change Font</label></div>"
-                                   + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + populationSize + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + populationSize + "' class='label'>Change Contrast</label></div>"
-                                      + "</div>";
-                           populationSize += 1;
-                       }
-                       content += "</div>";
-                   }
-                   content += "</div>";
-                   // populate the byProfiles tab 
+                 
                    setTimeout(function () {
                        $('#tabs-byProfile').empty();
-                       $('#tabs-byProfile').append(content);
+                       $('#tabs-byProfile').append(result["byProfile"]);
+                        $('#tabs-byImage').empty();
+                       $('#tabs-byImage').append(result["byImage"]);
                    }, 3000);
                }
            };

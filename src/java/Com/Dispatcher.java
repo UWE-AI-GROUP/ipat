@@ -119,7 +119,7 @@ public class Dispatcher extends HttpServlet {
                     // Write the file to server in "/uploads/{sessionID}/"   
                     String clientDataPath = getServletContext().getInitParameter("clientFolder");
                     // TODO clear the client folder here
-                   // FileUtils.deleteDirectory(new File("clientDataPath"));
+                    // FileUtils.deleteDirectory(new File("clientDataPath"));
                     if (fileName.lastIndexOf("\\") >= 0) {
 
                         File input = new File(clientDataPath + session.getId() + "/input/");
@@ -148,7 +148,7 @@ public class Dispatcher extends HttpServlet {
             System.out.println(ex);
             //TODO show error page for website
         }
-        System.out.println("file uploaded" );
+        System.out.println("file uploaded");
         // TODO make the fileRepository Folder generic so it doesnt need to be changed
         // for each migration of the program to a different server
         File input = new File((String) session.getAttribute("inputFolder"));
@@ -157,90 +157,19 @@ public class Dispatcher extends HttpServlet {
         File hintsXML = new File(getServletContext().getInitParameter("hintsXML"));
 
         System.out.println("folders created");
-        // TODO synchronize controller
+
         Controller controller = new Controller(input, output, profile, hintsXML);
-        //commented out code below looks older than what Kieran sent me on 14/5
-//        controller.initialArtifacts();
-//        session.setAttribute("Controller", controller);
-//        Artifact[] results = controller.processedArtifacts;
-//
-//        
-//        System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
-//                + "Awaiting user to update parameters to generate next generation of results.\n");
-//
-//        List<String> list = new ArrayList<String>();
-//        for (Artifact result : results) {
-//            //paths returned to view as "src" attributes for iframe table
-//            //example :  Client%20Data/6328C0BCAA80D3244E0A66F77BBD47D1/output/gen_1-profile_1-HTMLPage2.html
-//            list.add("Client%20Data/" + session.getId() + "/output/" + result.getFilename()); 
-//        }
-//        String json = new Gson().toJson(list);
-//
-//        response.setContentType("application/json");
-//        response.setCharacterEncoding("UTF-8");
-//        response.getWriter().write(json);
+        HashMap initialArtifacts = controller.initialArtifacts();
+        session.setAttribute("Controller", controller);
+       
 
-        
-        //strt of code kieran sent me
-        controller.initialArtifacts();
-       Artifact[] results = controller.processedArtifacts;
-       session.setAttribute("Controller", controller);
-       HashMap<String, ArrayList<String>> HM = new HashMap();
+        System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
+                + "Awaiting user to update parameters to generate next generation of results.\n");
 
-
-       for (Artifact result : results) {
-           // cut out the generation (gen_y)
-           String name = result.getFilename().substring(result.getFilename().indexOf("-") + 1);
-           // split the result into its profile_x  and  fileName
-           String[] parts = name.split("-");
-           String fileName = parts[1];
-           String profileNum = parts[0].substring(parts[0].indexOf("_") + 1);
-
-           // if the hashmap is empty add the first element to it
-           if (HM.isEmpty()) {
-               System.out.println("CREATING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
-               ArrayList<String> imageList = new ArrayList<>();
-               imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
-               HM.put(profileNum, imageList);
-
-               // if the hashmap is not empty 
-           } else {
-               // check if hashmap already has the profile with a result in it and add the current result to this list
-               if (HM.containsKey(profileNum)) {
-                   System.out.println("ADDING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
-                   ArrayList<String> imageList = (ArrayList<String>) HM.get(profileNum);
-                   imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
-                   HM.put(profileNum, imageList);
-
-                   // if there are no matches, add a new hashmap element with the current result placed into a new list 
-               } else {
-                   System.out.println("CREATING RESULT [" + fileName + "] TO [ " + profileNum + " ] ");
-                   ArrayList<String> imageList = new ArrayList<>();
-                   imageList.add("Client%20Data/" + session.getId() + "/output/" + result.getFile().getName());
-                   HM.put(profileNum, imageList);
-               }
-           }
-       }
-
-//        // check for correct output for the view
-//        Iterator<ArrayList<String>> iterator = HM.values().iterator();
-//        int tempCount = 0;
-//        while (iterator.hasNext()) {
-//            ArrayList<String> next = iterator.next();
-//            System.out.println("profile " + tempCount);
-//            tempCount++;
-//            for (String next1 : next) {
-//                System.out.println(next1);
-//            }
-//        }
-
-       System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
-               + "Awaiting user to update parameters to generate next generation of results.\n");
-
-       String json = new Gson().toJson(HM);
-       response.setContentType("application/json");
-       response.setCharacterEncoding("UTF-8");
-       response.getWriter().write(json);
+        String json = new Gson().toJson(initialArtifacts);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 
     /**
