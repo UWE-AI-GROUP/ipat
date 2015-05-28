@@ -5,7 +5,6 @@
  */
 package Com;
 
-import Src.Artifact;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -22,8 +21,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
-import java.util.ArrayList;
-import org.apache.commons.io.FileUtils;
 
 /**
  *

@@ -86,7 +86,7 @@ public class Interaction {
             Profile profile = profiles[i];
             System.out.println("ITERATING THROUGH CURRENT GEN PROFILES IN MEMORY : " + profile.getName());
 
-            //  for each profile cycle through the results and apply interactions to profiles
+            //  for each profile, cycle through the results and apply interactions to profiles
             HashMap get = profileResults.get(i);
             Set keySet = get.keySet();
             for (Object keyObj : keySet) {

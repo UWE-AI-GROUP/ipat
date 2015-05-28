@@ -96,6 +96,7 @@ public class Controller {
      * @param inputFolder
      * @param outputFolder
      * @param profileFolder
+     * @param hintsXML
      * @throws IOException
      */
     public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML) throws IOException {
@@ -113,13 +114,12 @@ public class Controller {
     public HashMap initialArtifacts() {
         bootstrapApplication();
         loadRawArtifacts();
-        hints = loadHintsXML(hintsXML);
+        hints = loadHintsXML();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
             currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
         }
-
         getResultArtifacts();
         HashMap loadWebDisplay = loadWebDisplay();
         return loadWebDisplay;
@@ -128,8 +128,9 @@ public class Controller {
     // Generates the next generation of results and returns them to the view
     /**
      *
+     * @return 
      */
-    public void mainloop() {
+    public HashMap mainloop() {
         //deal with the hints the user provided
         Kernel h1Kernel, h2Kernel, pKernel;//used for testing
         for (int i = 0; i < noOfProfiles; i++) {
@@ -226,6 +227,7 @@ public class Controller {
         //now apply those profiles ot the raw artifacts to get something to display
         getResultArtifacts();
         // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
+        return loadWebDisplay();
     }
 
     // initialises the Profiles in memory from the files in the profile folder, generating new ones if the count is <6
@@ -333,15 +335,14 @@ public class Controller {
         }
     }
 
-    private HashMap loadHintsXML(File file) {
+    public HashMap loadHintsXML() {
 
         HashMap<String, HintsProcessor> hintMap = new HashMap<>();
-        System.out.println("hints.xml file path: " + file.getAbsolutePath());
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+            Document doc = db.parse(hintsXML);
             // doc.getDocumentElement().normalize();
             NodeList interactionList = doc.getElementsByTagName("interaction");
 
@@ -409,47 +410,65 @@ public class Controller {
     }
 
     public HashMap loadWebDisplay() {
+     
         HashMap hintMap = this.hints;
         Artifact[] artifacts = this.processedArtifacts;
         HashMap<String, String> byImageArray = new HashMap<>();
         HashMap<String, String> HM = new HashMap();
         int resultCount = 0;
+        String hintString = "";
 
         // [layer one] create the list for the profile tabs 
-        String cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // div_1
+        String cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // tabs menu div
         for (int i = 0; i < noOfProfiles; i++) {
             cells += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a href='#byProfile_" + i + "'>" + i + "</a></li>";
         }
 
         // [layer two] create div which will contain all the seporate tabs and their cells this is needed for the CSS 
-        cells += " </ul> <div class='tabstuff'>"; // div_2
-
+        cells += " </ul> <div class='tabstuff'>"; // tabStuff div
+        String cell = "";
         // populate div sections containing tables for each profile tab
         for (int i = 0; i < noOfProfiles; i++) {
-            cells += "\n\n<div id='byProfile_" + i + "' class='tab-content'>"; // div_3
-            String cell = "";
-            // TODO inject hints into HTML Strings
-            for (int j = 0; j < artifacts.length; j++) {
-
-                // if the artifact matches the profile number
-                String name = artifacts[j].getFilename().substring(artifacts[j].getFilename().indexOf("-") + 1);
+            cells += "<div id='byProfile_" + i + "' class='tab-content'>"; // byProfile div
+            for (Artifact artifact : artifacts) {
+                cell = "";
+                // if the artifact corresponds to the profile number, print out the cell
+                String name = artifact.getFilename().substring(artifact.getFilename().indexOf("-") + 1);
                 String[] parts = name.split("-");
                 int profileNum = Integer.parseInt(parts[0].substring(parts[0].indexOf("_") + 1));
                 if (profileNum == i) {
-                    
-                    String relativeSrcPath = artifacts[j].getFilepath().substring(artifacts[j].getFilepath().lastIndexOf("Client Data"));
-
-                    cell = "<div class='cell'>" // div_4
+                    // get the string for the artifact file being displayed
+                    String relativeSrcPath = artifact.getFilepath().substring(artifact.getFilepath().lastIndexOf("Client Data"));
+                    // this section of the cell will contain the image itself, as well as the overlay which allows it to be previewed-(see javascript)
+                    cell = "<div class='cell'>" // cell div
                             + "<div id='overlay_" + resultCount + "' class='overlay' onclick='frameClick(this.id)'></div>"
-                            + "<iframe src='" + relativeSrcPath + "' scrolling='no' class='cellFrames' id='frame_" + resultCount + "' ></iframe>"
-                            + "<div class='hint'><input type='checkbox' id='FreezeBGColour_" + resultCount + "' class='FreezeBGColour' ><label for='FreezeBGColour_" + resultCount + "' class='label'>Freeze Background</label></div>"
-                            + "<div class='hint'><input type='checkbox' id='FreezeFGFonts_" + resultCount + "' class='FreezeFGFonts' ><label for='FreezeFGFonts_" + resultCount + "' class='label'>Freeze Fonts</label></div>"
-                            + "<div class='hint'><input type='range' id ='score_" + resultCount + "' min='0' max='10' value='5' step='1'/><label for='score_" + resultCount + "' class='label'>Score</label></div>"
-                            + "<div class='hint'><input type='range' id ='ChangeFontSize_" + resultCount + "' min='0' max='2' value='1' step='1' /><label for='ChangeFontSize_" + resultCount + "' class='label'>Change Font</label></div>"
-                            + "<div class='hint'><input type='range' id ='ChangeGFContrast_" + resultCount + "' min='0' max='2' value='1' step='1'  /><label for='ChangeGFContrast_" + resultCount + "' class='label'>Change Contrast</label></div></div></div>";
-
+                            + "<iframe src='" + relativeSrcPath + "' scrolling='no' class='cellFrames' id='frame_" + resultCount + "' ></iframe>";
+                    // read off the hints and apply their values to the cell, populating it with options for the user to choose and input data with
+                    Set keySet = hintMap.keySet();
+                    for (Object key : keySet) {
+                        String k = (String) key;
+                        HintsProcessor h = (HintsProcessor) hintMap.get(k);
+                        String displaytype = h.getDisplaytype();
+                        
+                        // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***
+                        switch (displaytype) {
+                            case "range":
+                                cell += "<div class='hint'><input type='range' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
+                                hintString += h.getHintName() + "_" + resultCount + ",";
+                                break;
+                            case "checkbox":
+                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='"+h.getHintName()+"' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
+                                hintString += h.getHintName() + "_" + resultCount + ",";
+                                break;
+                            default:
+                                throw new AssertionError();
+                        }
+                    }
+                    
+                    cell += "</div>"; // cell div close
                     resultCount += 1;
-
+                    
+                    // populate the array which will display the "byImage" View
                     String key = name.substring(name.indexOf("-") + 1);
                     if (byImageArray.containsKey(key)) {
                         String get = byImageArray.get(key);
@@ -458,20 +477,17 @@ public class Controller {
                     } else {
                         byImageArray.put(key, cell);
                     }
-
-                }
-                cells += cell;
-                cell = "";
+                } 
+                cells += cell; // byProfile div close
             }
+      cells += "</div>";
         }
-        cells += "</div>"; // div_/4, div_/3
-
-        System.out.println(cells);
+        cells += "</div>"; // tabStuff div close
          
         HM.put("byProfile", cells);
 
         //=================================================================
-        // Create by Image String for view.
+        // Create byImage String for view.
         cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // div_1
         Set<String> keySet = byImageArray.keySet();
         Iterator<String> iterator = keySet.iterator();
@@ -493,10 +509,10 @@ public class Controller {
             count++;
         }
         cells += "</div>"; // div_/2
-        System.out.println("--------------------");
-        System.out.println(cells);
-        
         HM.put("byImage", cells);
+        
+        HM.put("hintString", hintString);
+        HM.put("count", Integer.toString(artifacts.length));
         return HM;
     }
 }

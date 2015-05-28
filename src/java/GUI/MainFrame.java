@@ -5,6 +5,17 @@
  */
 package GUI;
 
+import Algorithms.HintsProcessor;
+import Src.Controller;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author kieran
@@ -77,12 +88,44 @@ public class MainFrame extends javax.swing.JFrame {
 //            }
 //        });
 
-        // TODO move to config file output and profile folder paths
-//        String outputFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/output/";
-//        String profilesFolder = "/home/kieran/Work Documents/NetBeansProjects/IPAT_WebApplication/web/data/profiles";
-        String bob = "C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\BA59F3F947C9A22ACAD4AE29555AD94E\\output\\gen_1-profile_0-HTMLPage1.html";
-  String name = bob.substring(bob.indexOf("-") + 1);
-        System.out.println(name.substring(name.indexOf("-")+1));
+        //Test Thrown Together To Ensure Hints Are Read Properly
+//        File input = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\input");
+//        File output = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\output");
+//        File profile = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\data\\profiles\\");
+//        File hintsXML = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\data\\hints.xml");
+//
+//        try {
+//            Controller controller = new Controller(input, output, profile, hintsXML);
+//            HashMap map = controller.loadHintsXML();
+//            Set keySet = map.keySet();
+//            for (Object key : keySet) {
+//              String k = (String) key;
+//                HintsProcessor v = (HintsProcessor) map.get(key);
+//                System.out.println("key: " + k );
+//                System.out.println("default value:      " + v.getDefaultValue());
+//                System.out.println("display text:       " + v.getDisplaytext());
+//                 System.out.println("Display type:       " + v.getDisplaytype());
+//                  System.out.println("Effect:       " + v.getEffect());
+//                   System.out.println("Range Max:       " + v.getRangeMax());
+//                    System.out.println("Range Min:       " + v.getRangeMin());
+//                ArrayList kernelsAffected = v.getKernelsAffected();
+//                for (Object kernelsAffected1 : kernelsAffected) {
+//                    System.out.println("kernelsAffected:        " + kernelsAffected1);
+//                }
+//                ArrayList kernelVariablesAffected = v.getKernelVariablesAffected();
+//                for (Object kernelVariablesAffected1 : kernelVariablesAffected) {
+//                    System.out.println("kernelVariablesAffected:     " + kernelVariablesAffected1);
+//                }
+//                ArrayList profileVariablesAffected = v.getProfileVariablesAffected();
+//                for (Object profileVariablesAffected1 : profileVariablesAffected) {
+//                    System.out.println("profileVariablesAffected:       " + profileVariablesAffected1);
+//                }
+//                System.out.println("===========================");
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+     
         
     }
 
