@@ -73,72 +73,67 @@ $(document).ready(function () {
 
     nextGen.addEventListener('click', function () {
 
-        var h = $(".hint :input");
-        
-        var txt = "";
-        for (var i = 0; i < h.length; i++) {
+        var data = {};
 
+        if ($("#tabs-byProfile").attr('aria-hidden') === 'false') {
+            var all = $("#tabs-byProfile .cell");
+        } else if ($("#tabs-byImage").attr('aria-hidden') === "false") {
+            var all = $("#tabs-byImage .cell");
+        } else {
+            alert("Error: unable to determine which tab is selected");
+        }
 
-            txt = txt + " / " + $(h[i]).attr('id') + " = ";
+        for (var i = 0; i < all.length; i++) {
 
-            if ($(h[i]).prop('type') === "checkbox") {
-                txt = txt + $(h[i]).is(':checked') + ", ";
-            }
-            else if ($(h[i]).prop('type') === "range") {
-                txt = txt + $(h[i]).attr('value') + ", ";
-            }
-            else {
-                alert("Error: A javascript JQuery check needs to be implemented for " + $(h[i]).attr('id') + " in javascript.js");
+           var frame = $(all[i]).children("iframe").attr('id');
+           data [frame] =  $(all[i]).children("iframe").attr('src');
+           
+            var inputs = $(all[i]).find("input");
+            for (var j = 0; j < inputs.length; j++) {
+                var name = $(inputs[j]).prop('id');
+
+                if ($(inputs[j]).prop('type') === "checkbox") {
+                    var value = $(inputs[j]).is(':checked');
+                    data[name] = value;
+                }
+                
+                else if ($(inputs[j]).prop('type') === "range") {
+                    var value = $(inputs[j]).attr('value');
+                    data[name] = value;
+                }
+                
+                else if ($(inputs[j]).prop('tagName') === 'IFRAME') {
+                    var value = $(inputs[j]).attr('src');
+                    data[name] = value;
+                }
+                
+                else {
+                     alert("Error: A javascript JQuery check needs to be implemented for " + $(all[i]).attr('id') + " in javascript.js");
+                }
+                
             }
         }
-        alert(txt);
 
 
+        $('#tabs-byProfile').empty();
+        $('#tabs-byProfile').html("<img src='" + image + "' />");
+        $.ajax({
+            url: "newGen",
+            type: "POST",
+            data: {data: JSON.stringify(data)},
+            success: function (result) {
 
-//       var data = {};
-//       var source = [];
-//       var globalScore = [];
-//       var FreezeBGColour = [];
-//       var FreezeFGFonts = [];
-//       var ChangeFontSize = [];
-//       var ChangeGFContrast = [];
-//
-//       for (var i = 0; i < hints.length; i++) {
-//           
-//           source.push(document.getElementById("frame_" + i).src);
-//           globalScore.push(document.getElementById("globalScore_" + i).value);
-//           ChangeFontSize.push(document.getElementById("ChangeFontSize_" + i).value);
-//           ChangeGFContrast.push(document.getElementById("ChangeGFContrast_" + i).value);
-//           FreezeBGColour.push($('#FreezeBGColour_' + i).is(':checked'));
-//           FreezeFGFonts.push($('#FreezeFGFonts_' + i).is(':checked'));
-//       }
-//       artifactCount =0;
-//       data['source'] = source;
-//       data['globalScore'] = globalScore;
-//       data['FreezeBGColour'] = FreezeBGColour;
-//       data['FreezeFGFonts'] = FreezeFGFonts;
-//       data['ChangeFontSize'] = ChangeFontSize;
-//       data['ChangeGFContrast'] = ChangeGFContrast;
-
-//        $('#tabs-byProfile').empty();
-//        $('#tabs-byProfile').html("<img src='" + image + "' />");
-//        $.ajax({
-//            url: "newGen",
-//            type: "POST",
-//            data: {data: JSON.stringify(data)},
-//            success: function (result) {
-//
-//                $('#loading').html("<img src='" + image + "' />");
-//                artifactCount = result["count"];
-//                setTimeout(function () {
-//                    $('#tabs-byProfile').empty();
-//                    $('#tabs-byProfile').append(result["byProfile"]);
-//                    $('#tabs-byImage').empty();
-//                    $('#tabs-byImage').append(result["byImage"]);
-//                }, 1000);
-//            }
-//        }, false);
-//        genCount.value = parseInt(genCount.value) + 1;
+                $('#loading').html("<img src='" + image + "' />");
+                artifactCount = result["count"];
+                setTimeout(function () {
+                    $('#tabs-byProfile').empty();
+                    $('#tabs-byProfile').append(result["byProfile"]);
+                    $('#tabs-byImage').empty();
+                    $('#tabs-byImage').append(result["byImage"]);
+                }, 1000);
+            }
+        }, false);
+        genCount.value = parseInt(genCount.value) + 1;
     });
 //================================================
 // abort button pressed

@@ -76,8 +76,8 @@
 
                 <div id="tabs">
                     <ul>
-                        <li><a href="#tabs-byProfile">View By Profiles</a></li>
-                        <li><a href="#tabs-byImage">View By Images</a></li>
+                        <li id="viewTabProfile"><a href="#tabs-byProfile">View By Profiles</a></li>
+                        <li id="viewTabImage"><a href="#tabs-byImage">View By Images</a></li>
                     </ul>
                     <div id="tabs-byProfile">        
                        

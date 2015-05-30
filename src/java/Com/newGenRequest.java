@@ -83,17 +83,9 @@ public class newGenRequest extends HttpServlet {
         } else {
             Gson gson = new Gson();
             HashMap data = gson.fromJson(request.getParameter("data"), HashMap.class);
-            
-            Set keySet = data.keySet();
-            for (Object keySet1 : keySet) {
-               String key = (String) keySet1;
-            
-                System.out.println(data.get(key));
-            }
-            
             Controller controller = (Controller) session.getAttribute("Controller");
-           Interaction interaction = new Interaction();
-           interaction.updateProfileHints(data, controller);
+            Interaction interaction = new Interaction();
+            interaction.updateProfileHints(data, controller);
             HashMap mainloop = controller.mainloop();
             String json = new Gson().toJson(mainloop);
             response.setContentType("application/json");

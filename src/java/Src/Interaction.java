@@ -5,7 +5,6 @@
  */
 package Src;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -16,138 +15,110 @@ import java.util.Set;
 public class Interaction {
 
     /**
-     *
+     * We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
      * @param data
      * @param controller
      */
     public void updateProfileHints(HashMap data, Controller controller) {
 
-       ArrayList< HashMap> profileResults = new ArrayList<>();
-
-        ArrayList<String> profileFilepaths = (ArrayList<String>) data.get((Object) "source");
-        ArrayList<String> FreezeBGColour = (ArrayList<String>) data.get((Object) "FreezeBGColour");
-        ArrayList<String> ChangeGFContrast = (ArrayList<String>) data.get((Object) "ChangeGFContrast");
-        ArrayList<String> score = (ArrayList<String>) data.get((Object) "score");
-        ArrayList<String> ChangeFontSize = (ArrayList<String>) data.get((Object) "ChangeFontSize");
-        ArrayList<String> FreezeFGFonts = (ArrayList<String>) data.get((Object) "FreezeFGFonts");
-
-        // cycle through all results (will be dependent on how many files were uploaded)
-        for (int i = 0; i < profileFilepaths.size(); i++) {
-
-            // extract the current generation profile names from the "data" results containing hint scores
-            String urlWithValue = profileFilepaths.get(i);
-            String file = urlWithValue.substring(urlWithValue.lastIndexOf("/") + 1, urlWithValue.lastIndexOf("-"));
-            file = file.concat(".xml");
-            int profileID = Integer.parseInt(file.substring(file.lastIndexOf("_") + 1, file.lastIndexOf(".")));
-
-            // place scores in profileResults = Arraylist < Hashmap <String, ArrayList < scores > > > structure
-            // initiate Arrays with different data types for values
-            HashMap<String, ArrayList> profileValues = new HashMap();
-            ArrayList<Boolean> booleanArray = new ArrayList<>();
-            ArrayList<Integer> integerArray = new ArrayList<>();
-
-            // globalScoreValueArray (int)
-            integerArray = new ArrayList<>();
-            integerArray.add(Integer.parseInt(score.get(i)));
-            profileValues.put("globalScore", integerArray);
-
-            // ChangeGFContrastValueArray (int)
-            integerArray = new ArrayList<>();
-            integerArray.add(Integer.parseInt(ChangeGFContrast.get(i)));
-            profileValues.put("ChangeGFContrast", integerArray);
-
-            // ChangeFontSizeValueArray (int)
-            integerArray = new ArrayList<>();
-            integerArray.add(Integer.parseInt(ChangeFontSize.get(i)));
-            profileValues.put("ChangeFontSize", integerArray);
-
-            // FreezeBGColourValueArray (String)
-            booleanArray = new ArrayList<>();
-
-            booleanArray.add(Boolean.parseBoolean(String.valueOf(FreezeBGColour.get(i))));
-            profileValues.put("FreezeBGColour", booleanArray);
-
-            //FreezeFGFontsValueArray (String)
-            booleanArray = new ArrayList<>();
-            booleanArray.add(Boolean.parseBoolean(String.valueOf(FreezeFGFonts.get(i))));
-            profileValues.put("FreezeFGFonts", booleanArray);
-
-            //--------------
-            profileResults.add(profileID, profileValues);
-
-        }
-
-        // loop through sessions profileResults and update their scores
-        // get the controllers currentGeneration of profileResults
         Profile[] profiles = controller.currentGenerationOfProfiles;
+        int numOfProfiles = profiles.length;
+        int numOfArtifacts = data.size();
+        int numOfArtifactsPerProfile = numOfArtifacts / (numOfArtifacts / numOfProfiles);
 
-        // Loop through current gerenation of profileResults
-        for (int i = 0; i < profiles.length; i++) {
-            Profile profile = profiles[i];
-            System.out.println("ITERATING THROUGH CURRENT GEN PROFILES IN MEMORY : " + profile.getName());
+        // initialise holding structures
+        String[] sources = new String[numOfArtifactsPerProfile];
+        Integer[] GFContrasts = new Integer[numOfArtifactsPerProfile];
+        Integer[] globalScores = new Integer[numOfArtifactsPerProfile];
+        Integer[] fontSizes = new Integer[numOfArtifactsPerProfile];
+        Boolean[] FGFonts = new Boolean[numOfArtifactsPerProfile];
+        Boolean[] BGColours = new Boolean[numOfArtifactsPerProfile];
 
-            //  for each profile, cycle through the results and apply interactions to profiles
-            HashMap get = profileResults.get(i);
-            Set keySet = get.keySet();
-            for (Object keyObj : keySet) {
-                int sum = 0;
-                String key = (String) keyObj;
-                switch (key) {
-                    case "globalScore":
-                        ArrayList<Integer> globalScores = (ArrayList<Integer>) get.get(key);
-                        for (Integer globalScore : globalScores) {
-                            sum += globalScore;
-                            int average = sum / globalScores.size();
-                            profile.setGlobalScore(average);
-                            System.out.println(i + " globalScore " + average);
-                        }
-                        break;
-                    case "ChangeGFContrast":
-                        ArrayList<Integer> GFContrasts = (ArrayList<Integer>) get.get(key);
-                        for (Integer GFContrast : GFContrasts) {
-                            sum += GFContrast;
-                            int average = sum / GFContrasts.size();
-                            profile.setChangeFGContrast(average);
-                            System.out.println(i + " ChangeGFContrast " + average);
-                        }
-                        break;
-                    case "ChangeFontSize":
-                        ArrayList<Integer> fontSizes = (ArrayList<Integer>) get.get(key);
-                        for (Integer frontSize : fontSizes) {
-                            sum += frontSize;
-                            int average = sum / fontSizes.size();
-                            profile.setChangeFontSize(average);
-                            System.out.println(i + " ChangeFontSize " + average);
-                        }
-                        break;
-                    case "FreezeBGColour":
-                        ArrayList<Boolean> BGColours = (ArrayList<Boolean>) get.get(key);
-                        for (Boolean BGColour : BGColours) {
-                            if (BGColour == true) {
-                                profile.setFreezeBGColour(true);
-                                System.out.println(i + " FreezeBGColour " + "on");
-                            } else {
-                                System.out.println(i + " FreezeBGColour " + "off");
-                            }
-                        }
-                        break;
-                    case "FreezeFGFonts":
-                        ArrayList<Boolean> FGFonts = (ArrayList<Boolean>) get.get(key);
-                        for (Boolean FGFont : FGFonts) {
-                            if (FGFont == true) {
-                                profile.setFreezeFGFonts(true);
-                                System.out.println(i + " FreezeFGFonts " + "on");
-                            } else {
-                                System.out.println(i + " FreezeFGFonts " + "off");
-                            }
-                        }
-                        break;
-                    default:
-                        System.out.println("Error unrecognised score value in newGenRequest");
-                        throw new AssertionError();
-                }
+        // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
+        Set keySet = data.keySet();
+        for (Object keySet1 : keySet) {
+            String key = (String) keySet1;
+            String[] hintAndProfile = key.split("_");
+            String hint = hintAndProfile[0];
+            int iterationCount = Integer.parseInt(hintAndProfile[1]);
+            System.out.println("=================");
+            System.out.println("Iteration: " + iterationCount + "\nHint: " + hint + "\nValue: " + data.get(key));
+
+            switch (hint) {
+                case "frame":
+                        String artifactSource = (String) data.get(key);
+                        sources[iterationCount] = artifactSource;
+                       // String profile = profileName.substring(profileName.indexOf('_') + 1, profileName.indexOf('-'));
+                       
+                    break;
+                case "globalScore":
+                    if (globalScores[iterationCount] == null) {
+                        globalScores[iterationCount] = Integer.parseInt((String) data.get(key));
+                    } else {
+                        globalScores[iterationCount] += Integer.parseInt((String) data.get(key));
+                    }
+                    break;
+                case "ChangeGFContrast":
+                    if (GFContrasts[iterationCount] == null) {
+                        GFContrasts[iterationCount] = Integer.parseInt((String) data.get(key));
+                    } else {
+                        GFContrasts[iterationCount] += Integer.parseInt((String) data.get(key));
+                    }
+                    break;
+                case "ChangeFontSize":
+                    if (fontSizes[iterationCount] == null) {
+                        fontSizes[iterationCount] = Integer.parseInt((String) data.get(key));
+                    } else {
+                        fontSizes[iterationCount] += Integer.parseInt((String) data.get(key));
+                    }
+                    break;
+                case "FreezeBGColours":
+                    if (BGColours[iterationCount] == null) {
+                        BGColours[iterationCount] = (Boolean) data.get(key);
+                    } else if ((Boolean) data.get(key) == true) {
+                        BGColours[iterationCount] = true;
+                    }
+                    break;
+                case "FreezeFGFonts":
+                    if (FGFonts[iterationCount] == null) {
+                        FGFonts[iterationCount] = (Boolean) data.get(key);
+                    } else if ((Boolean) data.get(key) == true) {
+                        FGFonts[iterationCount] = true;
+                    }
+                    break;
+                default:
+                    System.out.println("Error unrecognised score value in newGenRequest: " + hint);
+                    throw new AssertionError();
+
             }
         }
-    }
 
+        for (int i = 0; i < profiles.length; i++) {
+            Profile profile = profiles[i];
+
+            profile.setGlobalScore(globalScores[i] / numOfProfiles);
+            System.out.println(i + " globalScore " + globalScores[i] / numOfProfiles);
+
+            profile.setChangeFGContrast(GFContrasts[i] / numOfProfiles);
+            System.out.println(i + " ChangeGFContrast " + GFContrasts[i] / numOfProfiles);
+
+            profile.setChangeFontSize(fontSizes[i] / numOfProfiles);
+            System.out.println(i + " ChangeFontSize " + fontSizes[i] / numOfProfiles);
+
+            if (BGColours[i] == true) {
+                profile.setFreezeBGColour(true);
+                System.out.println(i + " FreezeBGColour " + "on");
+            } else {
+                System.out.println(i + " FreezeBGColour " + "off");
+            }
+
+            if (FGFonts[i] == true) {
+                profile.setFreezeFGFonts(true);
+                System.out.println(i + " FreezeFGFonts " + "on");
+            } else {
+                System.out.println(i + " FreezeFGFonts " + "off");
+            }
+
+        }
+    }
 }
