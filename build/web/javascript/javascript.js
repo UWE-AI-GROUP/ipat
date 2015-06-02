@@ -20,6 +20,7 @@ $(document).ready(function () {
     form.addEventListener('change', function (event) {
         event.preventDefault();
         $('#tabs-byProfile').html("<img src='" + image + "' />");
+         $('#tabs-byImage').html("<img src='" + image + "' />");
         var files = document.getElementById('filesToUpload').files;
         var formData = new FormData();
         var valid = true;
@@ -30,7 +31,6 @@ $(document).ready(function () {
                 $('#tabs-byProfile').empty();
                 $('#filelist').val('');
                 $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
-                genCount.value = 0;
                 files = null;
                 valid = false;
                 break;
@@ -59,7 +59,8 @@ $(document).ready(function () {
                         $('#tabs-byProfile').append(result["byProfile"]);
                         $('#tabs-byImage').empty();
                         $('#tabs-byImage').append(result["byImage"]);
-                    }, 1000);
+                          tabClicked($('#li_0'));
+                    }, 3000);
                 }
             };
             xhr.send(formData);
@@ -98,7 +99,7 @@ $(document).ready(function () {
                 }
                 
                 else if ($(inputs[j]).prop('type') === "range") {
-                    var value = $(inputs[j]).attr('value');
+                    var value = $(inputs[j]).val();
                     data[name] = value;
                 }
                 
@@ -108,7 +109,7 @@ $(document).ready(function () {
                 }
                 
                 else {
-                     alert("Error: A javascript JQuery check needs to be implemented for " + $(all[i]).attr('id') + " in javascript.js");
+                     alert("Error: A javascript JQuery check needs to be implemented for " + $(inputs[i]).attr('id') + " in javascript.js");
                 }
                 
             }
@@ -117,6 +118,8 @@ $(document).ready(function () {
 
         $('#tabs-byProfile').empty();
         $('#tabs-byProfile').html("<img src='" + image + "' />");
+        $('#tabs-byImage').empty();
+        $('#tabs-byImage').html("<img src='" + image + "' />");
         $.ajax({
             url: "newGen",
             type: "POST",
@@ -130,7 +133,8 @@ $(document).ready(function () {
                     $('#tabs-byProfile').append(result["byProfile"]);
                     $('#tabs-byImage').empty();
                     $('#tabs-byImage').append(result["byImage"]);
-                }, 1000);
+                     tabClicked($('#li_0'));
+                }, 3000);
             }
         }, false);
         genCount.value = parseInt(genCount.value) + 1;
@@ -139,6 +143,8 @@ $(document).ready(function () {
 // abort button pressed
     abort.addEventListener('click', function () {
         $('#tabs-byProfile').empty();
+        $('#tabs-byImage').empty();
+        $('#previewFrame').attr('src', "");
         $('#filelist').val('');
         $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
         genCount.value = 0;
@@ -171,7 +177,11 @@ function frameClick(id) {
 // changing the profile tab being displayed
 function tabClicked(item) {
     $('[id^="byProfile_"]').hide();
+    $('[id^="byImage_"]').hide();
+    $('[class^="tabText_"]').css('color', 'white');
     var num = item.slice(3);
     $('#byProfile_' + num).show();
+    $('#byImage_' + num).show();
+    $('.tabText_' + num).css('color', 'blue');
 }
 //================================================
