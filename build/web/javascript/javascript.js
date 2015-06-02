@@ -84,30 +84,23 @@ $(document).ready(function () {
             alert("Error: unable to determine which tab is selected");
         }
 
-        for (var i = 0; i < all.length; i++) {
-
-           var frame = $(all[i]).children("iframe").attr('id');
-           data [frame] =  $(all[i]).children("iframe").attr('src');
-           
+        for (var i = 0; i < all.length; i++) {           
             var inputs = $(all[i]).find("input");
             for (var j = 0; j < inputs.length; j++) {
                 var name = $(inputs[j]).prop('id');
-
                 if ($(inputs[j]).prop('type') === "checkbox") {
                     var value = $(inputs[j]).is(':checked');
                     data[name] = value;
-                }
-                
+                }                
                 else if ($(inputs[j]).prop('type') === "range") {
                     var value = $(inputs[j]).val();
                     data[name] = value;
-                }
-                
-                else if ($(inputs[j]).prop('tagName') === 'IFRAME') {
-                    var value = $(inputs[j]).attr('src');
-                    data[name] = value;
-                }
-                
+                }    
+                // incase the src for the "cells" is ever needed
+//                else if ($(inputs[j]).prop('tagName') === 'IFRAME') {
+//                    var value = $(inputs[j]).attr('src');
+//                    data[name] = value;
+//                }
                 else {
                      alert("Error: A javascript JQuery check needs to be implemented for " + $(inputs[i]).attr('id') + " in javascript.js");
                 }
