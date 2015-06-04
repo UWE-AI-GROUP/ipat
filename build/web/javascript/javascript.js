@@ -59,7 +59,7 @@ $(document).ready(function () {
                         $('#tabs-byProfile').append(result["byProfile"]);
                         $('#tabs-byImage').empty();
                         $('#tabs-byImage').append(result["byImage"]);
-                          tabClicked($('#li_0'));
+                          tabClicked('li_0');
                     }, 3000);
                 }
             };
@@ -126,7 +126,8 @@ $(document).ready(function () {
                     $('#tabs-byProfile').append(result["byProfile"]);
                     $('#tabs-byImage').empty();
                     $('#tabs-byImage').append(result["byImage"]);
-                     tabClicked($('#li_0'));
+                    tabClicked('li_0');
+                    
                 }, 3000);
             }
         }, false);

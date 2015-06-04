@@ -278,6 +278,8 @@ public class Controller {
         //copy the updated list of prpfile names back into the profiles list array of file names
         profiles_list = new_profiles_list;
 
+        
+        
         //finally create the first generation
         //declare an array to hold the next gneration of profiles
         currentGenerationOfProfiles = new Profile[noOfProfiles];

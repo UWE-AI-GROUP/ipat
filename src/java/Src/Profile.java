@@ -33,10 +33,10 @@ public class Profile {
         /*
     * PROFILE HINTS
     */
-    private boolean FreezeBGColour = false;
-    private int ChangeFGContrast = 1;
-    private int ChangeFontSize = 1;
-    private boolean FreezeFGFonts = false;
+//    private boolean FreezeBGColour = false;
+//    private int ChangeFGContrast = 1;
+//    private int ChangeFontSize = 1;
+//    private boolean FreezeFGFonts = false;
 
 	
 	/** The kernels. */
@@ -116,37 +116,37 @@ public class Profile {
             solutionAttributes.remove(varname);
         }
 
-        public boolean isFreezeBGColour() {
-        return FreezeBGColour;
-    }
-
-    public void setFreezeBGColour(boolean FreezeBGColour) {
-        this.FreezeBGColour = FreezeBGColour;
-    }
-
-    public int getChangeFGContrast() {
-        return ChangeFGContrast;
-    }
-
-    public void setChangeFGContrast(int ChangeFGContrast) {
-        this.ChangeFGContrast = ChangeFGContrast;
-    }
-
-    public int getChangeFontSize() {
-        return ChangeFontSize;
-    }
-
-    public void setChangeFontSize(int ChangeFontSize) {
-        this.ChangeFontSize = ChangeFontSize;
-    }
-
-    public boolean isFreezeFGFonts() {
-        return FreezeFGFonts;
-    }
-
-    public void setFreezeFGFonts(boolean FreezeFGFonts) {
-        this.FreezeFGFonts = FreezeFGFonts;
-    }
+//        public boolean isFreezeBGColour() {
+//        return FreezeBGColour;
+//    }
+//
+//    public void setFreezeBGColour(boolean FreezeBGColour) {
+//        this.FreezeBGColour = FreezeBGColour;
+//    }
+//
+//    public int getChangeFGContrast() {
+//        return ChangeFGContrast;
+//    }
+//
+//    public void setChangeFGContrast(int ChangeFGContrast) {
+//        this.ChangeFGContrast = ChangeFGContrast;
+//    }
+//
+//    public int getChangeFontSize() {
+//        return ChangeFontSize;
+//    }
+//
+//    public void setChangeFontSize(int ChangeFontSize) {
+//        this.ChangeFontSize = ChangeFontSize;
+//    }
+//
+//    public boolean isFreezeFGFonts() {
+//        return FreezeFGFonts;
+//    }
+//
+//    public void setFreezeFGFonts(boolean FreezeFGFonts) {
+//        this.FreezeFGFonts = FreezeFGFonts;
+//    }
 
 
         
