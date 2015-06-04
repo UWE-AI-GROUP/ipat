@@ -23,12 +23,10 @@ public class Interaction {
      */
     public void updateProfileHints(HashMap data, Controller controller) {
 
-        
         int numOfProfiles = controller.currentGenerationOfProfiles.length;
         HashMap<String, HashMap> averageCounters = new HashMap();
         HashMap<String, HashMap> ordered = new HashMap();
         HintsProcessor hintProc;
-        
 
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         // Run through the different hints (keys) in the data set
@@ -48,11 +46,10 @@ public class Interaction {
             System.out.println("=================");
             System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
 
-            
-            // if the ordered list hasn't yet initialised this hint's profile's average's set then create it and add the value as its first entry
+            // if the ordered list hasn't yet initialised this profile's hint's averages map then create it and add the value as its first entry
             if (!ordered.containsKey(hint)) {
 
-                // determine the data type, add it to the appropriate array
+                // determine the data type, add it to the appropriate hashmap which is then added to "ordered"
                 if (rawValue instanceof Boolean) {
                     HashMap<Integer, Boolean> profilesBooleanHintAverages = new HashMap();
                     Boolean value = (Boolean) rawValue;
@@ -70,7 +67,7 @@ public class Interaction {
                     System.out.println("Added new hint [" + hint + "] averaged value for profile [" + profileNum + "] with value [" + ((String) rawValue) + "]");
                 }
 
-                // else add the value to the existing hint's profile's average's map, 
+                // else add the value to the existing profile's hint's averages map, 
             } else {
 
                 if (rawValue instanceof Boolean) {
@@ -84,38 +81,38 @@ public class Interaction {
                             ordered.put(hint, PBHA);
                         }
                     }
+                    
+                    // if its a string or other
+                } else {
 
-                    if (rawValue instanceof String) {
+                    // get the averageMap for this hint
+                    HashMap<Integer, Double> PDHA = ordered.get(hint);
 
-                        // get the averageMap for this hint
-                        HashMap<Integer, Double> PDHA = ordered.get(hint);
-                        
-                        // check if the profile we are adding a value to already has a value, if it does add to its average
-                          if (PDHA.containsKey(profileNum)) {
+                    // check if the profile we are adding a value to already has a value, if it does add to its average
+                    if (PDHA.containsKey(profileNum)) {
                         //if (PDHA.get(profileNum) != null) {
-                            Double runningAverage = PDHA.get(profileNum);
-                            HashMap averageCount = averageCounters.get(hint);
-                            Double currentCount = (Double) averageCount.get(profileNum);
+                        Double runningAverage = PDHA.get(profileNum);
+                        HashMap averageCount = averageCounters.get(hint);
+                        Double currentCount = (Double) averageCount.get(profileNum);
 
-                            System.out.println("runningAverage " + runningAverage);
-                            System.out.println("currentCount " + currentCount);
-                            System.out.println("rawValue " + rawValue);
+                        System.out.println("runningAverage " + runningAverage);
+                        System.out.println("currentCount " + currentCount);
+                        System.out.println("rawValue " + rawValue);
 
-                            Double av = (runningAverage * currentCount + Double.parseDouble((String) rawValue)) / (currentCount + 1);
-                            PDHA.put(profileNum, av);
-                            System.out.println("Updated hint [" + hint + "] in profilesDoubleHintAverages at [" + profileNum + "] from value [" + runningAverage + "] to value [" + av + "] as the [" + (currentCount + 1) + "] entry");
-                            averageCountMap.put(profileNum, currentCount + 1);
-                            averageCounters.put(hint, averageCountMap);
-                            ordered.put(hint, PDHA);
+                        Double av = (runningAverage * currentCount + Double.parseDouble((String) rawValue)) / (currentCount + 1);
+                        PDHA.put(profileNum, av);
+                        System.out.println("Updated hint [" + hint + "] in profilesDoubleHintAverages at [" + profileNum + "] from value [" + runningAverage + "] to value [" + av + "] as the [" + (currentCount + 1) + "] entry");
+                        averageCountMap.put(profileNum, currentCount + 1);
+                        averageCounters.put(hint, averageCountMap);
+                        ordered.put(hint, PDHA);
 
-                            // if it doesnt, create the first entry
-                        } else {
-                            HashMap averageCount = averageCounters.get(hint);
-                            averageCountMap.put(profileNum, 1.0);
-                            PDHA.put(profileNum, Double.parseDouble((String) rawValue));
-                            averageCounters.put(hint, averageCount);
-                            ordered.put(hint, PDHA);
-                        }
+                        // if it doesnt, create the first entry
+                    } else {
+                        HashMap averageCount = averageCounters.get(hint);
+                        averageCountMap.put(profileNum, 1.0);
+                        PDHA.put(profileNum, Double.parseDouble((String) rawValue));
+                        averageCounters.put(hint, averageCount);
+                        ordered.put(hint, PDHA);
                     }
                 }
             }
@@ -132,13 +129,7 @@ public class Interaction {
                 String key = iterator.next();
                 HashMap profilesHintAverages = ordered.get(key);
 
-                if (key.equalsIgnoreCase("globalScore")) {
-                    Set keySet1 = profilesHintAverages.keySet();
-                    for (Object keySet11 : keySet1) {
-                        System.out.println(keySet11);
-                    }
-
-                }
+             
                 // apply the average value of the current profile to the profile
                 Object value = profilesHintAverages.get(i);
 
