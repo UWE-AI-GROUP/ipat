@@ -244,7 +244,7 @@ public class HintsProcessor {
         amount = (amount - midpoint);
         double multiplier = Math.pow(2.0, amount);
 
-    //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
@@ -307,7 +307,7 @@ public class HintsProcessor {
                     vars.put(currentVarName, currentVariable);
                 }
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
-            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+                //finally need to write this new kernel back to the profile in the  nextGen arraylist
                 //delete the old one the add the new one
                 thisProfile.removeKernel(kernel.getName());
                 thisProfile.addKernel(changedKernel);
@@ -341,7 +341,7 @@ public class HintsProcessor {
             if (currentVariable == null) {
                 System.out.println("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
             }
-            
+
             //toggle the value of the variables
             if (amount == rangeMin) {
                 newValue = currentVariable.getLbound();
@@ -361,45 +361,47 @@ public class HintsProcessor {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (0 == 1) ;//TODO if kernel == null throw an exception
-            else {
-                Hashtable vars = kernel.getVariables();
-                Iterator kvarIterator;
-                // if we don't have a list of which kernel variables to change use all
-                if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
-                    ArrayList allKernelVariables = new ArrayList();
-                    Enumeration kVarNames = vars.keys();
-                    while (kVarNames.hasMoreElements()) {
-                        allKernelVariables.add(kVarNames.nextElement().toString());
-                    }
-                    kvarIterator = allKernelVariables.iterator();
-                } else // otherwise, if we have some specified, just use them
-                {
-                    kvarIterator = kernelVariablesAffected.iterator();
-                }
-
-                while (kvarIterator.hasNext()) {
-                    currentVarName = (String) kvarIterator.next();
-                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
-                    //toggle the value of the variables
-                    if (amount == rangeMin) {
-                        newValue = currentVariable.getLbound();
-                    } else if (amount == rangeMax) {
-                        newValue = currentVariable.getUbound();
-                    } else {
-                        newValue = currentVariable.getValue();
+            if (kernel != null) {
+                if (0 == 1) ;//TODO if kernel == null throw an exception
+                else {
+                    Hashtable vars = kernel.getVariables();
+                    Iterator kvarIterator;
+                    // if we don't have a list of which kernel variables to change use all
+                    if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
+                        ArrayList allKernelVariables = new ArrayList();
+                        Enumeration kVarNames = vars.keys();
+                        while (kVarNames.hasMoreElements()) {
+                            allKernelVariables.add(kVarNames.nextElement().toString());
+                        }
+                        kvarIterator = allKernelVariables.iterator();
+                    } else // otherwise, if we have some specified, just use them
+                    {
+                        kvarIterator = kernelVariablesAffected.iterator();
                     }
 
-                    //reset the value in thecopy of the variable
-                    currentVariable.setValue(newValue);
-                    vars.put(currentVarName, currentVariable);
-                }
-                Kernel changedKernel = new Kernel(kernel.getName(), vars);
+                    while (kvarIterator.hasNext()) {
+                        currentVarName = (String) kvarIterator.next();
+                        currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                        //toggle the value of the variables
+                        if (amount == rangeMin) {
+                            newValue = currentVariable.getLbound();
+                        } else if (amount == rangeMax) {
+                            newValue = currentVariable.getUbound();
+                        } else {
+                            newValue = currentVariable.getValue();
+                        }
+
+                        //reset the value in thecopy of the variable
+                        currentVariable.setValue(newValue);
+                        vars.put(currentVarName, currentVariable);
+                    }
+                    Kernel changedKernel = new Kernel(kernel.getName(), vars);
             //finally need to write this new kernel back to the profile in the  nextGen arraylist
-                //delete the old one the add the new one
-                thisProfile.removeKernel(kernel.getName());
-                thisProfile.addKernel(changedKernel);
-            } //end of code dealing with affected kernels
+                    //delete the old one the add the new one
+                    thisProfile.removeKernel(kernel.getName());
+                    thisProfile.addKernel(changedKernel);
+                } //end of code dealing with affected kernels
+            }
         }
 
         return thisProfile;
