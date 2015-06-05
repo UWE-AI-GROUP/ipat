@@ -171,9 +171,18 @@ body {
 }
 
 .label{
-    float: right;}
+    float: right;
+}
 
 .hint{
-   display: table-header-group;
-      z-index: 2;
+   height: 40px;
+  width: 110%;
+  right: 70px;
+  z-index: 2;
+  position: relative;
+}
+
+.hintScore {
+    float: left;
+    
 }

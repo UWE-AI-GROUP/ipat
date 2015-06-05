@@ -455,11 +455,11 @@ public class Controller {
                         // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***
                         switch (displaytype) {
                             case "range":
-                                cell += "<div class='hint'><input type='range' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
+                                cell += "<div class='hint'><input type='range' class='hintScore' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             case "checkbox":
-                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='"+h.getHintName()+"' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
+                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='hintScore' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             default:

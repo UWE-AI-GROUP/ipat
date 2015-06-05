@@ -24,6 +24,7 @@ public class Interaction {
     public void updateProfileHints(HashMap data, Controller controller) {
 
         int numOfProfiles = controller.currentGenerationOfProfiles.length;
+         int numOfHints = controller.hints.size();
         HashMap<String, HashMap> averageCounters = new HashMap();
         HashMap<String, HashMap> ordered = new HashMap();
         HintsProcessor hintProc;
@@ -31,6 +32,9 @@ public class Interaction {
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         // Run through the different hints (keys) in the data set
         Set keySet = data.keySet();
+        System.out.println("Num of Hints =" + numOfHints );
+        int numOfResults = data.size() / numOfHints;
+        int numOfUploads = numOfResults / numOfProfiles;
         for (Object keySet1 : keySet) {
            
             String key = (String) keySet1;
@@ -39,7 +43,9 @@ public class Interaction {
             String hint = hint_Iteration[0];
             int iteration = Integer.parseInt(hint_Iteration[1]);
             // which array position to add the different results to
-            int profileNum = iteration % numOfProfiles;
+            int profileNum = iteration / numOfUploads;
+           
+           
             Object rawValue = data.get(key);
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
