@@ -82,7 +82,7 @@ while (pvarsEnu.hasMoreElements())
     classesPresent.add(elementClass);
     //get the type of elememnt it is - held as the unit
     String elementtype = ipvar.getUnit();
-    
+      System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
     
     ArrayList membersList;
     //now we need to get the correct list of members
@@ -99,7 +99,7 @@ while (pvarsEnu.hasMoreElements())
     if(elementtype.equalsIgnoreCase("method"))
       {
         classMethodsMap.put(elementClass, membersList);
-        membersList.add(elementName);
+        methodsSeen.add(elementName);
       }
     else
       {
@@ -110,10 +110,16 @@ while (pvarsEnu.hasMoreElements())
 
 //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
 if( haveSameElements(methodsSeen, methodList)==false)
-            System.out.println("problem - the lsit of methods in the profile is not the same a in the problem defintion");
+  {
+    System.out.println("problem - the list of methods in the profile is not the same as in the problem defintion");
+      System.out.println("defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
+  }
  
 else if( haveSameElements(attributesSeen, attributeList)==false)
-            System.out.println("problem - the list of attributes in the profile is not the same a in the problem defintion");
+  {
+    System.out.println("problem - the list of attributes in the profile is not the same a in the problem defintion");
+        System.out.println("defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
+  }
  
 else
             System.out.println("problem defintion read from xml matches variables in " + profile.getName());
@@ -241,9 +247,11 @@ jointjsCouplingScript = jointjsCouplingScript
         try{
             //the problem defintion has the same name a the artefact but with a xml ending
             String problemDefinition = artifact.getFilename();
+            String pathToArtefactFile =   artifact.getFile().getParent();
+            String pathToXML = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("Client")) + "samples";
              problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
              problemDefinition = problemDefinition + ".xml";
-             File definitionFile = new File(problemDefinition);
+             File definitionFile = new File(pathToXML, problemDefinition);
              //now we need to read this xml file into a structure so we can access the uses
             Document XmlDoc = new SAXBuilder().build(definitionFile);
 
@@ -254,30 +262,33 @@ jointjsCouplingScript = jointjsCouplingScript
             while (iterator.hasNext()) 
               {
 
-                Element hint = (Element) iterator.next();
-                if (hint.getName().equalsIgnoreCase("designElement")) 
+                Element item = (Element) iterator.next();
+                if (item.getName().equalsIgnoreCase("designElement")) 
                   {
-                        String name = hint.getChildText("name");
-			String type = hint.getChildText("type");
+                        String name = item.getChildText("name");
+                        //if(name!= null) System.out.println("designElement name is " +name);
+			String type = item.getChildText("type");
+                        //if(type!= null) System.out.println("designElement type is " +type);
                         if(type.equalsIgnoreCase("method"))
                             methodList.add(name);
                         else
                             attributeList.add(name);
                   }
-                else if (hint.getName().equalsIgnoreCase("designUse")) 
+                else if (item.getName().equalsIgnoreCase("designUse")) 
                   {
-                        String method = hint.getChildText("methodName");
-			String attribute = hint.getChildText("attributeName");
+                        String method = item.getChildText("methodName");
+			String attribute = item.getChildText("attributeName");
                         if ( (! methodList.contains(method))|| ( !attributeList.contains(attribute)))
                                 {
-                                    System.out.println("declared designUse names method" + method 
-                                                        + " or attribute " + attribute 
-                                                      + "that has not been declarted as a design element");
+                                   // System.out.println("declared designUse names method" + method 
+                                    //                    + " or attribute " + attribute 
+                                    //                  + "that has not been declarted as a design element");
                                     //throw "";
                                 }
                         else
                           {
-                            
+                            System.out.println("designUse: method " + method 
+                                                        + " uses attribute " + attribute);
                             ArrayList methodUsesList;
                             if(UsesMap.containsKey(method))
                                 //get the list of uses associated with this method
@@ -291,7 +302,16 @@ jointjsCouplingScript = jointjsCouplingScript
                             UsesMap.put(method, methodUsesList);
                           }         
                   }
-                }       
+                }  
+            //calculatethe total numberof uses
+            int totaluses=0;
+            for (Map.Entry<String, ArrayList> entrySet : UsesMap.entrySet())
+              {
+                String key = entrySet.getKey();
+                ArrayList value = entrySet.getValue();
+                totaluses += value.size();
+              }
+            System.out.println("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file");
             }
          catch (Exception e) {
             System.out.println("");
