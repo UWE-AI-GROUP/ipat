@@ -147,11 +147,11 @@ Definition of the Cinema Booking System in xml to use as demo for class modellin
           <name>ExpiryDate</name>
           <type>attribute</type>
     </designElement>    
-    <designElement>                                                                                                                             <designElement>
+        <designElement>
           <name>ScreenNumber</name>
           <type>attribute</type>
-    </designElement>    
-     </designElement>                                                                                                                             <designElement>
+    </designElement>                                                                                                                              
+     <designElement>
           <name>Capacity</name>
           <type>attribute</type>
     </designElement>    
