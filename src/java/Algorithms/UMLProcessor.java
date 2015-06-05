@@ -51,6 +51,7 @@ public class UMLProcessor implements Processor {
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
+        System.out.println("in umprocessor.applyprofiletoartefact()");
         HashMap<Integer, ArrayList> classMethodsMap = new HashMap();
         HashMap<Integer, ArrayList> classAttributesMap = new HashMap();
         Set classesPresent = new HashSet();
@@ -111,10 +112,11 @@ while (pvarsEnu.hasMoreElements())
 if( haveSameElements(methodsSeen, methodList)==false)
             System.out.println("problem - the lsit of methods in the profile is not the same a in the problem defintion");
  
-if( haveSameElements(attributesSeen, attributeList)==false)
+else if( haveSameElements(attributesSeen, attributeList)==false)
             System.out.println("problem - the list of attributes in the profile is not the same a in the problem defintion");
  
-
+else
+            System.out.println("problem defintion read from xml matches variables in " + profile.getName());
 
 //2. Create new class definitions to squirt into the  in the javascript that shows the classes onscreen
         String jointjsClassesScript =  "";  
