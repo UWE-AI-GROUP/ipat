@@ -216,6 +216,8 @@ public class Controller {
 ////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("italic"))).getValue()               );
 //        }
 
+      
+        
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
