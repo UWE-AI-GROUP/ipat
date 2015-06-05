@@ -4,7 +4,6 @@ package Src;
  Controller will be responsible for determining from the parameters how many times to call
  metaHeuristic interface in order to generate the next solution based on what kind of heuristic
  it uses.
-
  When user requests next generation the Controller may also call pKernel virtual display that implements 
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
@@ -36,7 +35,7 @@ import org.xml.sax.SAXException;
 public class Controller {
 
     Display display;
-    UMLProcessor umlp = new UMLProcessor();
+    UMLProcessor applicationSpecificProcessor = new UMLProcessor();
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -132,7 +131,6 @@ public class Controller {
      */
     public HashMap mainloop() {
 
-
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
@@ -142,7 +140,6 @@ public class Controller {
             //System.out.println("in controller.mainloop() just read profile with name " + currentGenerationOfProfiles[i].getName());
         }
         //now apply those profiles ot the raw artifacts to get something to display
-        System.out.println("controller.mainloop() about to create new UML diagrams");
         getResultArtifacts();
         // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
         return loadWebDisplay();
@@ -196,6 +193,8 @@ public class Controller {
         //copy the updated list of prpfile names back into the profiles list array of file names
         profiles_list = new_profiles_list;
 
+        
+        
         //finally create the first generation
         //declare an array to hold the next gneration of profiles
         currentGenerationOfProfiles = new Profile[noOfProfiles];
@@ -238,15 +237,14 @@ public class Controller {
         for (int profileID = 0; profileID < noOfProfiles; profileID++) {
             currentProfile = currentGenerationOfProfiles[profileID];
             // TESTING : distinguishing the Raw artifact name from the processed one (raw artifact)
-             System.out.println("Processing : " + currentProfile.getName());
+            //  System.out.println("Processing : " + currentProfile.getName());
 
             // Process the profile to generate CSS
             for (int artifactID = 0; artifactID < raw_artifacts.length; artifactID++) {
 
                 rawArtifact = raw_artifacts[artifactID];
-                System.out.println(rawArtifact.getFilename());
-                processedArtifact = umlp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
-                System.out.println("processed artefact: " + processedArtifact.getFilename());
+                //System.out.println(rawArtifact.getFilename());
+                processedArtifact = applicationSpecificProcessor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
                 processedArtifacts[count] = processedArtifact;
                 count++;
 
@@ -372,11 +370,11 @@ public class Controller {
                         // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***
                         switch (displaytype) {
                             case "range":
-                                cell += "<div class='hint'><input type='range' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
+                                cell += "<div class='hint'><input type='range' class='hintScore' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             case "checkbox":
-                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='"+h.getHintName()+"' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
+                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='hintScore' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             default:
