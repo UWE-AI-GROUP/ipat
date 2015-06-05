@@ -211,10 +211,11 @@ public class Controller {
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
+                //TODO pick files up ending in html as well
                 return name.endsWith(".htm");
             }
         };
-        //create an array of all the files in the inpurfolder using the filter        
+        //create an array of all the files in the inputfolder using the filter        
         File[] file = inputFolder.listFiles(filter);
         //alocate space for arraty of artefacts - one for eacg file
         raw_artifacts = new Artifact[file.length];
