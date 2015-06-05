@@ -9,7 +9,7 @@ package Src;
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
-import Algorithms.CSSProcessor;
+import Algorithms.UMLProcessor;
 import Algorithms.ESEvolution;
 import Algorithms.HintsProcessor;
 import java.io.File;
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 public class Controller {
 
     Display display;
-    CSSProcessor cssp = new CSSProcessor();
+    UMLProcessor umlp = new UMLProcessor();
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -131,90 +131,7 @@ public class Controller {
      * @return 
      */
     public HashMap mainloop() {
-//        //deal with the hints the user provided
-//        Kernel h1Kernel, h2Kernel, pKernel;//used for testing
-//        for (int i = 0; i < noOfProfiles; i++) {
-//            //I'm putting the code explicitly in here for now - need sorting out but first I want to deal with more generic hints
-//            HintsProcessor hint;
-//            hint = hints.get("FreezeBGColours");//TODO test that i got pKernel hint back
-//            if (currentGenerationOfProfiles[i].isFreezeBGColour()) {
-//                currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], 0.0);
-//            } else {
-//                currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], 1.0);
-//            }
-//            System.out.println("profile " + i + "freeze BG colours is " + currentGenerationOfProfiles[i].isFreezeBGColour()
-//                    + " page bg RGB rates of evolution  are "
-//                    + " " + ((SolutionAttributes) (currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Red"))).getRateOfEvolution()
-//                    + " " + ((SolutionAttributes) (currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Green"))).getRateOfEvolution()
-//                    + " " + ((SolutionAttributes) (currentGenerationOfProfiles[i].getSolutionAttributes().get("Page_bg_Blue"))).getRateOfEvolution());
-//
-//            hint = hints.get("FreezeFGFonts");
-//            if (currentGenerationOfProfiles[i].isFreezeFGFonts()) {
-//                currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], 0.0);
-//            } else {
-//                currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], 1.0);
-//            }
-//
-//            h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
-//            h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
-//            pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
-////               System.out.println("profile " + i + "freeze FG fonts is " 
-////                        + currentGenerationOfProfiles[i].isFreezeFGFonts() 
-////                        + " p italic,  and font-family rates of evolution  are " 
-////                        + ((SolutionAttributes)(pKernel.getVariables().get("italic"))).getRateOfEvolution()
-////                        + " " + ((SolutionAttributes)(pKernel.getVariables().get("font-family"))).getRateOfEvolution() 
-////                        + " h1 bold,  and font-size rates of evolution  are " 
-////                        +  ((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getRateOfEvolution()
-////                        +  " " + ((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getRateOfEvolution() );
-//
-//            hint = hints.get("ChangeFontSize");
-////              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
-////              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
-////              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
-////               System.out.println("profile " + i 
-////                        + " h1, h2 and  p,  font-sizes were  " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("font-size"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("font-size"))).getValue());
-//            currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], currentGenerationOfProfiles[i].getChangeFontSize());
-////              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
-////              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
-////              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
-////               System.out.println("profile " + i + "ChangeFontSize is " 
-////                        + currentGenerationOfProfiles[i].getChangeFontSize() 
-////                        + " h1, h2 and  p,  font-sizes are now  " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("font-size"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("font-size"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("font-size"))).getValue());
-//
-//            hint = hints.get("ChangeFGContrast");
-//            h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
-//            h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
-//            pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
-////               System.out.println("profile " + i 
-////                        + " h1, h2 and  p,  bold values were   " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("bold"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("bold"))).getValue()
-////                        + " h1, h2 and  p,  italic values were   " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("italic"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("italic"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("italic"))).getValue()               );
-//            currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(currentGenerationOfProfiles[i], currentGenerationOfProfiles[i].getChangeFGContrast());
-////              h1Kernel = currentGenerationOfProfiles[i].getKernelCalled("h1");
-////              h2Kernel = currentGenerationOfProfiles[i].getKernelCalled("h2");
-////              pKernel = currentGenerationOfProfiles[i].getKernelCalled("p");
-////               System.out.println("profile " + i + "ChangeFGContrast is " 
-////                        + currentGenerationOfProfiles[i].getChangeFGContrast() 
-////                        + " h1, h2 and  p,  bold values are now   " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("bold"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("bold"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("bold"))).getValue()
-////                        + " h1, h2 and  p,  italic values are now   " 
-////                        + " " +((SolutionAttributes)(h1Kernel.getVariables().get("italic"))).getValue()
-////                        + " " +((SolutionAttributes)(h2Kernel.getVariables().get("italic"))).getValue()
-////                        + " " +((SolutionAttributes)(pKernel.getVariables().get("italic"))).getValue()               );
-//        }
+
 
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
@@ -225,6 +142,7 @@ public class Controller {
             //System.out.println("in controller.mainloop() just read profile with name " + currentGenerationOfProfiles[i].getName());
         }
         //now apply those profiles ot the raw artifacts to get something to display
+        System.out.println("controller.mainloop() about to create new UML diagrams");
         getResultArtifacts();
         // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
         return loadWebDisplay();
@@ -320,14 +238,15 @@ public class Controller {
         for (int profileID = 0; profileID < noOfProfiles; profileID++) {
             currentProfile = currentGenerationOfProfiles[profileID];
             // TESTING : distinguishing the Raw artifact name from the processed one (raw artifact)
-            //  System.out.println("Processing : " + currentProfile.getName());
+             System.out.println("Processing : " + currentProfile.getName());
 
             // Process the profile to generate CSS
             for (int artifactID = 0; artifactID < raw_artifacts.length; artifactID++) {
 
                 rawArtifact = raw_artifacts[artifactID];
-                //System.out.println(rawArtifact.getFilename());
-                processedArtifact = cssp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                System.out.println(rawArtifact.getFilename());
+                processedArtifact = umlp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                System.out.println("processed artefact: " + processedArtifact.getFilename());
                 processedArtifacts[count] = processedArtifact;
                 count++;
 
