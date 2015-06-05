@@ -6,8 +6,8 @@
 package Src;
 
 import Algorithms.HintsProcessor;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -24,18 +24,13 @@ public class Interaction {
     public void updateProfileHints(HashMap data, Controller controller) {
 
         int numOfProfiles = controller.currentGenerationOfProfiles.length;
-        HashMap<String, Double> averageCounters = new HashMap();
-
-        
-        // initialise holding structures
-        HashMap<Integer, Double> FGContrasts = new HashMap();
-        HashMap<Integer, Double> globalScores = new HashMap();
-        HashMap<Integer, Double> fontSizes = new HashMap();
-        HashMap<Integer, Boolean> FGFonts = new HashMap();
-        HashMap<Integer, Boolean> BGColours = new HashMap();
-
+        int numOfHints = controller.hints.size();
+        HashMap<String, HashMap> averageCounters = new HashMap();
+        HashMap<String, HashMap> ordered = new HashMap();
+        HintsProcessor hintProc;
 
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
+        // Run through the different hints (keys) in the data set
         Set keySet = data.keySet();
         System.out.println("Num of Hints =" + numOfHints);
         int numOfResults = data.size() / numOfHints;
@@ -44,6 +39,7 @@ public class Interaction {
 
             String key = (String) keySet1;
             String[] hint_Iteration = key.split("_");
+            // name of the hint in question
             String hint = hint_Iteration[0];
             int iteration = Integer.parseInt(hint_Iteration[1]);
             // which array position to add the different results to
@@ -53,22 +49,43 @@ public class Interaction {
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
             System.out.println("=================");
-            System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + arrayPosition + "\n");
+            System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
 
-            switch (hint) {
-                case "frame":
-                    // to get the corrosponding profile for the src  (not really needed, just here incase someone wants it)
-//                    String source = (String) data.get(key);
-//                    String profile = source.substring(source.indexOf('_') , source.lastIndexOf('-')+1);
-                    break;
-                case "globalScore":
-                    if (globalScores.get(arrayPosition) == null) {
-                        averageCounters.put(hint, 1.0);
-                        globalScores.put(arrayPosition, Double.parseDouble((String) data.get(key)));
+            // if the ordered list hasn't yet initialised this profile's hint's averages map then create it and add the value as its first entry
+            if (!ordered.containsKey(hint)) {
+
+                // determine the data type, add it to the appropriate hashmap which is then added to "ordered"
+                if (rawValue instanceof Boolean) {
+                    HashMap<Integer, Boolean> profilesBooleanHintAverages = new HashMap();
+                    Boolean value = (Boolean) rawValue;
+                    profilesBooleanHintAverages.put(profileNum, value);
+                    ordered.put(hint, profilesBooleanHintAverages);
+                    System.out.println("Created Boolean value (first input)");
+                }
+
+                if (rawValue instanceof String) {
+                    HashMap<Integer, Double> averageCountMap = new HashMap();
+                    HashMap<Integer, Double> profilesDoubleHintAverages = new HashMap();
+                    profilesDoubleHintAverages.put(profileNum, Double.parseDouble((String) rawValue));
+                    averageCountMap.put(profileNum, 1.0);
+                    ordered.put(hint, profilesDoubleHintAverages);
+                    averageCounters.put(hint, averageCountMap);
+                    System.out.println("Added new hint [" + hint + "] averaged value for profile [" + profileNum + "] with value [" + ((String) rawValue) + "]");
+                }
+
+                // else add the value to the existing profile's hint's averages map, 
+            } else {
+
+                if (rawValue instanceof Boolean) {
+                    HashMap<Integer, Boolean> PBHA = ordered.get(hint);
+                    if (!PBHA.containsKey(profileNum)) {
+                        PBHA.put(profileNum, ((Boolean) rawValue));
+                        ordered.put(hint, PBHA);
                     } else {
-                        Double get = globalScores.get(arrayPosition);
-                        globalScores.put(arrayPosition, (get * averageCounters.get(hint) + Double.parseDouble((String) data.get(key)) / averageCounters.get(hint) + 1));
-                        averageCounters.put(hint, averageCounters.get(hint) + 1);
+                        if (!PBHA.get(profileNum) && (Boolean) rawValue) {
+                            PBHA.put(profileNum, true);
+                            ordered.put(hint, PBHA);
+                        }
                     }
 
                     // if its a string or other
@@ -97,93 +114,18 @@ public class Interaction {
 
                         // if it doesnt, create the first entry
                     } else {
-                        Double get = FGContrasts.get(arrayPosition);
-                        FGContrasts.put(arrayPosition, (get * averageCounters.get(hint) + Double.parseDouble((String) data.get(key)) / averageCounters.get(hint) + 1));
-                        averageCounters.put(hint, averageCounters.get(hint) + 1);
+                        HashMap averageCount = averageCounters.get(hint);
+                        averageCount.put(profileNum, 1.0);
+                        PDHA.put(profileNum, Double.parseDouble((String) rawValue));
+                        averageCounters.put(hint, averageCount);
+                        ordered.put(hint, PDHA);
                     }
-                    break;
-                case "ChangeFontSize":
-                    if (fontSizes.get(arrayPosition) == null) {
-                        averageCounters.put(hint, 1.0);
-                        fontSizes.put(arrayPosition, Double.parseDouble((String) data.get(key)));
-                    } else {
-                        Double get = fontSizes.get(arrayPosition);
-                        fontSizes.put(arrayPosition, (get * averageCounters.get(hint) + Double.parseDouble((String) data.get(key)) / averageCounters.get(hint) + 1));
-                        averageCounters.put(hint, averageCounters.get(hint) + 1);
-                    }
-                    break;
-                case "FreezeBGColours":
-                    if (BGColours.get(arrayPosition) == null) {
-                        BGColours.put(arrayPosition, ((Boolean) data.get(key)));
-                    } else if ((Boolean) data.get(key) == true) {
-                        BGColours.put(arrayPosition, true);
-                    }
-                    break;
-                case "FreezeFGFonts":
-                    if (FGFonts.get(arrayPosition) == null) {
-                        FGFonts.put(arrayPosition, ((Boolean) data.get(key)));
-                    } else if ((Boolean) data.get(key) == true) {
-                        FGFonts.put(arrayPosition, true);
-                    }
-                    break;
-                default:
-                    System.out.println("Error unrecognised score value in newGenRequest: " + hint);
-                    throw new AssertionError();
-
+                }
             }
         }
 
+        // for each profile
         for (int i = 0; i < numOfProfiles; i++) {
-            }
-//==========================================================================================================================================================
-            if (!fontSizes.isEmpty()) {
-               hint = controller.hints.get("ChangeFontSize");
-               System.out.println("Updated ChangeFontSize : " + FGContrasts.get(i));
-                controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], fontSizes.get(i));
-            } else {
-                System.out.println("No hint for ChangeFontSize");
-            }
-//==========================================================================================================================================================
-            if (!BGColours.isEmpty()) {
-                hint = controller.hints.get("FreezeBGColours");
-                if (BGColours.get(i)) {
-                    System.out.println("Updated FreezeBGColours : true");
-                    controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
-                } else {
-                    System.out.println("Updated FreezeBGColours : false");
-                    controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
-                }
-            } else {
-                System.out.println("No hint for FreezeBGColours");
-            }
-//==========================================================================================================================================================
-            if (!FGFonts.isEmpty()) {
-                hint = controller.hints.get("FreezeFGFonts");
-                if (FGFonts.get(i)) {
-                    System.out.println("Updated FreezeFGFonts : true");
-                    controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
-                } else {
-                    System.out.println("Updated FreezeFGFonts : false");
-                    controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
-                }
-            } else {
-                System.out.println("No hint for FreezeFGFonts");
-            }
-//==========================================================================================================================================================
-            if (!globalScores.isEmpty()) {
-                System.out.println("Updated globalScore : " + globalScores.get(i).intValue());
-                controller.currentGenerationOfProfiles[i].setGlobalScore( globalScores.get(i).intValue() );
-            } else {
-                System.out.println("Error: There is no hint for global score set in Class Interaction."
-                        + "\nEnsure that the hint for globalScore is added to hints.xml. If the problem persists:"
-                        + "\n-Check the values given back from the javascript.js, within the NextGenerationButton.actionListener"
-                        + "\n-Check the Interaction.updateProfileHints() algorithm is correctly minipulating data");
-            }
-//==========================================================================================================================================================
-            System.out.println("\n");
-        }
-    }
-}
             System.out.println("##############################");
             System.out.println("Updating hints for Profile: " + i + "\n");
 
@@ -222,3 +164,7 @@ public class Interaction {
                         controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
                     }
                 }
+            }
+        }
+    }
+}
