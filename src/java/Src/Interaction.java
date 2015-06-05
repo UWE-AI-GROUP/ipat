@@ -32,11 +32,11 @@ public class Interaction {
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         // Run through the different hints (keys) in the data set
         Set keySet = data.keySet();
-        System.out.println("Num of Hints =" + numOfHints );
+        System.out.println("Num of Hints =" + numOfHints);
         int numOfResults = data.size() / numOfHints;
         int numOfUploads = numOfResults / numOfProfiles;
         for (Object keySet1 : keySet) {
-           
+
             String key = (String) keySet1;
             String[] hint_Iteration = key.split("_");
             // name of the hint in question
@@ -44,8 +44,7 @@ public class Interaction {
             int iteration = Integer.parseInt(hint_Iteration[1]);
             // which array position to add the different results to
             int profileNum = iteration / numOfUploads;
-           
-           
+
             Object rawValue = data.get(key);
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
@@ -88,7 +87,7 @@ public class Interaction {
                             ordered.put(hint, PBHA);
                         }
                     }
-                    
+
                     // if its a string or other
                 } else {
 
@@ -128,7 +127,7 @@ public class Interaction {
         // for each profile
         for (int i = 0; i < numOfProfiles; i++) {
             System.out.println("##############################");
-            System.out.println("Updating hints for Profile: " + i +"\n");
+            System.out.println("Updating hints for Profile: " + i + "\n");
 
             // run through the hints getting each averageMap
             Set<String> hints = ordered.keySet();
@@ -137,25 +136,33 @@ public class Interaction {
                 String key = iterator.next();
                 HashMap profilesHintAverages = ordered.get(key);
 
-             
-                // apply the average value of the current profile to the profile
-                Object value = profilesHintAverages.get(i);
-
-                if (value instanceof Boolean) {
-                    Boolean booleanValue = (Boolean) value;
-                    hintProc = controller.hints.get(key);
-                    if (booleanValue) {
-                        System.out.println("Updated " + key + " : true");
-                        controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
-                    } else {
-                        System.out.println("Updated " + key + " : false");
-                        controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
-                    }
+                if (key.equalsIgnoreCase("globalScore")) {
+                    Object value = profilesHintAverages.get(i);
+                    Double intValue =  (Double) value;
+                    controller.currentGenerationOfProfiles[i].setGlobalScore(intValue.intValue());
+                    System.out.println("Updated " + key + " : " + intValue.intValue());
+                    
                 } else {
-                    Double doubleValue = (Double) value;
-                    hintProc = controller.hints.get(key);
-                    System.out.println("Updated " + key + " : " + doubleValue);
-                    controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
+
+                    // apply the average value of the current profile to the profile
+                    Object value = profilesHintAverages.get(i);
+
+                    if (value instanceof Boolean) {
+                        Boolean booleanValue = (Boolean) value;
+                        hintProc = controller.hints.get(key);
+                        if (booleanValue) {
+                            System.out.println("Updated " + key + " : true");
+                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
+                        } else {
+                            System.out.println("Updated " + key + " : false");
+                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
+                        }
+                    } else {
+                        Double doubleValue = (Double) value;
+                        hintProc = controller.hints.get(key);
+                        System.out.println("Updated " + key + " : " + doubleValue);
+                        controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
+                    }
                 }
             }
         }
