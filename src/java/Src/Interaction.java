@@ -37,12 +37,19 @@ public class Interaction {
 
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         Set keySet = data.keySet();
+        System.out.println("Num of Hints =" + numOfHints);
+        int numOfResults = data.size() / numOfHints;
+        int numOfUploads = numOfResults / numOfProfiles;
         for (Object keySet1 : keySet) {
+
             String key = (String) keySet1;
             String[] hint_Iteration = key.split("_");
             String hint = hint_Iteration[0];
             int iteration = Integer.parseInt(hint_Iteration[1]);
-            int arrayPosition = iteration % numOfProfiles;
+            // which array position to add the different results to
+            int profileNum = iteration / numOfUploads;
+
+            Object rawValue = data.get(key);
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
             System.out.println("=================");
@@ -63,11 +70,32 @@ public class Interaction {
                         globalScores.put(arrayPosition, (get * averageCounters.get(hint) + Double.parseDouble((String) data.get(key)) / averageCounters.get(hint) + 1));
                         averageCounters.put(hint, averageCounters.get(hint) + 1);
                     }
-                    break;
-                case "ChangeGFContrast":
-                    if (FGContrasts.get(arrayPosition) == null) {
-                        averageCounters.put(hint, 1.0);
-                        FGContrasts.put(arrayPosition, Double.parseDouble((String) data.get(key)));
+
+                    // if its a string or other
+                } else {
+
+                    // get the averageMap for this hint
+                    HashMap<Integer, Double> PDHA = ordered.get(hint);
+
+                    // check if the profile we are adding a value to already has a value, if it does add to its average
+                    if (PDHA.containsKey(profileNum)) {
+                        //if (PDHA.get(profileNum) != null) {
+                        Double runningAverage = PDHA.get(profileNum);
+                        HashMap averageCount = averageCounters.get(hint);
+                        Double currentCount = (Double) averageCount.get(profileNum);
+
+                        System.out.println("runningAverage " + runningAverage);
+                        System.out.println("currentCount " + currentCount);
+                        System.out.println("rawValue " + rawValue);
+
+                        Double av = (runningAverage * currentCount + Double.parseDouble((String) rawValue)) / (currentCount + 1);
+                        PDHA.put(profileNum, av);
+                        System.out.println("Updated hint [" + hint + "] in profilesDoubleHintAverages at [" + profileNum + "] from value [" + runningAverage + "] to value [" + av + "] as the [" + (currentCount + 1) + "] entry");
+                        averageCount.put(profileNum, currentCount + 1);
+                        averageCounters.put(hint, averageCount);
+                        ordered.put(hint, PDHA);
+
+                        // if it doesnt, create the first entry
                     } else {
                         Double get = FGContrasts.get(arrayPosition);
                         FGContrasts.put(arrayPosition, (get * averageCounters.get(hint) + Double.parseDouble((String) data.get(key)) / averageCounters.get(hint) + 1));
@@ -106,15 +134,6 @@ public class Interaction {
         }
 
         for (int i = 0; i < numOfProfiles; i++) {
-            System.out.println("\nUpdating hints for Profile: " + i);
-            HintsProcessor hint;
-//==========================================================================================================================================================
-            if (!FGContrasts.isEmpty()) {
-                hint = controller.hints.get("ChangeFGContrast");
-                System.out.println("Updated ChangeFGContrast : " + FGContrasts.get(i));
-                controller.currentGenerationOfProfiles[i] = hint.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], FGContrasts.get(i));
-            } else {
-                System.out.println("No hint for ChangeFGContrast");
             }
 //==========================================================================================================================================================
             if (!fontSizes.isEmpty()) {
@@ -165,3 +184,41 @@ public class Interaction {
         }
     }
 }
+            System.out.println("##############################");
+            System.out.println("Updating hints for Profile: " + i + "\n");
+
+            // run through the hints getting each averageMap
+            Set<String> hints = ordered.keySet();
+            Iterator<String> iterator = hints.iterator();
+            while (iterator.hasNext()) {
+                String key = iterator.next();
+                HashMap profilesHintAverages = ordered.get(key);
+
+                if (key.equalsIgnoreCase("globalScore")) {
+                    Object value = profilesHintAverages.get(i);
+                    Double intValue =  (Double) value;
+                    controller.currentGenerationOfProfiles[i].setGlobalScore(intValue.intValue());
+                    System.out.println("Updated " + key + " : " + intValue.intValue());
+                    
+                } else {
+
+                    // apply the average value of the current profile to the profile
+                    Object value = profilesHintAverages.get(i);
+
+                    if (value instanceof Boolean) {
+                        Boolean booleanValue = (Boolean) value;
+                        hintProc = controller.hints.get(key);
+                        if (booleanValue) {
+                            System.out.println("Updated " + key + " : true");
+                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
+                        } else {
+                            System.out.println("Updated " + key + " : false");
+                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
+                        }
+                    } else {
+                        Double doubleValue = (Double) value;
+                        hintProc = controller.hints.get(key);
+                        System.out.println("Updated " + key + " : " + doubleValue);
+                        controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
+                    }
+                }
