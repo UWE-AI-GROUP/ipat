@@ -338,6 +338,10 @@ public class HintsProcessor {
             //get the variable from the local copy in the hashtable
             currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
 
+            if (currentVariable == null) {
+                System.out.println("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
+            }
+            
             //toggle the value of the variables
             if (amount == rangeMin) {
                 newValue = currentVariable.getLbound();

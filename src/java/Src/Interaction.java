@@ -24,7 +24,7 @@ public class Interaction {
     public void updateProfileHints(HashMap data, Controller controller) {
 
         int numOfProfiles = controller.currentGenerationOfProfiles.length;
-         int numOfHints = controller.hints.size();
+        int numOfHints = controller.hints.size();
         HashMap<String, HashMap> averageCounters = new HashMap();
         HashMap<String, HashMap> ordered = new HashMap();
         HintsProcessor hintProc;
