@@ -19,8 +19,15 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import org.apache.tomcat.util.digester.ArrayStack;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
@@ -28,14 +35,14 @@ import java.util.Vector;
  */
 public class UMLProcessor implements Processor {
 
-    private Hashtable cssLabels;
-  
+    private HashMap<String,ArrayList> UsesMap;
+    private ArrayList<String> methodList, attributeList;
     
-    public UMLProcessor() {
-       this.cssLabels = setupCSSLabelStore();
-      
+    public UMLProcessor(){
+    UsesMap = new HashMap<>();
+    methodList = new ArrayList<>();
+    attributeList = new ArrayList<>();
     }
-
     /*
     Profile - the profile being applied to artifact
     Artifact - the raw artifact to be processed
@@ -48,16 +55,19 @@ public class UMLProcessor implements Processor {
         HashMap<Integer, ArrayList> classAttributesMap = new HashMap();
         Set classesPresent = new HashSet();
         
-//1. Create new html content to display the processed uml
-        String jointjsScriptStart = "var graph = new joint.dia.Graph;\n " 
-                                  + "\n +var paper = new joint.dia.Paper({" 
-                                  + "\n    el: $('#paper'),\n    width: 800,\n    height: 600,\n    gridSize: 1,\n    model: graph\n});\n" 
-                                  + "\n\n var uml = joint.shapes.uml;\n \n var classes = {";
-        String jointjsScript =  jointjsScriptStart;  
+        //should really need to clear the hashmaps but might as well
+        UsesMap.clear();
+        methodList.clear();
+        attributeList.clear();
+        //read the problem defintion from the xml file
+        ReadProblemDefinition(artifact);
         
 
-//2. Read through the profile  and make  lists of which methods and attributes are in which class 
+//1. Read through the profile  and make  lists of which methods and attributes are in which class 
 Hashtable pv = profile.getSolutionAttributes();
+ArrayList<String> methodsSeen = new ArrayList<>();
+ArrayList<String> attributesSeen = new ArrayList<>();
+
 if (pv == null) { System.out.println("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
 Enumeration pvarsEnu = pv.keys();
 while (pvarsEnu.hasMoreElements()) 
@@ -69,8 +79,9 @@ while (pvarsEnu.hasMoreElements())
     Integer elementClass = (int) ipvar.getValue();
        //add it to the list of classes present
     classesPresent.add(elementClass);
-    //gbet the type of elememnt it is - held as the unit
+    //get the type of elememnt it is - held as the unit
     String elementtype = ipvar.getUnit();
+    
     
     ArrayList membersList;
     //now we need to get the correct list of members
@@ -83,21 +94,43 @@ while (pvarsEnu.hasMoreElements())
     //then add the element to the list of members for this cvlass
     membersList.add(elementName);
      //finally add the changed or new arraylist back to the appropriate hashmap
+    //and record the fact we haveseem it
     if(elementtype.equalsIgnoreCase("method"))
-        classMethodsMap .put(elementClass, membersList);
+      {
+        classMethodsMap.put(elementClass, membersList);
+        membersList.add(elementName);
+      }
     else
+      {
         classAttributesMap.put(elementClass, membersList);
+        attributesSeen.add(elementName);
+      }
 }
 
+//2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
+if( haveSameElements(methodsSeen, methodList)==false)
+            System.out.println("problem - the lsit of methods in the profile is not the same a in the problem defintion");
+ 
+if( haveSameElements(attributesSeen, attributeList)==false)
+            System.out.println("problem - the list of attributes in the profile is not the same a in the problem defintion");
+ 
 
 
-//3. For each of the classes create a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
+//2. Create new class definitions to squirt into the  in the javascript that shows the classes onscreen
+        String jointjsClassesScript =  "";  
+        int xpos=0,ypos=0;
+
+//3. For each of the classes create a javascript that will display a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
         for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
+            xpos = (xpos+50)%500;
+            ypos = (ypos+100)%200;
             //create the string to add to our html
-            String textToAdd = String.valueOf(nextClass) + ": new uml.Class({position: { x:300  , y: 50 },size: { width: 240, height: 100 },name: '"
-                    + String.valueOf(nextClass)  + "',attributes: ['";
+            String textToAdd = String.valueOf(nextClass) 
+                            + ": new uml.Class({position: { x:"
+                            + xpos + "  , y: " + ypos+ "},size: { width: 240, height: 100 },name:'"
+                            + String.valueOf(nextClass)  + "',attributes: [";
             if(classAttributesMap.containsKey(nextClass))
               {
                 ArrayList memberslist = classAttributesMap.get(nextClass);
@@ -110,7 +143,7 @@ while (pvarsEnu.hasMoreElements())
                     }
               }
  
-            textToAdd  = textToAdd         +"'], \n     methods: ['";
+            textToAdd  = textToAdd         +"], \n     methods: [";
             if(classMethodsMap.containsKey(nextClass))
               {
                 ArrayList memberslist = classMethodsMap.get(nextClass);
@@ -122,14 +155,13 @@ while (pvarsEnu.hasMoreElements())
                           textToAdd = textToAdd + ",";
                     }
               }
-            textToAdd = textToAdd + "']\n})";
-            //noew add this string to the one we are building up
-            jointjsScript = jointjsScript + textToAdd;
+            textToAdd = textToAdd + "]\n})";
+            //now add this string to the one we are building up
+            jointjsClassesScript = jointjsClassesScript + textToAdd;
             //and finally either a comma if ther are more classes por a semicolon if this is the last
             if (iterator.hasNext())
-                jointjsScript = jointjsScript + ",\n";
-            else
-                jointjsScript = jointjsScript + "};\n";
+                jointjsClassesScript = jointjsClassesScript + ",\n";
+            
           }
     
     
@@ -141,7 +173,15 @@ while (pvarsEnu.hasMoreElements())
 
 //
 //6. Create arrows whose thickness represents out of class uses and put it on the output frame  (showing the coupling)
-        //5. Place those in the output frame within the html of the processed artefact
+String jointjsCouplingScript ="";        //6.1
+//for each pair of classes
+int i=0,j=0;
+//if a couple existis between classi and class j
+jointjsCouplingScript = jointjsCouplingScript 
+                    + "new joint.dia.link({ source: { id: classes." 
+                    + String.valueOf(i) 
+                    +".id }, target: { id: classes."
+                    +String.valueOf(j)+"person.id }}),";
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
 
@@ -167,12 +207,17 @@ while (pvarsEnu.hasMoreElements())
                 String htmlFile = "";
                 BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
                 String temp;
+                //so copy each line of the original html file into the new one
                 while ((temp = reader.readLine()) != null) {
+                    // copy the line from the old file into the new one 
                     htmlFile += temp + "\n";
-                    if (temp.contains("<head>")) {
-                        htmlFile += "<style type=\"text/css\">";
-                        htmlFile += CSS;
-                        htmlFile += "</style>";
+                    //we want to insert the new classes into the java script in the place they have been defined
+                    if (temp.contains("var classes")) {
+                        htmlFile += jointjsClassesScript ;
+                    }
+                    //and the coupling between them similarly
+                    if (temp.contains("var relations")) {
+                        htmlFile += jointjsCouplingScript ;
                     }
                 }
 
@@ -188,7 +233,126 @@ while (pvarsEnu.hasMoreElements())
         return null;
     }
 
+    private void ReadProblemDefinition(Artifact artifact)
+      {
+        
+        try{
+            //the problem defintion has the same name a the artefact but with a xml ending
+            String problemDefinition = artifact.getFilename();
+             problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
+             problemDefinition = problemDefinition + ".xml";
+             File definitionFile = new File(problemDefinition);
+             //now we need to read this xml file into a structure so we can access the uses
+            Document XmlDoc = new SAXBuilder().build(definitionFile);
+
+            Element root = XmlDoc.getRootElement();
+            Element profileNode = root.getChild("design", root.getNamespace());
+            Iterator iterator = profileNode.getChildren().iterator();
+			
+            while (iterator.hasNext()) 
+              {
+
+                Element hint = (Element) iterator.next();
+                if (hint.getName().equalsIgnoreCase("designElement")) 
+                  {
+                        String name = hint.getChildText("name");
+			String type = hint.getChildText("type");
+                        if(type.equalsIgnoreCase("method"))
+                            methodList.add(name);
+                        else
+                            attributeList.add(name);
+                  }
+                else if (hint.getName().equalsIgnoreCase("designUse")) 
+                  {
+                        String method = hint.getChildText("methodName");
+			String attribute = hint.getChildText("attributeName");
+                        if ( (! methodList.contains(method))|| ( !attributeList.contains(attribute)))
+                                {
+                                    System.out.println("declared designUse names method" + method 
+                                                        + " or attribute " + attribute 
+                                                      + "that has not been declarted as a design element");
+                                    //throw "";
+                                }
+                        else
+                          {
+                            
+                            ArrayList methodUsesList;
+                            if(UsesMap.containsKey(method))
+                                //get the list of uses associated with this method
+                                methodUsesList = UsesMap.get(method);
+                            else
+                                //or make a new one if it doesn;t exist
+                                methodUsesList = new ArrayList();
+                            //add the new attribute
+                            methodUsesList.add(attribute);
+                            //write this back to the HashMap
+                            UsesMap.put(method, methodUsesList);
+                          }         
+                  }
+                }       
+            }
+         catch (Exception e) {
+            System.out.println("");
+            e.printStackTrace();
+        }      
+      }
      
+    
+    
+    /**
+ * Returns if both {@link Collection Collections} contains the same elements, in the same quantities, regardless of order and collection type.
+ * <p>
+ * Empty collections and {@code null} are regarded as equal.
+ */
+public static <T> boolean haveSameElements(Collection<T> col1, Collection<T> col2) {
+    if (col1 == col2)
+        return true;
+
+    // If either list is null, return whether the other is empty
+    if (col1 == null)
+        return col2.isEmpty();
+    if (col2 == null)
+        return col1.isEmpty();
+
+    // If lengths are not equal, they can't possibly match
+    if (col1.size() != col2.size())
+        return false;
+
+    // Helper class, so we don't have to do a whole lot of autoboxing
+    class Count
+    {
+        // Initialize as 1, as we would increment it anyway
+        public int count = 1;
+    }
+
+    final Map<T, Count> counts = new HashMap<>();
+
+    // Count the items in list1
+    for (final T item : col1) {
+        final Count count = counts.get(item);
+        if (count != null)
+            count.count++;
+        else
+            // If the map doesn't contain the item, put a new count
+            counts.put(item, new Count());
+    }
+
+    // Subtract the count of items in list2
+    for (final T item : col2) {
+        final Count count = counts.get(item);
+        // If the map doesn't contain the item, or the count is already reduced to 0, the lists are unequal 
+        if (count == null || count.count == 0)
+            return false;
+        count.count--;
+    }
+
+    // If any count is nonzero at this point, then the two lists don't match
+    for (final Count count : counts.values())
+        if (count.count != 0)
+            return false;
+
+    return true;
+}
     
 }
 

@@ -40,7 +40,7 @@ else
   {// code for IE6, IE5
   xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
   }
-xmlhttp.open("GET","CBSdefinition.xml",false);
+xmlhttp.open("GET","CBSproblem.xml",false);
 xmlhttp.send();
 xmlDoc=xmlhttp.responseXML; 
 var x=xmlDoc.getElementsByTagName("designElement");
@@ -81,9 +81,38 @@ document.write("</table>");
 </div>
 <script src="http://www.jointjs.com/js/joint.js"></script>
 <script src="http://www.jointjs.com/js/joint.shapes.uml.js"></script>
-<script src="http://www.jointjs.com/js/umlcd.js"></script>
 
-<pre data-src="http://www.jointjs.com/js/umlcd.js" class="demo-source"></pre>
+<script>
+    var graph = new joint.dia.Graph;
+
+var paper = new joint.dia.Paper({
+    el: $('#paper'),
+    width: 800,
+    height: 600,
+    gridSize: 1,
+    model: graph
+});
+
+
+var uml = joint.shapes.uml;
+
+var classes = {
+
+};
+
+_.each(classes, function(c) { graph.addCell(c); });
+
+var relations = [
+    new uml.Generalization({ source: { id: classes.man.id }, target: { id: classes.person.id }}),
+    new uml.Generalization({ source: { id: classes.woman.id }, target: { id: classes.person.id }}),
+    new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
+    new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
+    new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
+];
+
+_.each(relations, function(r) { graph.addCell(r); });
+</script>
+
 
 
         </section>
