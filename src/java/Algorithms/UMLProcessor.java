@@ -131,17 +131,17 @@ else
 //2. Create new class definitions to squirt into the  in the javascript that shows the classes onscreen
         String jointjsClassesScript =  "";  
         int xpos=0,ypos=0;
-
+ArrayList<String> x = new ArrayList(Arrays.asList("zero","a", "b","c","d","e","f","g","h","i","j")); 
 //3. For each of the classes create a javascript that will display a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
         for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
-        ArrayList<String> x = new ArrayList(Arrays.asList("a", "b","c","d","e","f")); 
+        
             //create the string to add to our html
-            String textToAdd = x.get(nextClass)
+            String textToAdd =    x.get(nextClass)
                             + ": new uml.Class({position: { x:"
                             + xpos + "  , y: " + ypos+ "},size: { width: 150, height: 100 },name:'"
-                            + String.valueOf(nextClass)  + "',attributes: [";
+                            + x.get(nextClass)  + "',attributes: [";
             if(classAttributesMap.containsKey(nextClass))
               {
                 ArrayList memberslist = classAttributesMap.get(nextClass);
@@ -193,7 +193,9 @@ String jointjsCouplingScript ="";        //6.1
 int i=1,j=2;
 //if a couple existis between classi and class j
 jointjsCouplingScript = jointjsCouplingScript 
-                    + "new joint.dia.Link({ source: { id: classes.b.id }, target: { id: classes.c.id }}),";
+        + "new joint.dia.Link({ source: { id: classes." 
+        + x.get(i) + ".id }, target: { id: classes." 
+        + x.get(j) +".id }}),";
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
 
