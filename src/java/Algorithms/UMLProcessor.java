@@ -12,6 +12,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -51,7 +54,7 @@ public class UMLProcessor implements Processor {
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
-        System.out.println("in umprocessor.applyprofiletoartefact()");
+        //System.out.println("in umprocessor.applyprofiletoartefact()");
         HashMap<Integer, ArrayList> classMethodsMap = new HashMap();
         HashMap<Integer, ArrayList> classAttributesMap = new HashMap();
         Set classesPresent = new HashSet();
@@ -82,7 +85,7 @@ while (pvarsEnu.hasMoreElements())
     classesPresent.add(elementClass);
     //get the type of elememnt it is - held as the unit
     String elementtype = ipvar.getUnit();
-      System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
+    //  System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
     
     ArrayList membersList;
     //now we need to get the correct list of members
@@ -122,7 +125,7 @@ else if( haveSameElements(attributesSeen, attributeList)==false)
   }
  
 else
-            System.out.println("problem defintion read from xml matches variables in " + profile.getName());
+            ;//System.out.println("problem defintion read from xml matches variables in " + profile.getName());
 
 //2. Create new class definitions to squirt into the  in the javascript that shows the classes onscreen
         String jointjsClassesScript =  "";  
@@ -210,7 +213,7 @@ jointjsCouplingScript = jointjsCouplingScript
              // TESTING : distinguishing the raw artifact name from the processed one (processed one)
            //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
              processedArtifactName = profileName + "-" +rawArtifactName + ".html";
-             System.out.println("Processed artifact name = " + processedArtifactName);
+             //System.out.println("Processed artifact name = " + processedArtifactName);
                 outHtmlPath = outputFolder + processedArtifactName;
                 String htmlFile = "";
                 BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
@@ -252,6 +255,16 @@ jointjsCouplingScript = jointjsCouplingScript
              problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
              problemDefinition = problemDefinition + ".xml";
              File definitionFile = new File(pathToXML, problemDefinition);
+             //at this stage we'll put a copy in the session directpory as well
+             String pathToOutputFile = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("input")) + "output/" + problemDefinition;
+             File copyOfDefinition = new File(pathToOutputFile);
+             if(!copyOfDefinition.exists())
+                     {
+                         System.out.println("putting a copy of the problem definition in the output directory");
+                       Files.copy(definitionFile.toPath(), copyOfDefinition.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                     }
+
+            
              //now we need to read this xml file into a structure so we can access the uses
             Document XmlDoc = new SAXBuilder().build(definitionFile);
 
@@ -287,8 +300,8 @@ jointjsCouplingScript = jointjsCouplingScript
                                 }
                         else
                           {
-                            System.out.println("designUse: method " + method 
-                                                        + " uses attribute " + attribute);
+                            //System.out.println("designUse: method " + method 
+                             //                           + " uses attribute " + attribute);
                             ArrayList methodUsesList;
                             if(UsesMap.containsKey(method))
                                 //get the list of uses associated with this method
@@ -311,7 +324,7 @@ jointjsCouplingScript = jointjsCouplingScript
                 ArrayList value = entrySet.getValue();
                 totaluses += value.size();
               }
-            System.out.println("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file");
+            //System.out.println("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file");
             }
          catch (Exception e) {
             System.out.println("");
