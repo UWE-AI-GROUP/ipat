@@ -18,8 +18,7 @@ definition of the elements of the CBS problem with the jointJS script to display
         <link rel="stylesheet" href="http://www.jointjs.com/css/joint.css" />
         <link rel="stylesheet" href="http://www.jointjs.com/css/tutorial.css" />
 
-        <link rel="shortcut icon" href="IPAT Demo: Software Class Model Evolution for the Cinema Booking System Problem/favicon.ico" type="image/x-icon">
-        <link rel="icon" href="IPAT Demo: Software Class Model Evolution for the Cinema Booking System Problem/favicon.ico" type="image/x-icon">
+        
 
         <title>IPAT Demo: Software Class Model Evolution for the Cinema Booking System Problem.</title>
         
@@ -28,57 +27,8 @@ definition of the elements of the CBS problem with the jointJS script to display
    
 
 
-        <section id="Elements">
-
-          <div id="elements-sidebar" class="content-sidebar">
-  <script>
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.open("GET","CBSproblem.xml",false);
-xmlhttp.send();
-xmlDoc=xmlhttp.responseXML; 
-var x=xmlDoc.getElementsByTagName("designElement");
- 
-document.write("<table><tr><th>Name</th><th>type</th></tr>");
-
-for (i=0;i<x.length;i++)
-  { 
-      document.write("<td>");
-  document.write(x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue);
-  document.write("</td><td>");
-  document.write(x[i].getElementsByTagName("type")[0].childNodes[0].nodeValue);
-  document.write("</td></tr>");
-  }
-document.write("</table>");
-
-
-var y=xmlDoc.getElementsByTagName("designUse");
- 
-document.write("<table><tr><th>Method</th><th>Attribute</th></tr>");
-
-for (i=0;i<y.length;i++)
-  { 
-      document.write("<td>");
-  document.write(y[i].getElementsByTagName("methodName")[0].childNodes[0].nodeValue);
-  document.write("</td><td>");
-  document.write(y[i].getElementsByTagName("attributeName")[0].childNodes[0].nodeValue);
-  document.write("</td></tr>");
-  }
-document.write("</table>");
-</script>
-</div>
-
-
-          <div id="pn" class="content-container">
   <h1>The Class Diagram</h1>
-  <div id="paper" class="paper"/>
-</div>
+  <div id="paper" class="paper"/></div>
 <script src="http://www.jointjs.com/js/joint.js"></script>
 <script src="http://www.jointjs.com/js/joint.shapes.uml.js"></script>
 
@@ -87,7 +37,7 @@ document.write("</table>");
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 800,
+    width: 1000,
     height: 600,
     gridSize: 1,
     model: graph
@@ -103,11 +53,7 @@ var classes = {
 _.each(classes, function(c) { graph.addCell(c); });
 
 var relations = [
-    new uml.Generalization({ source: { id: classes.man.id }, target: { id: classes.person.id }}),
-    new uml.Generalization({ source: { id: classes.woman.id }, target: { id: classes.person.id }}),
-    new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
-    new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
-    new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
+  
 ];
 
 _.each(relations, function(r) { graph.addCell(r); });
