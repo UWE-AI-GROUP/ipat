@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -135,9 +136,9 @@ else
         for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
-        
+        ArrayList<String> x = new ArrayList(Arrays.asList("a", "b","c","d","e","f")); 
             //create the string to add to our html
-            String textToAdd = String.valueOf(nextClass) 
+            String textToAdd = x.get(nextClass)
                             + ": new uml.Class({position: { x:"
                             + xpos + "  , y: " + ypos+ "},size: { width: 150, height: 100 },name:'"
                             + String.valueOf(nextClass)  + "',attributes: [";
@@ -192,10 +193,7 @@ String jointjsCouplingScript ="";        //6.1
 int i=1,j=2;
 //if a couple existis between classi and class j
 jointjsCouplingScript = jointjsCouplingScript 
-                    + "new joint.dia.link({ source: { id: classes." 
-                    + "1"
-                    +".id }, target: { id: classes."
-                    +"2"+".id }}),";
+                    + "new joint.dia.Link({ source: { id: classes.b.id }, target: { id: classes.c.id }}),";
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
 
@@ -231,7 +229,7 @@ jointjsCouplingScript = jointjsCouplingScript
                     }
                     //and the coupling between them similarly
                     if (temp.contains("var relations")) {
-                        ;//htmlFile += jointjsCouplingScript ;
+                        htmlFile += jointjsCouplingScript ;
                     }
                 }
 
