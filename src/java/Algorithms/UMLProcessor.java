@@ -135,12 +135,11 @@ else
         for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
-            xpos = (xpos+50)%500;
-            ypos = (ypos+100)%200;
+        
             //create the string to add to our html
             String textToAdd = String.valueOf(nextClass) 
                             + ": new uml.Class({position: { x:"
-                            + xpos + "  , y: " + ypos+ "},size: { width: 240, height: 100 },name:'"
+                            + xpos + "  , y: " + ypos+ "},size: { width: 150, height: 100 },name:'"
                             + String.valueOf(nextClass)  + "',attributes: [";
             if(classAttributesMap.containsKey(nextClass))
               {
@@ -173,6 +172,10 @@ else
             if (iterator.hasNext())
                 jointjsClassesScript = jointjsClassesScript + ",\n";
             
+            
+            //move the next box along
+                        xpos = (xpos+200)%500;
+            ypos = (ypos+100)%500;
           }
     
     
@@ -186,13 +189,13 @@ else
 //6. Create arrows whose thickness represents out of class uses and put it on the output frame  (showing the coupling)
 String jointjsCouplingScript ="";        //6.1
 //for each pair of classes
-int i=0,j=0;
+int i=1,j=2;
 //if a couple existis between classi and class j
 jointjsCouplingScript = jointjsCouplingScript 
                     + "new joint.dia.link({ source: { id: classes." 
-                    + String.valueOf(i) 
+                    + "1"
                     +".id }, target: { id: classes."
-                    +String.valueOf(j)+"person.id }}),";
+                    +"2"+".id }}),";
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
 
@@ -228,7 +231,7 @@ jointjsCouplingScript = jointjsCouplingScript
                     }
                     //and the coupling between them similarly
                     if (temp.contains("var relations")) {
-                        htmlFile += jointjsCouplingScript ;
+                        ;//htmlFile += jointjsCouplingScript ;
                     }
                 }
 
