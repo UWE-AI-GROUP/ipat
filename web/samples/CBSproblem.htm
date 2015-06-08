@@ -26,8 +26,10 @@ definition of the elements of the CBS problem with the jointJS script to display
     <body>
    
   <div id="paper" class="paper"/></div>
-<script src="http://www.jointjs.com/js/joint.js"></script>
-<script src="http://www.jointjs.com/js/joint.shapes.uml.js"></script>
+<!--<script src="../joint.min.js"></script>-->
+<script src="../../../javascript/joint.min.js"></script>
+<script src="../../../javascript/joint.shapes.uml.js"></script>
+
 
 <script>
     var graph = new joint.dia.Graph;
@@ -54,11 +56,23 @@ var relations = [
 ];
 
 _.each(relations, function(r) { graph.addCell(r); });
+
+
+
+var myAdjustVertices = _.partial(adjustVertices, graph);
+
+// adjust vertices when a cell is removed or its source/target was changed
+graph.on('add remove change:source change:target', myAdjustVertices);
+
+// also when an user stops interacting with an element.
+paper.on('cell:pointerup', myAdjustVertices);
+
+
+
+
 </script>
 
 
-
-        </section>
 
    
 

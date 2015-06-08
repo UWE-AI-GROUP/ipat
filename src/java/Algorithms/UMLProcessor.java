@@ -245,7 +245,8 @@ String jointjsCouplingScript ="";        //6.1
 for(int class1=0;class1<=highestClasses;class1++)
     for(int class2=0;class2<=highestClasses;class2++)
         //if a couple existis between class1 and class2
-        if(numUses[class1][class2]>0 && (class1 != class2))
+        if(class1 != class2)
+            for(int j=0; j< numUses[class1][class2];j++ )
           {
             jointjsCouplingScript = jointjsCouplingScript 
                     + "new joint.dia.Link({ source: { id: classes." 
