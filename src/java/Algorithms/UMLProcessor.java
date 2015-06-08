@@ -18,6 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.HashMap;
@@ -41,11 +42,13 @@ public class UMLProcessor implements Processor {
 
     private HashMap<String,ArrayList> UsesMap;
     private ArrayList<String> methodList, attributeList;
+    ArrayList<String> classNames; 
     
     public UMLProcessor(){
     UsesMap = new HashMap<>();
     methodList = new ArrayList<>();
     attributeList = new ArrayList<>();
+    classNames = new ArrayList(Arrays.asList("zero","a", "b","c","d","e","f","g","h","i","j","k","l","m","n","p","q","r","s","t","u","v","w","x","y","z")); 
     }
     /*
     Profile - the profile being applied to artifact
@@ -58,8 +61,10 @@ public class UMLProcessor implements Processor {
         //System.out.println("in umprocessor.applyprofiletoartefact()");
         HashMap<Integer, ArrayList> classMethodsMap = new HashMap();
         HashMap<Integer, ArrayList> classAttributesMap = new HashMap();
-        Set classesPresent = new HashSet();
-        
+        ArrayList<Integer> classesPresent = new ArrayList();
+        ArrayList<String> methodsSeen = new ArrayList<>();
+        ArrayList<String> attributesSeen = new ArrayList<>();
+        HashMap<String,Integer> classAssignments = new HashMap();
         //should really need to clear the hashmaps but might as well
         UsesMap.clear();
         methodList.clear();
@@ -70,9 +75,6 @@ public class UMLProcessor implements Processor {
 
 //1. Read through the profile  and make  lists of which methods and attributes are in which class 
 Hashtable pv = profile.getSolutionAttributes();
-ArrayList<String> methodsSeen = new ArrayList<>();
-ArrayList<String> attributesSeen = new ArrayList<>();
-
 if (pv == null) { System.out.println("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
 Enumeration pvarsEnu = pv.keys();
 while (pvarsEnu.hasMoreElements()) 
@@ -82,11 +84,16 @@ while (pvarsEnu.hasMoreElements())
     //get the class it is in - held in the SolutionAttribute variable as its value
     SolutionAttributes ipvar = (SolutionAttributes) pv.get(elementName);
     Integer elementClass = (int) ipvar.getValue();
-       //add it to the list of classes present
-    classesPresent.add(elementClass);
-    //get the type of elememnt it is - held as the unit
+    //add it to the list of classes present if not already there
+    if ( ! classesPresent.contains(elementClass))
+        classesPresent.add(elementClass);
+    //get the type of element it is - held as the unit
     String elementtype = ipvar.getUnit();
     //  System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
+    
+    //add this assignment in this design
+    classAssignments.put(elementName, elementClass);
+    
     
     ArrayList membersList;
     //now we need to get the correct list of members
@@ -128,20 +135,69 @@ else if( haveSameElements(attributesSeen, attributeList)==false)
 else
             ;//System.out.println("problem defintion read from xml matches variables in " + profile.getName());
 
-//2. Create new class definitions to squirt into the  in the javascript that shows the classes onscreen
-        String jointjsClassesScript =  "";  
-        int xpos=0,ypos=0;
-ArrayList<String> x = new ArrayList(Arrays.asList("zero","a", "b","c","d","e","f","g","h","i","j")); 
+
+
+
+//2. now make a list of all the in-class and between-class uses in this design candidate
+
+
+  //2.1start by sorting the list of classes present for appearances sake
+ Collections.sort(classesPresent);
+ int highestClasses = 0;
+ for (int i=0; i<classesPresent.size();i++)
+     if(classesPresent.get(i)>highestClasses)
+         highestClasses = classesPresent.get(i);
+ 
+        //System.out.println("highest class id used is " + highestClasses);
+ int numUses[][] = new int[highestClasses+1][highestClasses+1];
+//2.2 loop through each class
+for (int i=0;i < classesPresent.size();i++)
+    {
+      Integer thisClass = classesPresent.get(i);
+     //get all the methods in this class 
+     ArrayList methodsInthisClass =    classMethodsMap.get(thisClass);
+     if(methodsInthisClass!= null)
+       {
+     //2.3 foreach methid in the class
+        for (Iterator<String> iterator = methodsInthisClass.iterator(); iterator.hasNext();)
+          {
+            String thisMethod = iterator.next();
+            //get all of the attributes it uses
+            ArrayList<String> thisMethodAtts = UsesMap.get(thisMethod);
+              for (Iterator<String> iterator1 = thisMethodAtts.iterator(); iterator1.hasNext();)
+                {
+                  //2.4 get their name
+                  String attrString = iterator1.next();
+                  //and then what class they are in
+                  int attClass = classAssignments.get(attrString);
+                    //System.out.println("dealing with method " + thisMethod + "in class " + thisClass + ": it uses attribute " + attrString + " which is is class " + attClass);
+                  //2.5 finally increment the numberof uses
+                  numUses[thisClass][attClass]++;
+                }         
+          }
+       }
+    }
+
+
 //3. For each of the classes create a javascript that will display a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
-        for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
+  
+    //initialsie the s tring and the poosiution values
+    String jointjsClassesScript =  ""; 
+           int xpos=0,ypos=0;
+           
+           
+    //then do the loop
+    for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
-        
+            xpos = xpos + nextClass;
+            ypos = ypos+nextClass;
             //create the string to add to our html
-            String textToAdd =    x.get(nextClass)
+            //TODO chaneg the box colour according ot cohesion
+            String textToAdd =    classNames.get(nextClass)
                             + ": new uml.Class({position: { x:"
                             + xpos + "  , y: " + ypos+ "},size: { width: 150, height: 100 },name:'"
-                            + x.get(nextClass)  + "',attributes: [";
+                            + classNames.get(nextClass)  + "',attributes: [";
             if(classAttributesMap.containsKey(nextClass))
               {
                 ArrayList memberslist = classAttributesMap.get(nextClass);
@@ -175,27 +231,27 @@ ArrayList<String> x = new ArrayList(Arrays.asList("zero","a", "b","c","d","e","f
             
             
             //move the next box along
-                        xpos = (xpos+200)%500;
+            xpos = (xpos+200)%500;
             ypos = (ypos+100)%500;
           }
     
     
-        
-        
- //5. Read in the use matrix from the raw artefact and make a list of:
-//- the numbers of uses going from each class to each other
-//- the number of uses within each class
+      
 
 //
-//6. Create arrows whose thickness represents out of class uses and put it on the output frame  (showing the coupling)
+//4. Create arrows whose thickness represents out of class uses and put it on the output frame  (showing the coupling)
 String jointjsCouplingScript ="";        //6.1
 //for each pair of classes
-int i=1,j=2;
-//if a couple existis between classi and class j
-jointjsCouplingScript = jointjsCouplingScript 
-        + "new joint.dia.Link({ source: { id: classes." 
-        + x.get(i) + ".id }, target: { id: classes." 
-        + x.get(j) +".id }}),";
+for(int class1=0;class1<=highestClasses;class1++)
+    for(int class2=0;class2<=highestClasses;class2++)
+        //if a couple existis between class1 and class2
+        if(numUses[class1][class2]>0 && (class1 != class2))
+          {
+            jointjsCouplingScript = jointjsCouplingScript 
+                    + "new joint.dia.Link({ source: { id: classes." 
+                    + classNames.get(class1) + ".id }, target: { id: classes." 
+                    + classNames.get(class2) +".id }}),";
+          }
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
 
