@@ -60,7 +60,13 @@ public class Profile {
 		this.name = file.getName();
 	}
 
-        
+        public void randomiseKernelValues() {
+        Enumeration enumerator = this.solutionAttributes.elements();
+            while ( enumerator.hasMoreElements()) {
+               SolutionAttributes SA = (SolutionAttributes) enumerator.nextElement();
+               SA.randomizeValues();
+            }
+        }
         
 	/**
 	 * Adds the kernel.

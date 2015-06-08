@@ -262,7 +262,9 @@ public class Controller {
             //work out how many to make
             int diffOfNrOfProfilesToMake = noOfProfiles - profiles_list.length;
             for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
-                new_profiles_list[i + j] = profiles_list[1];
+                Profile new_profile =  new Profile(profiles_list[1]);
+                new_profile.randomiseKernelValues();
+                new_profiles_list[i + j] = new_profile.getFile();
             }
             System.out.println("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake);
 

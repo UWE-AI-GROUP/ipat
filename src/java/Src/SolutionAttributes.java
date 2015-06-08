@@ -69,6 +69,12 @@ public class SolutionAttributes {
 		this.unit = unit;
 	}
 
+        
+        public void randomizeValues(){
+        double range = (this.ubound - this.lbound) + 1;
+        this.value = (Math.random() * range) + this.lbound;
+        }
+        
 	/**
 	 * Gets the dfault.
 	 *
