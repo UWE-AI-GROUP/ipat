@@ -18,6 +18,8 @@ and open the template in the editor.
     alignment-adjust: central;
     display: inline-block;
     background-image: url("backgroundImage.jpg");
+     background-size: 100% 100%;
+    background-repeat: no-repeat;
     color: aquamarine;
 }
 

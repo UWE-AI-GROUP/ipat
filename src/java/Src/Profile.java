@@ -9,9 +9,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.StringReader;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -31,7 +32,7 @@ public class Profile {
 	private int globalScore = 5;
 	
 	/** The kernels. */
-	private Hashtable kernels;
+	private HashMap kernels;
 	
 	/** The name. */
 	private String name;
@@ -46,7 +47,7 @@ public class Profile {
 	private int noOfProfileVariables;
 	
 	/** The solutionAttributes. */
-	private Hashtable solutionAttributes;
+	private HashMap solutionAttributes;
 
 	/**
 	 * Instantiates a new ipat profile.
@@ -54,17 +55,28 @@ public class Profile {
 	 * @param file the file
 	 */
 	public Profile(File file) {
-		solutionAttributes = new Hashtable();
-		kernels = new Hashtable();
+		solutionAttributes = new HashMap();
+		kernels = new HashMap();
 		this.file = file;
 		this.name = file.getName();
 	}
 
-        public void randomiseKernelValues() {
-        Enumeration enumerator = this.solutionAttributes.elements();
-            while ( enumerator.hasMoreElements()) {
-               SolutionAttributes SA = (SolutionAttributes) enumerator.nextElement();
+        public void randomiseProfileVariableValues() {
+        Collection vals = this.solutionAttributes.values();
+            Iterator iterator = vals.iterator();
+            while ( iterator.hasNext()) {
+               SolutionAttributes SA = (SolutionAttributes) iterator.next();
                SA.randomizeValues();
+            }
+        }
+        
+        // TODO randomise kernel Values
+        public void randomiseKernelValues(){
+         Collection vals = this.kernels.values();
+          Iterator iterator = vals.iterator();
+            while ( iterator.hasNext()) {
+               Kernel SA = (Kernel) iterator.next();
+              // SA.randomizeValues();
             }
         }
         
@@ -77,6 +89,7 @@ public class Profile {
 		kernels.put(kernel.getName(), kernel);
 	}
 
+    
     /**
      *
      * @param kernelName
@@ -100,7 +113,7 @@ public class Profile {
     
     
 	/**
-	 * Adds the profile level variable to the hashtable in thisProfile
+	 * Adds the profile level variable to the HashMap in thisProfile
 	 *
 	 * @param var the variable to be added to the solutionattributes hashtable
 	 */
@@ -141,7 +154,7 @@ public class Profile {
 	 *
 	 * @return the kernels
 	 */
-	public Hashtable getKernels() {
+	public HashMap getKernels() {
 		return kernels;
 	}
 
@@ -159,7 +172,7 @@ public class Profile {
 	 *
 	 * @return the solutionAttributes
 	 */
-	public Hashtable getSolutionAttributes() {
+	public HashMap getSolutionAttributes() {
 		return solutionAttributes;
 	}
 
@@ -167,20 +180,23 @@ public class Profile {
 	 * Prints the profile.
 	 */
 	public void printProfile() {
-		Enumeration enu = solutionAttributes.elements();
-		while (enu.hasMoreElements()) {
-			SolutionAttributes var = (SolutionAttributes) enu.nextElement();
+		Set keys = solutionAttributes.keySet();
+            Iterator AttributesIterator = keys.iterator();
+		while (AttributesIterator.hasNext()) {
+			SolutionAttributes var = (SolutionAttributes) AttributesIterator.next();
 			System.out.println(var.getName() + " : " + var.getValue());
 		}
-		enu = kernels.keys();
-		while (enu.hasMoreElements()) {
-			String name = (String) enu.nextElement();
+            Set keySet = kernels.keySet();
+            Iterator kernelIterator = keySet.iterator();
+		while (kernelIterator.hasNext()) {
+			String name = (String) kernelIterator.next();
 			System.out.println(name);
 			Kernel kernel = (Kernel) kernels.get(name);
-			Hashtable kVars = kernel.getVariables();
-			Enumeration enu2 = kVars.keys();
-			while (enu2.hasMoreElements()) {
-				SolutionAttributes var = (SolutionAttributes) kVars.get(enu2.nextElement());
+			HashMap kVars = kernel.getVariables();
+			Set kVarsKeys = kVars.keySet();
+                    Iterator kVarsKeysIterator = kVarsKeys.iterator();
+			while ( kVarsKeysIterator.hasNext()) {
+				SolutionAttributes var = (SolutionAttributes) kVars.get(kVarsKeysIterator.next());
 				System.out.println("   " + var.getName() + " : "
 						+ var.getValue());
 			}
@@ -308,7 +324,7 @@ public class Profile {
 					Iterator it = hint.getChildren().iterator();
 					Element nm = (Element) it.next();
 					String kernelName = nm.getText();
-					Hashtable vars = new Hashtable();
+					HashMap vars = new HashMap();
 					while (it.hasNext()) {
 						Element hintt = (Element) it.next();
 						String name = hintt.getChildText("name");
@@ -367,15 +383,17 @@ public class Profile {
 			Element profileNode = root.getChild("profile", root.getNamespace());
 			Iterator iterator = profileNode.getChildren().iterator();
 
-			Enumeration enu = profile.getSolutionAttributes().elements();
-			Hashtable kernels = profile.getKernels();
-			Enumeration enuK = profile.getKernels().keys();
+			Set entrySet = profile.getSolutionAttributes().entrySet();
+                        Iterator enu = entrySet.iterator();
+			HashMap kernels = profile.getKernels();
+			Set keySet = profile.getKernels().keySet();
+                        Iterator enuK = keySet.iterator();
 			
 			while (iterator.hasNext()) {
 
 				Element hint = (Element) iterator.next();
 				if (hint.getName().equalsIgnoreCase("variable")) {
-					SolutionAttributes var = (SolutionAttributes) enu.nextElement();
+					SolutionAttributes var = (SolutionAttributes) enu.next();
 					Element elem = hint.getChild("name");
 					elem.setText(var.getName());
 
@@ -420,12 +438,13 @@ public class Profile {
 					String kernelName = nm.getText();
 					
 					Kernel kern = (Kernel) kernels.get(kernelName);
-					Hashtable vars = kern.getVariables();
-					Enumeration enu3 = vars.elements();
+					HashMap vars = kern.getVariables();
+					Set entrySet1 = vars.entrySet();
+                                        Iterator enu3 = entrySet1.iterator();
 					
 					while (it.hasNext()) {
 						Element hintt = (Element) it.next();
-						SolutionAttributes varb = (SolutionAttributes) enu3.nextElement();
+						SolutionAttributes varb = (SolutionAttributes) enu3.next();
 						
 						Element elem = hintt.getChild("name");
 						elem.setText(varb.getName());
@@ -493,7 +512,7 @@ public class Profile {
 	 */
 	 /* added by Jim novemeber 2012 to make setProfileScore more generic */
 	public void setProfileVariableValue( String varname, double newValue) {
-	Hashtable elements = new Hashtable();
+	HashMap elements = new HashMap();
 	try {
 		Document XmlDoc = new SAXBuilder().build(this.file);
 	

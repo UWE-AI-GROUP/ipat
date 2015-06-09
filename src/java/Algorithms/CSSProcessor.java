@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -22,7 +24,7 @@ import java.util.Vector;
  */
 public class CSSProcessor implements Processor {
 
-    private Hashtable cssLabels;
+    private HashMap cssLabels;
   
     
     public CSSProcessor() {
@@ -39,7 +41,7 @@ public class CSSProcessor implements Processor {
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
         
-        Hashtable kernels = profile.getKernels();
+        HashMap kernels = profile.getKernels();
         if (kernels == null) {System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");}
 
 	// ----------- CSS Formatters -------------------------------//
@@ -50,16 +52,17 @@ public class CSSProcessor implements Processor {
 
         // ------------ CSS Generation ------------------------------//
         String css = "";
-        Hashtable pv = profile.getSolutionAttributes();
+        HashMap pv = profile.getSolutionAttributes();
         if (pv == null) { System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");}
-        Enumeration pvarsEnu = pv.keys();
+        Set keySet = pv.keySet();
+        Iterator iterator = keySet.iterator();
         String csspLine = "body{";
         int colorCheck = 0;
         int red = 0;
         int blue = 0;
         int green = 0;
-        while (pvarsEnu.hasMoreElements()) {
-            String vkey = pvarsEnu.nextElement().toString();
+        while (iterator.hasNext()) {
+            String vkey = iterator.next().toString();
             SolutionAttributes ipvar = (SolutionAttributes) pv.get(vkey);
 
             if (ipvar.getName().contains("Page")) {
@@ -84,11 +87,12 @@ public class CSSProcessor implements Processor {
 
         csspLine += CSS_End_Braces + "\n";
         css += csspLine;
-        Enumeration kernelsEnuTemp = kernels.keys();
+        Set keySet1 = kernels.keySet();
+        Iterator kernelsEnuTemp = keySet1.iterator();
         String[] tempVector = new String[kernels.size()];
         int k = 3;
-        while (kernelsEnuTemp.hasMoreElements()) {
-            String kernelName = kernelsEnuTemp.nextElement().toString();
+        while (kernelsEnuTemp.hasNext()) {
+            String kernelName = kernelsEnuTemp.next().toString();
             if (kernelName.equalsIgnoreCase("h1")) {
                 tempVector[0] = kernelName;
             } else if (kernelName.equalsIgnoreCase("h2")) {
@@ -112,14 +116,16 @@ public class CSSProcessor implements Processor {
             String ktype = kernelsEnu.nextElement().toString();
             Kernel kernel1 = (Kernel) kernels.get(ktype);
             cssLine += kernel1.getName() + CSS_Start_Braces;
-            Hashtable vars = kernel1.getVariables();
-            Enumeration evars = vars.keys();
+            HashMap vars = kernel1.getVariables();
+            Set keySet2 = vars.keySet();
+            
+            Iterator evars = keySet2.iterator();
             colorCheck = 0;
             red = 0;
             blue = 0;
             green = 0;
-            while (evars.hasMoreElements()) {
-                String vkey = evars.nextElement().toString();
+            while (evars.hasNext()) {
+                String vkey = evars.next().toString();
                 SolutionAttributes ipvar = (SolutionAttributes) vars.get(vkey);
 
                 if (ipvar.getName().contains("color")) {
@@ -213,7 +219,7 @@ public class CSSProcessor implements Processor {
         return null;
     }
 
-     public Hashtable setupCSSLabelStore() {
+     public HashMap setupCSSLabelStore() {
         // Cardinal variables store
 
         // The fontfamilies.
@@ -231,7 +237,7 @@ public class CSSProcessor implements Processor {
                 = {"0px 0px 10px 10px", "10px 10px 0px 0px", "0px 10px 10px 0px",
                     "10px 0px 0px 10px", "10px 0px 10px 0px"};
 
-        Hashtable cssStore = new Hashtable();
+        HashMap cssStore = new HashMap();
 
         Vector temp = new Vector();
         for (int i = 0; i < fontfamilies.length; i++) {

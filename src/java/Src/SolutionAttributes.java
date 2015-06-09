@@ -71,8 +71,9 @@ public class SolutionAttributes {
 
         
         public void randomizeValues(){
-        double range = (this.ubound - this.lbound) + 1;
-        this.value = (Math.random() * range) + this.lbound;
+        double range = (this.ubound - this.lbound);
+        // check granularity isnt null
+        this.value = (Math.random() * range )  + this.lbound; // change to take account of granularity
         }
         
 	/**

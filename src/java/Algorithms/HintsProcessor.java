@@ -3,10 +3,11 @@ package Algorithms;
 import Src.Kernel;
 import Src.Profile;
 import Src.SolutionAttributes;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  *
@@ -166,8 +167,8 @@ public class HintsProcessor {
   public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
-        Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
-        Hashtable kernels = thisProfile.getKernels();
+        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
         assert ((amount >= rangeMin) && (amount <= rangeMax));
@@ -196,14 +197,15 @@ public class HintsProcessor {
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (0 == 1) ;//TODO if kernel == null throw an exception
             else {
-                Hashtable vars = kernel.getVariables();
+                HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
                 if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
                     ArrayList allKernelVariables = new ArrayList();
-                    Enumeration kVarNames = vars.keys();
-                    while (kVarNames.hasMoreElements()) {
-                        allKernelVariables.add(kVarNames.nextElement().toString());
+                    Set keySet = vars.keySet();
+                    Iterator kVarNames = keySet.iterator();
+                    while (kVarNames.hasNext()) {
+                        allKernelVariables.add(kVarNames.next().toString());
                     }
                     kvarIterator = allKernelVariables.iterator();
                 } else // otherwise, if we have some specified, just use them
@@ -240,8 +242,8 @@ public class HintsProcessor {
     public Profile InterpretFreezingHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
-        Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
-        Hashtable kernels = thisProfile.getKernels();
+        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
         //first freeze all of the profile level variables
@@ -263,14 +265,15 @@ public class HintsProcessor {
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (0 == 1) ;//TODO if kernel == null throw an exception
             else {
-                Hashtable vars = kernel.getVariables();
+                HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
                 if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
                     ArrayList allKernelVariables = new ArrayList();
-                    Enumeration kVarNames = vars.keys();
-                    while (kVarNames.hasMoreElements()) {
-                        allKernelVariables.add(kVarNames.nextElement().toString());
+                    Set keySet = vars.keySet();
+                    Iterator kVarNames = keySet.iterator();
+                    while (kVarNames.hasNext()) {
+                        allKernelVariables.add(kVarNames.next().toString());
                     }
                     kvarIterator = allKernelVariables.iterator();
                 } else // otherwise, if we have some specified, just use them
@@ -307,8 +310,8 @@ public class HintsProcessor {
     public Profile InterpretModeratingHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
-        Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
-        Hashtable kernels = thisProfile.getKernels();
+        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
         assert ((amount >= rangeMin) && (amount <= rangeMax));
@@ -347,14 +350,15 @@ public class HintsProcessor {
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (0 == 1) ;//TODO if kernel == null throw an exception
             else {
-                Hashtable vars = kernel.getVariables();
+                HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
                 if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
                     ArrayList allKernelVariables = new ArrayList();
-                    Enumeration kVarNames = vars.keys();
-                    while (kVarNames.hasMoreElements()) {
-                        allKernelVariables.add(kVarNames.nextElement().toString());
+                    Set keySet = vars.keySet();
+                    Iterator kVarNames = keySet.iterator();
+                    while (kVarNames.hasNext()) {
+                        allKernelVariables.add(kVarNames.next().toString());
                     }
                     kvarIterator = allKernelVariables.iterator();
                 } else // otherwise, if we have some specified, just use them
@@ -400,8 +404,8 @@ public class HintsProcessor {
     public Profile InterpretToggleHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
-        Hashtable profileLevelVars = thisProfile.getSolutionAttributes();
-        Hashtable kernels = thisProfile.getKernels();
+        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap kernels = thisProfile.getKernels();
         String currentVarName;
         double newValue;
 
@@ -437,14 +441,15 @@ public class HintsProcessor {
             if (kernel != null) {
                 if (0 == 1) ;//TODO if kernel == null throw an exception
                 else {
-                    Hashtable vars = kernel.getVariables();
+                    HashMap vars = kernel.getVariables();
                     Iterator kvarIterator;
                     // if we don't have a list of which kernel variables to change use all
                     if (kernelVariablesAffected.isEmpty()) {//boring conversion because Profile uses hashmaps and enumerators
                         ArrayList allKernelVariables = new ArrayList();
-                        Enumeration kVarNames = vars.keys();
-                        while (kVarNames.hasMoreElements()) {
-                            allKernelVariables.add(kVarNames.nextElement().toString());
+                        Set keySet = vars.keySet();
+                        Iterator kVarNames = keySet.iterator();
+                        while (kVarNames.hasNext()) {
+                            allKernelVariables.add(kVarNames.next().toString());
                         }
                         kvarIterator = allKernelVariables.iterator();
                     } else // otherwise, if we have some specified, just use them

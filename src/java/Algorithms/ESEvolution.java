@@ -10,9 +10,11 @@ import Src.Profile;
 import Src.Utils;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -60,40 +62,43 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         double newval;
      
         String profilename = nextGen.get(which).getName();
-        //System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
-        //System.out.println(".......mutation parameter is " +mutation_rate);
-        Hashtable kernels = nextGen.get(which).getKernels();
-        //System.out.println(".....the number of kernels is " + kernels.size());
-        Enumeration enuKer = kernels.elements();
+        System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
+        System.out.println(".......mutation parameter is " +mutation_rate);
+        HashMap kernels = nextGen.get(which).getKernels();
+        System.out.println(".....the number of kernels is " + kernels.size());
+        Collection values = kernels.values();
+        Iterator iterateKernels = values.iterator();
            SolutionAttributes currentVariable = null;
            String currentvarname;
         // loop through each kernel in turn,
-        while (enuKer.hasMoreElements()) 
+        while (iterateKernels.hasNext()) 
         {
             //get the next kernel
-            Kernel kernel = (Kernel) enuKer.nextElement();
+           Kernel kernel = (Kernel) iterateKernels.next();
             
             //get all of its variables
-            Hashtable vars = kernel.getVariables();
-            Enumeration eVar = vars.keys();
-             //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
+            HashMap vars = kernel.getVariables();
+            
+            Set keySet1 = vars.keySet();
+            Iterator eVar = keySet1.iterator();
+             System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
 
             // and then mutate each of the variables within kernel in turn
-            while (eVar.hasMoreElements()) 
+            while (eVar.hasNext()) 
             {
-                currentvarname = eVar.nextElement().toString();
+                currentvarname = eVar.next().toString();
                 currentVariable = (SolutionAttributes) vars.get(currentvarname);
                  newval = mutateVariable(currentVariable, mutation_rate);
                  if (newval != currentVariable.getValue())
                  {
-                    //  System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
-                    //  System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+                      System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
+                      System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
  
                      // change value in local copy of variable
                     currentVariable.setValue(newval);
-                    // System.out.println("........have set value in currentVariable ");
+                     System.out.println("........have set value in currentVariable ");
  
-                    //change value in local copy of hashtable
+                    //change value in local copy of hashmap
                  
                     vars.put(currentvarname, currentVariable);
                     
@@ -110,8 +115,9 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             // Aug 2011
            
             //finally need to write this new kernel back to the profile in the  nextGen arraylist
+            // ###############################################################################################################################
             //delete the old one the add the new one
-            nextGen.get(which).removeKernel(kernel.getName());
+            //nextGen.get(which).removeKernel(kernel.getName());
             nextGen.get(which).addKernel(kernel);
             
         }// end of loop mutating individual kernels
@@ -124,36 +130,36 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
          * numberofactivekernels++; } }
          */
 
-        Hashtable vars = nextGen.get(which).getSolutionAttributes();
-        //System.out.println(".....the number of profile variables is " + vars.size());
-        Enumeration pVar = vars.keys();
+        HashMap vars = nextGen.get(which).getSolutionAttributes();
+        System.out.println(".....the number of profile variables is " + vars.size());
+        Set keySet2 = vars.keySet();
+        Iterator pVar = keySet2.iterator();
         // finally the profile level variables
         // for(int pvar=0;pvar<vars.size();pvar++)
-        while (pVar.hasMoreElements()) 
+        while (pVar.hasNext()) 
             {
-                currentvarname = pVar.nextElement().toString();
+                currentvarname = pVar.next().toString();
                 currentVariable = (SolutionAttributes) vars.get(currentvarname);
                  newval = mutateVariable(currentVariable, mutation_rate);
                 if (newval != currentVariable.getValue())
                  {
-                      //System.out.println("mutating profile variable " + currentvarname );
-                     //System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+                      System.out.println("mutating profile variable " + currentvarname );
+                     System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
                      //set the new value in the local copy of the variable
                      currentVariable.setValue(newval);
-                     //System.out.println("........have set value in currentVariable ");
+                     System.out.println("........have set value in currentVariable ");
                      //replace it in the local hash table
                     vars.put(currentvarname, currentVariable);
                     currentVariable = (SolutionAttributes) vars.get(currentvarname);
-                     //System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
-                     //System.out.println("....now changing the profile in the nextgen arraylist");
+                     System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
+                     System.out.println("....now changing the profile in the nextgen arraylist");
                     //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
                     
-                    
-                     nextGen.get(which).removeVariable(currentvarname);
+                
                      nextGen.get(which).addVariable(currentVariable);
-                     //Hashtable tmpvars = nextGen.get(which).getSolutionAttributes();
+                     //HashMap tmpvars = nextGen.get(which).getSolutionAttributes();
                      //currentVariable = (SolutionAttributes) tmpvars.get(currentvarname);
-                     //System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
+                     System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
                  }
         }
         
@@ -428,7 +434,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                     Iterator it = hint.getChildren().iterator();
                     Element nm = (Element) it.next();
                     String kernelName = nm.getText();
-                    Hashtable vars = new Hashtable();
+                    HashMap vars = new HashMap();
                     while (it.hasNext()) {
                         Element hintt = (Element) it.next();
                         String name = hintt.getChildText("name");
