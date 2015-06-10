@@ -142,12 +142,12 @@ public class HintsProcessor {
 
   public Profile InterpretHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        if (effect.equalsIgnoreCase("Freeze")) 
+        if (effect.equalsIgnoreCase("setRateOfEvolutionEqualZero")) 
           {
             if ((amount != 1.0) && (amount != 0.0)) {
-                System.out.println("wrong value for amount with freezing hint should be 0 or 1");
+                System.out.println("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
             } else {
-                thisProfile = InterpretFreezingHintInProfile(toChange, amount);
+                thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
             }
           } 
         else if (effect.equalsIgnoreCase("moderateByValue")) {
@@ -239,7 +239,7 @@ public class HintsProcessor {
      * @param thisProfile
      * @return changed profile
      */
-    public Profile InterpretFreezingHintInProfile(Profile toChange, double amount) {
+    public Profile InterpretSetRateOfEvolutionEqualZeroHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();

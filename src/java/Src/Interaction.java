@@ -48,8 +48,8 @@ public class Interaction {
             Object rawValue = data.get(key);
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
-            System.out.println("=================");
-            System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
+           // System.out.println("=================");
+           // System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
 
             // if the ordered list hasn't yet initialised this profile's hint's averages map then create it and add the value as its first entry
             if (!ordered.containsKey(hint)) {
@@ -60,7 +60,7 @@ public class Interaction {
                     Boolean value = (Boolean) rawValue;
                     profilesBooleanHintAverages.put(profileNum, value);
                     ordered.put(hint, profilesBooleanHintAverages);
-                    System.out.println("Created Boolean value (first input)");
+                //    System.out.println("Created Boolean value (first input)");
                 }
 
                 if (rawValue instanceof String) {
@@ -70,7 +70,7 @@ public class Interaction {
                     averageCountMap.put(profileNum, 1.0);
                     ordered.put(hint, profilesDoubleHintAverages);
                     averageCounters.put(hint, averageCountMap);
-                    System.out.println("Added new hint [" + hint + "] averaged value for profile [" + profileNum + "] with value [" + ((String) rawValue) + "]");
+                //    System.out.println("Added new hint [" + hint + "] averaged value for profile [" + profileNum + "] with value [" + ((String) rawValue) + "]");
                 }
 
                 // else add the value to the existing profile's hint's averages map, 
