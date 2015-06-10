@@ -161,6 +161,8 @@ public class HintsProcessor {
         else {
             thisProfile = toChange;//no other ttypes impl;emetned yet
         }
+        
+        //finally write the changed values to file
         return thisProfile;
     }
 
