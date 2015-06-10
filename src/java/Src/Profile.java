@@ -232,42 +232,7 @@ public class Profile {
         this.name = name;
     }
 
-        
-        
-	/**
-	 * Copy profile.
-	 *
-	 * @param parent the parent
-	 * @param outputPath the output path
-	 * @return true, if successful
-	 */
-	public boolean writeProfileToFile(Profile parent, String outputPath) {
-		System.out.println("Copy profile " + parent.getName() + " to " + outputPath);
-		String copy = "";
-		File file = parent.getFile();
-		BufferedWriter writer;
-		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-		try {
-			Document XmlDoc = new SAXBuilder().build(file);
-			copy = outputter.outputString(XmlDoc);
-
-			writer = new BufferedWriter(new FileWriter(outputPath));
-			writer.write(copy);
-			writer.close();
-		} catch (Exception pce) {
-			pce.printStackTrace();
-		}
-		return true;// copy;
-	}
-
-	/**
-	 * Gets the component.
-	 *
-	 * @param type the type
-	 * @param value the value
-	 * @return the component
-	 */
-	
+   
 
 	/**
 	 * Gets the profile.
