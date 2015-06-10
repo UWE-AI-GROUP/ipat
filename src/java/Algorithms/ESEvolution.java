@@ -65,7 +65,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
         System.out.println(".......mutation parameter is " +mutation_rate);
         HashMap kernels = nextGen.get(which).getKernels();
-        System.out.println(".....the number of kernels is " + kernels.size());
+        //System.out.println(".....the number of kernels is " + kernels.size());
         Collection values = kernels.values();
         Iterator iterateKernels = values.iterator();
            SolutionAttributes currentVariable = null;
@@ -81,7 +81,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             
             Set keySet1 = vars.keySet();
             Iterator eVar = keySet1.iterator();
-             System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
+             //System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
 
             // and then mutate each of the variables within kernel in turn
             while (eVar.hasNext()) 
@@ -91,12 +91,12 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                  newval = mutateVariable(currentVariable, mutation_rate);
                  if (newval != currentVariable.getValue())
                  {
-                      System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
-                      System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+                      //System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
+                      //System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
  
                      // change value in local copy of variable
                     currentVariable.setValue(newval);
-                     System.out.println("........have set value in currentVariable ");
+                     //System.out.println("........have set value in currentVariable ");
  
                     //change value in local copy of hashmap
                  
@@ -131,7 +131,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
          */
 
         HashMap vars = nextGen.get(which).getSolutionAttributes();
-        System.out.println(".....the number of profile variables is " + vars.size());
+        //System.out.println(".....the number of profile variables is " + vars.size());
         Set keySet2 = vars.keySet();
         Iterator pVar = keySet2.iterator();
         // finally the profile level variables
@@ -143,23 +143,23 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                  newval = mutateVariable(currentVariable, mutation_rate);
                 if (newval != currentVariable.getValue())
                  {
-                      System.out.println("mutating profile variable " + currentvarname );
-                     System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
+                      //System.out.println("mutating profile variable " + currentvarname );
+                    // System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
                      //set the new value in the local copy of the variable
                      currentVariable.setValue(newval);
-                     System.out.println("........have set value in currentVariable ");
+                    // System.out.println("........have set value in currentVariable ");
                      //replace it in the local hash table
                     vars.put(currentvarname, currentVariable);
                     currentVariable = (SolutionAttributes) vars.get(currentvarname);
-                     System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
-                     System.out.println("....now changing the profile in the nextgen arraylist");
+                    // System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
+                    // System.out.println("....now changing the profile in the nextgen arraylist");
                     //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
                     
                 
                      nextGen.get(which).addVariable(currentVariable);
                      //HashMap tmpvars = nextGen.get(which).getSolutionAttributes();
                      //currentVariable = (SolutionAttributes) tmpvars.get(currentvarname);
-                     System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
+                    // System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
                  }
         }
         
@@ -307,6 +307,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
             //copy all the profiles from the  set of the previous best
              File thisfile = best.get(toCopy).getFile();
              Profile toAdd = getProfileFromFile(thisfile);
+              System.out.println("## profile toAdd :: Page_bg_Red  / value in profile " + ((SolutionAttributes) toAdd.getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution());
              nextGen.add(toAdd);
              //System.out.println("have made a copy of best[" + copied +"] with filename " + thisfile.getName());           
           }
@@ -506,6 +507,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
         // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
         for (Profile best1 : best) {
             System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best1.getName() + " : " + best1.getGlobalScore());
+            System.out.println("value of page_bg_Red rate of evolution " + ((SolutionAttributes) best1.getSolutionAttributes().get("Page_bg_Red")).getRateOfEvolution());
         }
     }
 
