@@ -49,7 +49,7 @@ public class Interaction {
 
             // print statements to ensure that the cells value are placed into the right array and positions for averaging
            // System.out.println("=================");
-          //  System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
+           // System.out.println("Iteration: " + iteration + "\nHint: " + hint + "\nValue: " + data.get(key) + "\nArray Postition: " + profileNum + "\n");
 
             // if the ordered list hasn't yet initialised this profile's hint's averages map then create it and add the value as its first entry
             if (!ordered.containsKey(hint)) {
@@ -101,13 +101,13 @@ public class Interaction {
                         HashMap averageCount = averageCounters.get(hint);
                         Double currentCount = (Double) averageCount.get(profileNum);
 
-                    //    System.out.println("runningAverage " + runningAverage);
-                     //   System.out.println("currentCount " + currentCount);
-                     //   System.out.println("rawValue " + rawValue);
+                        System.out.println("runningAverage " + runningAverage);
+                        System.out.println("currentCount " + currentCount);
+                        System.out.println("rawValue " + rawValue);
 
                         Double av = (runningAverage * currentCount + Double.parseDouble((String) rawValue)) / (currentCount + 1);
                         PDHA.put(profileNum, av);
-                      //  System.out.println("Updated hint [" + hint + "] in profilesDoubleHintAverages at [" + profileNum + "] from value [" + runningAverage + "] to value [" + av + "] as the [" + (currentCount + 1) + "] entry");
+                        System.out.println("Updated hint [" + hint + "] in profilesDoubleHintAverages at [" + profileNum + "] from value [" + runningAverage + "] to value [" + av + "] as the [" + (currentCount + 1) + "] entry");
                         averageCount.put(profileNum, currentCount + 1);
                         averageCounters.put(hint, averageCount);
                         ordered.put(hint, PDHA);
