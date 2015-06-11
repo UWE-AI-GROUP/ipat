@@ -3,9 +3,10 @@ package Algorithms;
 import Src.Kernel;
 import Src.Profile;
 import Src.SolutionAttributes;
+import Src.Utils;
+import java.io.File;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -140,33 +141,34 @@ public class HintsProcessor {
         this.effect = effect;
     }
 
-  public Profile InterpretHintInProfile(Profile toChange, double amount) {
+    public Profile InterpretHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        if (effect.equalsIgnoreCase("setRateOfEvolutionEqualZero")) 
-          {
+        if (effect.equalsIgnoreCase("setRateOfEvolutionEqualZero")) {
             if ((amount != 1.0) && (amount != 0.0)) {
                 System.out.println("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
             } else {
                 thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
             }
-          } 
-        else if (effect.equalsIgnoreCase("moderateByValue")) {
+        } else if (effect.equalsIgnoreCase("moderateByValue")) {
             thisProfile = InterpretModeratingHintInProfile(toChange, amount);
         } else if (effect.equalsIgnoreCase("toggle")) {
             thisProfile = InterpretToggleHintInProfile(toChange, amount);
-        }
-        else if (effect.equalsIgnoreCase("setNewValue")) {
-            thisProfile = InterpretSetNewValueInProfile(toChange, amount);   
-        } 
-        else {
+        } else if (effect.equalsIgnoreCase("setNewValue")) {
+            thisProfile = InterpretSetNewValueInProfile(toChange, amount);
+        } else {
             thisProfile = toChange;//no other ttypes impl;emetned yet
         }
-        
+
         //finally write the changed values to file
+        String profilePath = thisProfile.getFile().getPath();
+        String profileNameAndPath = profilePath + thisProfile.getName();
+        thisProfile.writeProfileToFile(profileNameAndPath);
+
+        //and then return
         return thisProfile;
     }
 
-  public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
+    public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
@@ -174,24 +176,23 @@ public class HintsProcessor {
         String currentVarName;
 
         assert ((amount >= rangeMin) && (amount <= rangeMax));
-        
-    //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+
+        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
             currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
-            if(currentVariable==null)
+            if (currentVariable == null) {
                 System.out.println("error - trying to change  variable " + currentVarName + " which does not exist in profile");
-            else
-              {            
-            //reset the value in thecopy of the variable
-            currentVariable.setValue(amount);
-            //remove the old variable with this name from thisProfile
-            thisProfile.removeVariable(currentVarName);
-            //write back in the changed variable
-            thisProfile.addVariable(currentVariable);
-              }
+            } else {
+                //reset the value in thecopy of the variable
+                currentVariable.setValue(amount);
+                //remove the old variable with this name from thisProfile
+                thisProfile.removeVariable(currentVarName);
+                //write back in the changed variable
+                thisProfile.addVariable(currentVariable);
+            }
         }
         //then for each of the affected kernels
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
@@ -223,7 +224,7 @@ public class HintsProcessor {
                     vars.put(currentVarName, currentVariable);
                 }
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
-            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+                //finally need to write this new kernel back to the profile in the  nextGen arraylist
                 //delete the old one the add the new one
                 thisProfile.removeKernel(kernel.getName());
                 thisProfile.addKernel(changedKernel);
@@ -233,7 +234,6 @@ public class HintsProcessor {
         return thisProfile;
     }
 
-  
     /**
      * method that interprets the hints provided by the user and makes
      * appropriate application-specific changes ot the profile variables
@@ -476,7 +476,7 @@ public class HintsProcessor {
                         vars.put(currentVarName, currentVariable);
                     }
                     Kernel changedKernel = new Kernel(kernel.getName(), vars);
-            //finally need to write this new kernel back to the profile in the  nextGen arraylist
+                    //finally need to write this new kernel back to the profile in the  nextGen arraylist
                     //delete the old one the add the new one
                     thisProfile.removeKernel(kernel.getName());
                     thisProfile.addKernel(changedKernel);

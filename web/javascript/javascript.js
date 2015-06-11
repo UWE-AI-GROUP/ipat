@@ -19,8 +19,8 @@ $(document).ready(function () {
 
     form.addEventListener('change', function (event) {
         event.preventDefault();
-        $('#tabs-byProfile').html("<img src='" + image + "' />");
-         $('#tabs-byImage').html("<img src='" + image + "' />");
+//        $('#tabs-byProfile').html("<img src='" + image + "' />");
+//         $('#tabs-byImage').html("<img src='" + image + "' />");
         var files = document.getElementById('filesToUpload').files;
         var formData = new FormData();
         var valid = true;
@@ -54,13 +54,18 @@ $(document).ready(function () {
                     var result = JSON.parse(xhr.responseText);
                     artifactCount = result["count"];
                     hints = result["hintString"].split(",");
-                    setTimeout(function () {
                         $('#tabs-byProfile').empty();
                         $('#tabs-byProfile').append(result["byProfile"]);
                         $('#tabs-byImage').empty();
                         $('#tabs-byImage').append(result["byImage"]);
                           tabClicked('li_0');
-                    }, 3000);
+//                    setTimeout(function () {
+//                        $('#tabs-byProfile').empty();
+//                        $('#tabs-byProfile').append(result["byProfile"]);
+//                        $('#tabs-byImage').empty();
+//                        $('#tabs-byImage').append(result["byImage"]);
+//                          tabClicked('li_0');
+//                    }, 3000);
                 }
             };
             xhr.send(formData);
@@ -109,10 +114,10 @@ $(document).ready(function () {
         }
 
 
-        $('#tabs-byProfile').empty();
-        $('#tabs-byProfile').html("<img src='" + image + "' />");
-        $('#tabs-byImage').empty();
-        $('#tabs-byImage').html("<img src='" + image + "' />");
+//        $('#tabs-byProfile').empty();
+//        $('#tabs-byProfile').html("<img src='" + image + "' />");
+//        $('#tabs-byImage').empty();
+//        $('#tabs-byImage').html("<img src='" + image + "' />");
         $.ajax({
             url: "newGen",
             type: "POST",
@@ -121,14 +126,18 @@ $(document).ready(function () {
 
                 $('#loading').html("<img src='" + image + "' />");
                 artifactCount = result["count"];
-                setTimeout(function () {
-                    $('#tabs-byProfile').empty();
+                   $('#tabs-byProfile').empty();
                     $('#tabs-byProfile').append(result["byProfile"]);
                     $('#tabs-byImage').empty();
                     $('#tabs-byImage').append(result["byImage"]);
                     tabClicked('li_0');
-                    
-                }, 3000);
+//                setTimeout(function () {
+//                    $('#tabs-byProfile').empty();
+//                    $('#tabs-byProfile').append(result["byProfile"]);
+//                    $('#tabs-byImage').empty();
+//                    $('#tabs-byImage').append(result["byImage"]);
+//                    tabClicked('li_0');
+//                }, 3000);
             }
         }, false);
         genCount.value = parseInt(genCount.value) + 1;

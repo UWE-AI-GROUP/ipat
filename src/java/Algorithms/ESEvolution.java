@@ -14,9 +14,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 /**
  * The Class ESEvolution.
@@ -282,7 +279,7 @@ public class ESEvolution implements MetaHeuristic {
             //copy all the profiles from the  set of the previous best 
             // create new profile object so that adding best to nextGen doesnt just reference the same object
             File thisfile = best.get(toCopy).getFile();
-            Profile toAdd = getProfileFromFile(thisfile);
+            Profile toAdd = Utils.getProfileFromFile(thisfile);
             nextGen.add(toAdd);
             System.out.println("have made a copy of best[" + copied + "] with filename " + thisfile.getName());
         }
@@ -306,196 +303,42 @@ public class ESEvolution implements MetaHeuristic {
         File file = new File(Controller.outputFolder.getAbsolutePath() + "/generations/");
         file.mkdir();
 
-        for (Profile NG : nextGen) {
-            System.out.println("I am An NG " + NG.getName());
-        }
         int generation = 0;
         for (int k = 0; k < nextGen.size(); k++) {
-            
-            try
-            {
-            Profile profile = nextGen.get(k);
-            String profileName = profile.getName();
-            System.out.println("at start of loop for k: " + k + ": ProfileName = " + profileName);
-            //get base name for profile
-            String profileTemplate = profileName.substring(profileName.indexOf('-'), profileName.lastIndexOf('_') + 1); // should be of form "profile_"
 
-            System.out.println("bwfore reading generation  has value " + generation);
-            //get generation and increment it
-            generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
-                       System.out.println("after reading generation  has value " + generation);
-            generation++;
-            String outProfileName = "gen_" + generation + profileTemplate + k + ".xml";
-            System.out.println("outprofilename = " + outProfileName + "\n");
+            try {
+                Profile profile = nextGen.get(k);
+                String profileName = profile.getName();
 
-            // set name in profile to match new name
-            nextGen.get(k).setName(outProfileName);
+                //get base name for profile
+                String profileTemplate = profileName.substring(profileName.indexOf('-'), profileName.lastIndexOf('_') + 1); // should be of form "profile_"
+
+                //get generation and increment it
+                generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
+                //System.out.println("after reading generation  has value " + generation);
+                generation++;
+                String outProfileName = "gen_" + generation + profileTemplate + k + ".xml";
+
+                // set name in profile to match new name
+                nextGen.get(k).setName(outProfileName);
 
             // write out the profile to file for safe keeping
-            //build the path by fetching the session details from the controller and adding generaios + this file name
-            String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+                //build the path by fetching the session details from the controller and adding generaios + this file name
+                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
 
-            //write to file
-            nextGen.get(k).writeProfileToFile(outProfilePath);
-            File thisfile = new File(outProfilePath);
-            nextGen.get(k).setFile(thisfile);
-            
-              profileName = profile.getName();
-            System.out.println("at end of loop for k: " + k + ": ProfileName = " + profileName +"\n\n");
-            
-            
-            }
-            catch (StringIndexOutOfBoundsException ex) {
+                //write to file
+                nextGen.get(k).writeProfileToFile(outProfilePath);
+                File thisfile = new File(outProfilePath);
+                nextGen.get(k).setFile(thisfile);
+
+                System.out.println("VALUE OF NEXTGEN(K) = " + ((SolutionAttributes) nextGen.get(k).getSolutionAttributes().get("Page_bg_Red")).getValue());
+
+            } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
-                      + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
+                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
                 System.out.println(ex.getMessage());
-        }
-    }
-    }
-//        // finally update profile names by incrementing the generation count in each name and write them to file for safe keeping
-//         for (int i = 0; i < nextGen.size(); i++) 
-//          {
-//              
-//            try {
-//                String profileName = nextGen.get(i).getName(); // should be of form "gen_x-profile_y.xml"
-//                System.out.println("ProfileName = " + profileName);
-//                //get base name for profile
-//                String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // should be of form "profile_"
-//                System.out.println("Profile = " + profile);
-//                //get generation and increment it
-//                int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
-//                generation++;
-//                
-//                //build string holding new name - note that we hav not kept traack of the profile indices
-//                String outProfileName = "gen_" + generation + profile + i + ".xml";
-//                System.out.println("outprofilename = " + outProfileName);
-//
-//                // set name in profile to match new name
-//                nextGen.get(i).setName(outProfileName);
-//            
-//                // write out the profile to file for safe keeping
-//                //build the path by fetching the session details from the controller and adding generaios + this file name
-//                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
-//                
-//                //write to file
-//                nextGen.get(i).writeProfileToFile(outProfilePath);
-//                File thisfile = new File(outProfilePath);
-//                nextGen.get(i).setFile(thisfile);
-//   
-//            } catch (StringIndexOutOfBoundsException ex) {
-//                System.out.println("The profile names do not follow the correct convention to be processed."
-//                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
-//                System.out.println(ex.getMessage());
-//            }
-//        }
-//System.out.println("changed names and saved files");
-//finally write all ofthe profiles to file for safe keeping
-//for(int toSave=0; toSave < howMany;toSave++)
-//{
-//  String outProfileName= nextGen.get(toSave).getName();
-// String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
-//System.out.println("saving next gen profile to file: " + outProfileName);
-// nextGen.get(toSave).writeProfileToFile(outProfilePath);
-//}
-//}
-// TODO read in the global scores from the profile.xml files
-    /**
-     *
-     * @param file
-     * @return
-     */
-    public Profile getProfileFromFile(File file) {
-        Profile profile = new Profile(file);
-        try {
-            Document XmlDoc = new SAXBuilder().build(file);
-
-            Element root = XmlDoc.getRootElement();
-            Element profileNode = root.getChild("profile", root.getNamespace());
-            Iterator iterator = profileNode.getChildren().iterator();
-            int i = 0;
-            while (iterator.hasNext()) {
-                Element hint = (Element) iterator.next();
-                if (hint.getName().equalsIgnoreCase("variable")) {
-                    String name = hint.getChildText("name");
-                    String type = hint.getChildText("type");
-
-                    String temp = hint.getChildText("lbound");
-                    Double dub = new Double(temp);
-                    double lbound = dub.doubleValue();
-
-                    temp = hint.getChildText("ubound");
-                    dub = new Double(temp);
-                    double ubound = dub.doubleValue();
-
-                    temp = hint.getChildText("granularity");
-                    dub = new Double(temp);
-                    double granularity = dub.doubleValue();
-
-                    temp = hint.getChildText("rateOfEvolution");
-                    dub = new Double(temp);
-                    double rateOfEvolution = dub.doubleValue();
-
-                    temp = hint.getChildText("value");
-                    dub = new Double(temp);
-                    double value = dub.doubleValue();
-
-                    String dfault = hint.getChildText("default");
-                    String flag = hint.getChildText("flag");
-                    String unit = hint.getChildText("unit");
-
-                    SolutionAttributes variable = new SolutionAttributes(name, type,
-                            lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
-                    profile.addVariable(variable);
-                } else if (hint.getName().equalsIgnoreCase("kernel")) {
-
-                    Iterator it = hint.getChildren().iterator();
-                    Element nm = (Element) it.next();
-                    String kernelName = nm.getText();
-                    HashMap vars = new HashMap();
-                    while (it.hasNext()) {
-                        Element hintt = (Element) it.next();
-                        String name = hintt.getChildText("name");
-                        String type = hintt.getChildText("type");
-
-                        String temp = hintt.getChildText("lbound");
-                        Double dub = new Double(temp);
-                        double lbound = dub.doubleValue();
-
-                        temp = hintt.getChildText("ubound");
-                        dub = new Double(temp);
-                        double ubound = dub.doubleValue();
-
-                        temp = hintt.getChildText("granularity");
-                        dub = new Double(temp);
-                        double granularity = dub.doubleValue();
-
-                        temp = hintt.getChildText("rateOfEvolution");
-                        dub = new Double(temp);
-                        double rateOfEvolution = dub.doubleValue();
-
-                        temp = hintt.getChildText("value");
-                        dub = new Double(temp);
-                        double value = dub.doubleValue();
-
-                        String dfault = hintt.getChildText("default");
-                        String flag = hintt.getChildText("flag");
-                        String unit = hintt.getChildText("unit");
-
-                        SolutionAttributes variable = new SolutionAttributes(name, type,
-                                lbound, ubound, granularity, rateOfEvolution, value, dfault,
-                                flag, unit);
-                        vars.put(name, variable);
-                    }
-                    Kernel kernel = new Kernel(kernelName, vars);
-                    profile.addKernel(kernel);
-                } else if (hint.getName().equalsIgnoreCase("interaction")) {
-                    // TODO 
-                }
             }
-        } catch (Exception pce) {
-            pce.printStackTrace();
         }
-        return profile;
     }
 
     /**

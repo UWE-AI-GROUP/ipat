@@ -25,26 +25,26 @@ import java.util.Vector;
 public class CSSProcessor implements Processor {
 
     private HashMap cssLabels;
-  
-    
+
     public CSSProcessor() {
-       this.cssLabels = setupCSSLabelStore();
-      
+        this.cssLabels = setupCSSLabelStore();
+
     }
 
     /*
-    Profile - the profile being applied to artifact
-    Artifact - the raw artifact to be processed
-    index - the identifier for the profile
-    */
+     Profile - the profile being applied to artifact
+     Artifact - the raw artifact to be processed
+     index - the identifier for the profile
+     */
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
-        
         HashMap kernels = profile.getKernels();
-        if (kernels == null) {System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");}
+        if (kernels == null) {
+            System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");
+        }
 
-	// ----------- CSS Formatters -------------------------------//
+        // ----------- CSS Formatters -------------------------------//
         String CSS_Start_Braces = "{";
         String CSS_End_Braces = "}";
         String CSS_PropSeparator = ":";
@@ -53,7 +53,9 @@ public class CSSProcessor implements Processor {
         // ------------ CSS Generation ------------------------------//
         String css = "";
         HashMap pv = profile.getSolutionAttributes();
-        if (pv == null) { System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");}
+        if (pv == null) {
+            System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");
+        }
         Set keySet = pv.keySet();
         Iterator iterator = keySet.iterator();
         String csspLine = "body{";
@@ -118,7 +120,7 @@ public class CSSProcessor implements Processor {
             cssLine += kernel1.getName() + CSS_Start_Braces;
             HashMap vars = kernel1.getVariables();
             Set keySet2 = vars.keySet();
-            
+
             Iterator evars = keySet2.iterator();
             colorCheck = 0;
             red = 0;
@@ -152,14 +154,14 @@ public class CSSProcessor implements Processor {
                         String value = (String) values.get(val.intValue());
                         cssLine += ipvar.getName() + CSS_PropSeparator + value
                                 + CSS_PropPairSeparator;
-                        
+
                     } else if (ipvar.getType().equalsIgnoreCase("ordinal")) {
                         Double val = ipvar.getValue();
-                        
+
                         if (ktype.equalsIgnoreCase("h1")) {
                             val = CSS_lastfontsize * ((val / 100));
                             CSS_lastfontsize = val;
-                           
+
                         } else if (ktype.equalsIgnoreCase("h2") || ktype.equalsIgnoreCase("p")) {
                             val = CSS_lastfontsize * 0.5 * (1.0 + (val) / 100);
                             CSS_lastfontsize = val;
@@ -180,7 +182,6 @@ public class CSSProcessor implements Processor {
         String CSS = css;
 
         // ---------- Filenames Generation------------//
-    
         String outHtmlPath;
         String processedArtifactName;
         String profileName = profile.getName();
@@ -189,29 +190,29 @@ public class CSSProcessor implements Processor {
 
         try {
             String rawArtifactName = artifact.getFilename();
-             rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
+            rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
              // TESTING : distinguishing the raw artifact name from the processed one (processed one)
-           //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
-             processedArtifactName = profileName + "-" +rawArtifactName + ".html";
-             System.out.println("Processed artifact name = " + processedArtifactName);
-                outHtmlPath = outputFolder + processedArtifactName;
-                String htmlFile = "";
-                BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
-                String temp;
-                while ((temp = reader.readLine()) != null) {
-                    htmlFile += temp + "\n";
-                    if (temp.contains("<head>")) {
-                        htmlFile += "<style type=\"text/css\">";
-                        htmlFile += CSS;
-                        htmlFile += "</style>";
-                    }
+            //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
+            processedArtifactName = profileName + "-" + rawArtifactName + ".html";
+            System.out.println("Processed artifact name = " + processedArtifactName);
+            outHtmlPath = outputFolder + processedArtifactName;
+            String htmlFile = "";
+            BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
+            String temp;
+            while ((temp = reader.readLine()) != null) {
+                htmlFile += temp + "\n";
+                if (temp.contains("<head>")) {
+                    htmlFile += "<style type=\"text/css\">";
+                    htmlFile += CSS;
+                    htmlFile += "</style>";
                 }
+            }
 
-               BufferedWriter  writer = new BufferedWriter(new FileWriter(outHtmlPath));
-                writer.write(htmlFile);
-                writer.close();
-              
-                return new Artifact(new File(outHtmlPath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outHtmlPath));
+            writer.write(htmlFile);
+            writer.close();
+
+            return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
             System.out.println("");
             e.printStackTrace();
@@ -219,7 +220,7 @@ public class CSSProcessor implements Processor {
         return null;
     }
 
-     public HashMap setupCSSLabelStore() {
+    public HashMap setupCSSLabelStore() {
         // Cardinal variables store
 
         // The fontfamilies.
@@ -259,5 +260,5 @@ public class CSSProcessor implements Processor {
 
         return cssStore;
     }
-    
+
 }

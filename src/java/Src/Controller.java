@@ -284,7 +284,7 @@ public class Controller {
         //and for each one read the actual profile from the relevant file
         for (int i = 0; i < profiles_list.length; i++) {
             {
-                currentGenerationOfProfiles[i] = evolution.getProfileFromFile(new_profiles_list[i]);
+                currentGenerationOfProfiles[i] = Utils.getProfileFromFile(new_profiles_list[i]);
                 // randomise the generated extra profiles
                 if (i > profiles_list.length) {
                     currentGenerationOfProfiles[i].randomiseProfileVariableValues();
