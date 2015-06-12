@@ -4,11 +4,12 @@ package Src;
  Controller will be responsible for determining from the parameters how many times to call
  metaHeuristic interface in order to generate the next solution based on what kind of heuristic
  it uses.
+
  When user requests next generation the Controller may also call pKernel virtual display that implements 
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
-import Algorithms.UMLProcessor;
+import Algorithms.CSSProcessor;
 import Algorithms.ESEvolution;
 import Algorithms.HintsProcessor;
 import java.io.File;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
 public class Controller {
 
     Display display;
-    UMLProcessor applicationSpecificProcessor = new UMLProcessor();
+    CSSProcessor cssp = new CSSProcessor();
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -108,7 +109,7 @@ public class Controller {
     // Generates the first set of results and returns them in the appropriate display to the view
     /**
      *
-     * @return 
+     * @return
      */
     public HashMap initialArtifacts() {
         bootstrapApplication();
@@ -127,9 +128,10 @@ public class Controller {
     // Generates the next generation of results and returns them to the view
     /**
      *
-     * @return 
+     * @return
      */
     public HashMap mainloop() {
+
 
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
@@ -191,16 +193,20 @@ public class Controller {
             }
         }
         //copy the updated list of prpfile names back into the profiles list array of file names
-        profiles_list = new_profiles_list;
+      //  profiles_list = new_profiles_list;
 
-        
-        
         //finally create the first generation
         //declare an array to hold the next gneration of profiles
         currentGenerationOfProfiles = new Profile[noOfProfiles];
         //and for each one read the actual profile from the relevant file
         for (int i = 0; i < profiles_list.length; i++) {
-            currentGenerationOfProfiles[i] = evolution.getProfileFromFile(profiles_list[i]);
+            {
+                currentGenerationOfProfiles[i] = Utils.getProfileFromFile(new_profiles_list[i]);
+                // randomise the generated extra profiles
+                if (i > profiles_list.length) {
+                    currentGenerationOfProfiles[i].randomiseProfileVariableValues();
+                }
+            }
             System.out.println(currentGenerationOfProfiles[i].getName());
         }
     }
@@ -211,11 +217,11 @@ public class Controller {
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-                //TODO pick files up ending in html as well
-                return name.endsWith(".htm");
+               boolean bool = name.endsWith(".xml") || name.endsWith(".htm");
+                return bool;
             }
         };
-        //create an array of all the files in the inputfolder using the filter        
+        //create an array of all the files in the inpurfolder using the filter        
         File[] file = inputFolder.listFiles(filter);
         //alocate space for arraty of artefacts - one for eacg file
         raw_artifacts = new Artifact[file.length];
@@ -245,7 +251,7 @@ public class Controller {
 
                 rawArtifact = raw_artifacts[artifactID];
                 //System.out.println(rawArtifact.getFilename());
-                processedArtifact = applicationSpecificProcessor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                processedArtifact = cssp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
                 processedArtifacts[count] = processedArtifact;
                 count++;
 
@@ -328,7 +334,7 @@ public class Controller {
     }
 
     public HashMap loadWebDisplay() {
-     
+
         HashMap hintMap = this.hints;
         Artifact[] artifacts = this.processedArtifacts;
         HashMap<String, String> byImageArray = new HashMap<>();
@@ -367,25 +373,25 @@ public class Controller {
                         String k = (String) key;
                         HintsProcessor h = (HintsProcessor) hintMap.get(k);
                         String displaytype = h.getDisplaytype();
-                        
+
                         // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***
                         switch (displaytype) {
                             case "range":
-                                cell += "<div class='hint'><input type='range' class='hintScore' id ='"+ h.getHintName() +"_" + resultCount + "' min='"+ h.getRangeMin() +"' max='"+ h.getRangeMax() +"' value='"+ h.getDefaultValue() +"' step='1'/><label for='"+ h.getHintName() +"_" + resultCount + "' class='label'>"+ h.getDisplaytext() +"</label></div>";
+                                cell += "<div class='hint'><input type='range' class='hintScore' id ='" + h.getHintName() + "_" + resultCount + "' min='" + h.getRangeMin() + "' max='" + h.getRangeMax() + "' value='" + h.getDefaultValue() + "' step='1'/><label for='" + h.getHintName() + "_" + resultCount + "' class='label'>" + h.getDisplaytext() + "</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             case "checkbox":
-                                cell += "<div class='hint'><input type='checkbox' id='"+ h.getHintName() +"_" + resultCount + "' class='hintScore' ><label for='"+h.getHintName()+"_" + resultCount + "' class='label'>"+h.getDisplaytext()+"</label></div>";
+                                cell += "<div class='hint'><input type='checkbox' id='" + h.getHintName() + "_" + resultCount + "' class='hintScore' ><label for='" + h.getHintName() + "_" + resultCount + "' class='label'>" + h.getDisplaytext() + "</label></div>";
                                 hintString += h.getHintName() + "_" + resultCount + ",";
                                 break;
                             default:
                                 throw new AssertionError();
                         }
                     }
-                    
+
                     cell += "</div>"; // cell div close
                     resultCount += 1;
-                    
+
                     // populate the array which will display the "byImage" View
                     String key = name.substring(name.indexOf("-") + 1);
                     if (byImageArray.containsKey(key)) {
@@ -395,13 +401,13 @@ public class Controller {
                     } else {
                         byImageArray.put(key, cell);
                     }
-                } 
+                }
                 cells += cell; // byProfile div close
             }
-      cells += "</div>";
+            cells += "</div>";
         }
         cells += "</div>"; // tabStuff div close
-         
+
         HM.put("byProfile", cells);
 
         //=================================================================
@@ -428,7 +434,7 @@ public class Controller {
         }
         cells += "</div>"; // div_/2
         HM.put("byImage", cells);
-        
+
         HM.put("hintString", hintString);
         HM.put("count", Integer.toString(artifacts.length));
         return HM;
