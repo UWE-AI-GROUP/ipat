@@ -5,7 +5,7 @@
  */
 package Src;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Kernel {
 	private String name= "";
 	
 	/** The variables. */
-	private Hashtable variables;
+	private HashMap variables;
 
 	/**
 	 * Instantiates a new ipat kernel.
@@ -25,7 +25,7 @@ public class Kernel {
 	 * @param name the name
 	 * @param variables the variables
 	 */
-	public Kernel(String name, Hashtable variables){
+	public Kernel(String name, HashMap variables){
 		this.name = name;
 		this.variables = variables;
 	}
@@ -44,7 +44,9 @@ public class Kernel {
 	 *
 	 * @return the variables
 	 */
-	public Hashtable getVariables() {
+	public HashMap getVariables() {
 		return variables;
 	}
+        
+        
 }
