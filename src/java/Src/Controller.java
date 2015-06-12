@@ -9,7 +9,7 @@ package Src;
  the web/app.
  */
 import Algorithms.CSSProcessor;
-import Algorithms.UMLProcessor
+import Algorithms.UMLProcessor;
 import Algorithms.ESEvolution;
 import Algorithms.HintsProcessor;
 import java.io.File;
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 public class Controller {
 
     Display display;
-    UMLProcessor myUMLProcessor = new UMlProcessor();
+    UMLProcessor myUMLProcessor = new UMLProcessor();
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -169,7 +169,8 @@ public class Controller {
 
         //next steps depend on  number of seeds
         if ( profiles_list.length < noOfProfiles) {// if there are no, or less than desired numner of seeds
-            for (int i = 0; i < noOfProfiles; i++) {
+            int i;
+            for ( i = 0; i < noOfProfiles; i++) {
                 new_profiles_list[i] = profiles_list[i];
             }
             int diffOfNrOfProfilesToMake = noOfProfiles - profiles_list.length;
