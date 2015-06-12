@@ -5,7 +5,6 @@ package Algorithms;
 
 import Src.Artifact;
 import Src.SolutionAttributes;
-import Src.Kernel;
 import Src.Profile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,25 +12,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import org.apache.tomcat.util.digester.ArrayStack;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
@@ -74,51 +65,53 @@ public class UMLProcessor implements Processor {
         
 
 //1. Read through the profile  and make  lists of which methods and attributes are in which class 
-Hashtable pv = profile.getSolutionAttributes();
-if (pv == null) { System.out.println("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
-Enumeration pvarsEnu = pv.keys();
-while (pvarsEnu.hasMoreElements()) 
+HashMap<String, SolutionAttributes> pv = profile.getSolutionAttributes();
+if (pv == null) 
+  { System.out.println("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
+else
   {
-    //get name of elements as a string
-    String elementName = pvarsEnu.nextElement().toString();
-    //get the class it is in - held in the SolutionAttribute variable as its value
-    SolutionAttributes ipvar = (SolutionAttributes) pv.get(elementName);
-    Integer elementClass = (int) ipvar.getValue();
-    //add it to the list of classes present if not already there
-    if ( ! classesPresent.contains(elementClass))
-        classesPresent.add(elementClass);
-    //get the type of element it is - held as the unit
-    String elementtype = ipvar.getUnit();
-    //  System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
-    
-    //add this assignment in this design
-    classAssignments.put(elementName, elementClass);
-    
-    
-    ArrayList membersList;
-    //now we need to get the correct list of members
-    if((elementtype.equalsIgnoreCase("method"))&& (classMethodsMap.containsKey(elementClass)))
-            membersList = classMethodsMap.get(elementClass);
-    else if ((elementtype.equalsIgnoreCase("attribute"))&& (classAttributesMap.containsKey(elementClass)))
-            membersList = classAttributesMap.get(elementClass);
-    else
-      membersList = new ArrayList();
-    //then add the element to the list of members for this cvlass
-    membersList.add(elementName);
-     //finally add the changed or new arraylist back to the appropriate hashmap
-    //and record the fact we haveseem it
-    if(elementtype.equalsIgnoreCase("method"))
-      {
-        classMethodsMap.put(elementClass, membersList);
-        methodsSeen.add(elementName);
-      }
-    else
-      {
-        classAttributesMap.put(elementClass, membersList);
-        attributesSeen.add(elementName);
-      }
-}
+    for (Map.Entry<String, SolutionAttributes> entrySet : pv.entrySet())
+        {
+        String elementName = entrySet.getKey();
+        SolutionAttributes ipvar = entrySet.getValue();
 
+        //get the class it is in - held in the SolutionAttribute variable as its value
+        Integer elementClass = (int) ipvar.getValue();
+        //add it to the list of classes present if not already there
+        if ( ! classesPresent.contains(elementClass))
+            classesPresent.add(elementClass);
+        //get the type of element it is - held as the unit
+        String elementtype = ipvar.getUnit();
+        //  System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
+
+        //add this assignment in this design
+        classAssignments.put(elementName, elementClass);
+
+
+        ArrayList membersList;
+        //now we need to get the correct list of members
+        if((elementtype.equalsIgnoreCase("method"))&& (classMethodsMap.containsKey(elementClass)))
+                membersList = classMethodsMap.get(elementClass);
+        else if ((elementtype.equalsIgnoreCase("attribute"))&& (classAttributesMap.containsKey(elementClass)))
+                membersList = classAttributesMap.get(elementClass);
+        else
+          membersList = new ArrayList();
+        //then add the element to the list of members for this cvlass
+        membersList.add(elementName);
+         //finally add the changed or new arraylist back to the appropriate hashmap
+        //and record the fact we haveseem it
+        if(elementtype.equalsIgnoreCase("method"))
+          {
+            classMethodsMap.put(elementClass, membersList);
+            methodsSeen.add(elementName);
+          }
+        else
+          {
+            classAttributesMap.put(elementClass, membersList);
+            attributesSeen.add(elementName);
+          }
+    }
+  }
 //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
 if( haveSameElements(methodsSeen, methodList)==false)
   {
