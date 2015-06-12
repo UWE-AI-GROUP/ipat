@@ -3,8 +3,6 @@ package Algorithms;
 import Src.Kernel;
 import Src.Profile;
 import Src.SolutionAttributes;
-import Src.Utils;
-import java.io.File;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,7 +46,8 @@ public class HintsProcessor {
         hintName = theName;
         displaytype = theDisplaytype;
         displaytext = theDisplaytext;
-        if (theRangeMax < theRangeMin)//check that they haven;t been entered the wrong way around
+       //check that they haven;t been entered the wrong way around
+        if (theRangeMax < theRangeMin)
         {
             rangeMax = theRangeMin;
             rangeMin = theRangeMax;
@@ -177,7 +176,9 @@ public class HintsProcessor {
 
         assert ((amount >= rangeMin) && (amount <= rangeMax));
 
-        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " 
+        //+ rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
@@ -236,7 +237,7 @@ public class HintsProcessor {
 
     /**
      * method that interprets the hints provided by the user and makes
-     * appropriate application-specific changes ot the profile variables
+     * appropriate application-specific changes to the profile variables
      *
      * @param thisProfile
      * @return changed profile
@@ -245,7 +246,6 @@ public class HintsProcessor {
         Profile thisProfile = toChange;
         SolutionAttributes currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
-        HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
         //first freeze all of the profile level variables
@@ -304,7 +304,7 @@ public class HintsProcessor {
 
     /**
      * method that interprets the hints provided by the user and makes
-     * appropriate application-specific changes ot the profile variables
+     * appropriate application-specific changes to the profile variables
      *
      * @param thisProfile
      * @return changed profile
@@ -322,7 +322,9 @@ public class HintsProcessor {
         amount = (amount - midpoint);
         double multiplier = Math.pow(2.0, amount);
 
-        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin 
+        //+ "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();

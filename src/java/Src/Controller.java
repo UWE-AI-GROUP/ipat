@@ -512,7 +512,7 @@ public class Controller {
         while (iterator.hasNext()) {
             cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
             String get = byImageArray.get(iterator.next());
-            cells += get; // ###########################################JEFNPAOSJG{
+            cells += get + "</div><!-- me here -->";
             count++;
         }
         cells += "</div>"; // div_/2

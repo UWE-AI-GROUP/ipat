@@ -12,11 +12,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Vector;
+//import java.util.Vector;
 
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
@@ -106,16 +107,16 @@ public class CSSProcessor implements Processor {
                 k++;
             }
         }
-        Vector tempVector2 = new Vector();
+        ArrayList<String> tempVector2 = new ArrayList();
         for (int n = 0; n < tempVector.length; n++) {
             tempVector2.add(n, tempVector[n]);
         }
         double CSS_lastfontsize = 72.0;
 
-        Enumeration kernelsEnu = tempVector2.elements();
-        while (kernelsEnu.hasMoreElements()) {
+        Iterator kernelsEnu = tempVector2.iterator();
+        while (kernelsEnu.hasNext()) {
             String cssLine = "";
-            String ktype = kernelsEnu.nextElement().toString();
+            String ktype = kernelsEnu.next().toString();
             Kernel kernel1 = (Kernel) kernels.get(ktype);
             cssLine += kernel1.getName() + CSS_Start_Braces;
             HashMap vars = kernel1.getVariables();
@@ -150,7 +151,7 @@ public class CSSProcessor implements Processor {
                 } else {
                     if (ipvar.getType().equalsIgnoreCase("cardinal")) {
                         Double val = ipvar.getValue();
-                        Vector values = (Vector) cssLabels.get(ipvar.getName());
+                        ArrayList values = (ArrayList) cssLabels.get(ipvar.getName());
                         String value = (String) values.get(val.intValue());
                         cssLine += ipvar.getName() + CSS_PropSeparator + value
                                 + CSS_PropPairSeparator;
@@ -240,19 +241,19 @@ public class CSSProcessor implements Processor {
 
         HashMap cssStore = new HashMap();
 
-        Vector temp = new Vector();
+        ArrayList temp = new ArrayList();
         for (int i = 0; i < fontfamilies.length; i++) {
             temp.add(fontfamilies[i]);
         }
         cssStore.put("font-family", temp);
 
-        temp = new Vector();
+        temp = new ArrayList();
         for (int i = 0; i < floatvals.length; i++) {
             temp.add(floatvals[i]);
         }
         cssStore.put("float", temp);
 
-        temp = new Vector();
+        temp = new ArrayList();
         for (int i = 0; i < margin.length; i++) {
             temp.add(margin[i]);
         }
