@@ -347,6 +347,7 @@ private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all th
                 String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
                 
                 //write to file
+                nextGen.get(i).setProfile(nextGen.get(i));
                 nextGen.get(i).writeProfileToFile(outProfilePath);
                 File thisfile = new File(outProfilePath);
                 nextGen.get(i).setFile(thisfile);
