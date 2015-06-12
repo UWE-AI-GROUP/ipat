@@ -144,39 +144,39 @@ else
   //2.1start by sorting the list of classes present for appearances sake
  Collections.sort(classesPresent);
  int highestClasses = 0;
- for (int i=0; i<classesPresent.size();i++)
-     if(classesPresent.get(i)>highestClasses)
-         highestClasses = classesPresent.get(i);
+        for (Integer classesPresent1 : classesPresent)
+          {
+            if (classesPresent1 > highestClasses)
+              {
+                highestClasses = classesPresent1;
+              }
+          }
  
         //System.out.println("highest class id used is " + highestClasses);
  int numUses[][] = new int[highestClasses+1][highestClasses+1];
 //2.2 loop through each class
-for (int i=0;i < classesPresent.size();i++)
-    {
-      Integer thisClass = classesPresent.get(i);
-     //get all the methods in this class 
-     ArrayList methodsInthisClass =    classMethodsMap.get(thisClass);
-     if(methodsInthisClass!= null)
-       {
-     //2.3 foreach methid in the class
-        for (Iterator<String> iterator = methodsInthisClass.iterator(); iterator.hasNext();)
+        for (Integer thisClass : classesPresent)
           {
-            String thisMethod = iterator.next();
-            //get all of the attributes it uses
-            ArrayList<String> thisMethodAtts = UsesMap.get(thisMethod);
-              for (Iterator<String> iterator1 = thisMethodAtts.iterator(); iterator1.hasNext();)
-                {
-                  //2.4 get their name
-                  String attrString = iterator1.next();
-                  //and then what class they are in
-                  int attClass = classAssignments.get(attrString);
-                    //System.out.println("dealing with method " + thisMethod + "in class " + thisClass + ": it uses attribute " + attrString + " which is is class " + attClass);
-                  //2.5 finally increment the numberof uses
-                  numUses[thisClass][attClass]++;
-                }         
-          }
-       }
-    }
+            //get all the methods in this class
+            ArrayList methodsInthisClass =    classMethodsMap.get(thisClass);
+            if(methodsInthisClass!= null)
+              {
+                //2.3 foreach methid in the class
+                for (Iterator<String> iterator = methodsInthisClass.iterator(); iterator.hasNext();)
+                  {
+                    String thisMethod = iterator.next();
+                    //get all of the attributes it uses
+                    ArrayList<String> thisMethodAtts = UsesMap.get(thisMethod);
+                    for (String attrString : thisMethodAtts)
+                      {
+                        //and then what class they are in
+                        int attClass = classAssignments.get(attrString);
+                        //System.out.println("dealing with method " + thisMethod + "in class " + thisClass + ": it uses attribute " + attrString + " which is is class " + attClass);
+                        //2.5 finally increment the numberof uses
+                        numUses[thisClass][attClass]++;
+                      }
+                  }
+              }  }
 
 
 //3. For each of the classes create a javascript that will display a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
@@ -292,9 +292,10 @@ for(int class1=0;class1<=highestClasses;class1++)
                     }
                 }
 
-               BufferedWriter  writer = new BufferedWriter(new FileWriter(outHtmlPath));
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outHtmlPath)))
+              {
                 writer.write(htmlFile);
-                writer.close();
+              }
               
                 return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
@@ -398,6 +399,10 @@ for(int class1=0;class1<=highestClasses;class1++)
  * Returns if both {@link Collection Collections} contains the same elements, in the same quantities, regardless of order and collection type.
  * <p>
  * Empty collections and {@code null} are regarded as equal.
+     * @param <T> type of first collection
+     * @param col1 first collection
+     * @param col2 second collection to compare to first
+     * @return true or false
  */
 public static <T> boolean haveSameElements(Collection<T> col1, Collection<T> col2) {
     if (col1 == col2)
