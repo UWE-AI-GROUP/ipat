@@ -5,7 +5,13 @@
  */
 package Src;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
 
 /**
  *
@@ -619,7 +625,6 @@ public class Utils {
 	{
 		/*ostringstream stringStream;
 		stringStream << setw(sizeToReach) << setfill('0') << x;
-
 		return stringStream.str();
 		 */
 		return "";
@@ -670,7 +675,6 @@ public class Utils {
 			return pathName.substr(posiNameStart + 1);
 		}
 	}
-
 	/**
 	 * @param pathName		Name of a path (or any string containing a "\")
 	 */
@@ -689,7 +693,6 @@ public class Utils {
 			return pathName.substr(0, posiNameStart);
 		}
 	}
-
 	/**
 	 * @param pathName		Name of a path (or any string containing a "\")
 	 * @param n				Number of times last word will be erased
@@ -710,7 +713,6 @@ public class Utils {
 		}
 		return pathName;
 	}
-
 	/**
 	 * @param fileName		Name of a file including extension (or any string containing a ".")
 	 */
@@ -738,7 +740,6 @@ public class Utils {
 			total += ((Integer)v.get(i)).intValue();
 		return total;
 	}
-
 	double Sum(Vector<Double> v)
 	{
 		double total = 0.0;
@@ -746,7 +747,6 @@ public class Utils {
 			total += ((Double)v.get(i)).doubleValue();
 		return total;
 	}
-
 	double Ave( std::vector<int> &v)
 	{
 		if(v.size() != 0)
@@ -754,7 +754,6 @@ public class Utils {
 		else
 			return 0.0;
 	}
-
 	double Ave( std::vector<double> &v)
 	{
 		if(v.size() != 0)
@@ -762,7 +761,6 @@ public class Utils {
 		else
 			return 0.0;
 	}
-
 	double StdDev( std::vector<double> &v)
 	{
 		if(v.size() != 0)
@@ -778,7 +776,6 @@ public class Utils {
 		else
 			return 0.0;
 	}
-
 	 */
 	/////////////////////////////////////////////////////////////////////////////
 	// MATH
@@ -798,7 +795,6 @@ public class Utils {
 		ostringstream stringStream;
 		SYSTEMTIME st;
 		GetSystemTime(&st);
-
 		stringStream << st.wYear;
 		stringStream << setw(2) << setfill('0') << st.wMonth;
 		stringStream << setw(2) << setfill('0') << st.wDay;
@@ -807,7 +803,6 @@ public class Utils {
 		stringStream << setw(2) << setfill('0') << st.wSecond;
 		return stringStream.str();
 	}
-
 	/**
 	 * @param pathName_source	Path amd name of the file to copy
 	 * @param pathName_dest		Path (including file name) where to create the copy
@@ -823,7 +818,6 @@ public class Utils {
 			ErrorLog err; err.WriteErrorLog("[CopyTextFile] ERROR: unable to open source file");
 			return false;
 		}
-
 		ofstream destFileStream;
 		destFileStream.open(pathName_dest.c_str());
 		if (! destFileStream.is_open())
@@ -831,7 +825,132 @@ public class Utils {
 			ErrorLog err; err.WriteErrorLog("[CopyTextFile] ERROR: unable to open destination file");
 			return false;
 		}
-
 		return true;
 	}*/
+
+    //        // finally update profile names by incrementing the generation count in each name and write them to file for safe keeping
+    //         for (int i = 0; i < nextGen.size(); i++)
+    //          {
+    //
+    //            try {
+    //                String profileName = nextGen.get(i).getName(); // should be of form "gen_x-profile_y.xml"
+    //                System.out.println("ProfileName = " + profileName);
+    //                //get base name for profile
+    //                String profile = profileName.substring(profileName.indexOf('-') , profileName.lastIndexOf('_')+1); // should be of form "profile_"
+    //                System.out.println("Profile = " + profile);
+    //                //get generation and increment it
+    //                int generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
+    //                generation++;
+    //
+    //                //build string holding new name - note that we hav not kept traack of the profile indices
+    //                String outProfileName = "gen_" + generation + profile + i + ".xml";
+    //                System.out.println("outprofilename = " + outProfileName);
+    //
+    //                // set name in profile to match new name
+    //                nextGen.get(i).setName(outProfileName);
+    //
+    //                // write out the profile to file for safe keeping
+    //                //build the path by fetching the session details from the controller and adding generaios + this file name
+    //                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+    //
+    //                //write to file
+    //                nextGen.get(i).writeProfileToFile(outProfilePath);
+    //                File thisfile = new File(outProfilePath);
+    //                nextGen.get(i).setFile(thisfile);
+    //
+    //            } catch (StringIndexOutOfBoundsException ex) {
+    //                System.out.println("The profile names do not follow the correct convention to be processed."
+    //                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
+    //                System.out.println(ex.getMessage());
+    //            }
+    //        }
+    //System.out.println("changed names and saved files");
+    //finally write all ofthe profiles to file for safe keeping
+    //for(int toSave=0; toSave < howMany;toSave++)
+    //{
+    //  String outProfileName= nextGen.get(toSave).getName();
+    // String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
+    //System.out.println("saving next gen profile to file: " + outProfileName);
+    // nextGen.get(toSave).writeProfileToFile(outProfilePath);
+    //}
+    //}
+    // TODO read in the global scores from the profile.xml files
+    /**
+     *
+     * @param file
+     * @return
+     */
+    public static Profile getProfileFromFile(File file) {
+        Profile profile = new Profile(file);
+        try {
+            Document XmlDoc = new SAXBuilder().build(file);
+            Element root = XmlDoc.getRootElement();
+            Element profileNode = root.getChild("profile", root.getNamespace());
+            Iterator iterator = profileNode.getChildren().iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                Element hint = (Element) iterator.next();
+                if (hint.getName().equalsIgnoreCase("variable")) {
+                    String name = hint.getChildText("name");
+                    String type = hint.getChildText("type");
+                    String temp = hint.getChildText("lbound");
+                    Double dub = new Double(temp);
+                    double lbound = dub.doubleValue();
+                    temp = hint.getChildText("ubound");
+                    dub = new Double(temp);
+                    double ubound = dub.doubleValue();
+                    temp = hint.getChildText("granularity");
+                    dub = new Double(temp);
+                    double granularity = dub.doubleValue();
+                    temp = hint.getChildText("rateOfEvolution");
+                    dub = new Double(temp);
+                    double rateOfEvolution = dub.doubleValue();
+                    temp = hint.getChildText("value");
+                    dub = new Double(temp);
+                    double value = dub.doubleValue();
+                    String dfault = hint.getChildText("default");
+                    String flag = hint.getChildText("flag");
+                    String unit = hint.getChildText("unit");
+                    SolutionAttributes variable = new SolutionAttributes(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                    profile.addVariable(variable);
+                } else if (hint.getName().equalsIgnoreCase("kernel")) {
+                    Iterator it = hint.getChildren().iterator();
+                    Element nm = (Element) it.next();
+                    String kernelName = nm.getText();
+                    HashMap vars = new HashMap();
+                    while (it.hasNext()) {
+                        Element hintt = (Element) it.next();
+                        String name = hintt.getChildText("name");
+                        String type = hintt.getChildText("type");
+                        String temp = hintt.getChildText("lbound");
+                        Double dub = new Double(temp);
+                        double lbound = dub.doubleValue();
+                        temp = hintt.getChildText("ubound");
+                        dub = new Double(temp);
+                        double ubound = dub.doubleValue();
+                        temp = hintt.getChildText("granularity");
+                        dub = new Double(temp);
+                        double granularity = dub.doubleValue();
+                        temp = hintt.getChildText("rateOfEvolution");
+                        dub = new Double(temp);
+                        double rateOfEvolution = dub.doubleValue();
+                        temp = hintt.getChildText("value");
+                        dub = new Double(temp);
+                        double value = dub.doubleValue();
+                        String dfault = hintt.getChildText("default");
+                        String flag = hintt.getChildText("flag");
+                        String unit = hintt.getChildText("unit");
+                        SolutionAttributes variable = new SolutionAttributes(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                        vars.put(name, variable);
+                    }
+                    Kernel kernel = new Kernel(kernelName, vars);
+                    profile.addKernel(kernel);
+                } else if (hint.getName().equalsIgnoreCase("interaction")) {
+                }
+            }
+        } catch (Exception pce) {
+            pce.printStackTrace();
+        }
+        return profile;
+    }
 }
