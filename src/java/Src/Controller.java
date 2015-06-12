@@ -4,12 +4,12 @@ package Src;
  Controller will be responsible for determining from the parameters how many times to call
  metaHeuristic interface in order to generate the next solution based on what kind of heuristic
  it uses.
-
  When user requests next generation the Controller may also call pKernel virtual display that implements 
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
 import Algorithms.CSSProcessor;
+import Algorithms.UMLProcessor
 import Algorithms.ESEvolution;
 import Algorithms.HintsProcessor;
 import java.io.File;
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 public class Controller {
 
     Display display;
-    CSSProcessor cssp = new CSSProcessor();
+    UMLProcessor myUMLProcessor = new UMlProcessor();
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -132,7 +132,6 @@ public class Controller {
      */
     public HashMap mainloop() {
 
-
         //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
@@ -162,19 +161,17 @@ public class Controller {
         File[] profiles_list = profileFolder.listFiles(filter);
         if (profiles_list == null) {
             System.out.println("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.");
+            System.exit(0);
         }
 
         //declare an array to hold the new profiles
         File[] new_profiles_list = new File[noOfProfiles];
 
         //next steps depend on  number of seeds
-        if (profiles_list == null || profiles_list.length < noOfProfiles) {// if there are no, or less than desired numner of seeds
-            int i = 0;
-            //copy those we have
-            for (i = 0; i < profiles_list.length; i++) {
+        if ( profiles_list.length < noOfProfiles) {// if there are no, or less than desired numner of seeds
+            for (int i = 0; i < noOfProfiles; i++) {
                 new_profiles_list[i] = profiles_list[i];
             }
-            //work out how many to make
             int diffOfNrOfProfilesToMake = noOfProfiles - profiles_list.length;
             for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
                 new_profiles_list[i + j] = profiles_list[1];
@@ -251,7 +248,7 @@ public class Controller {
 
                 rawArtifact = raw_artifacts[artifactID];
                 //System.out.println(rawArtifact.getFilename());
-                processedArtifact = cssp.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                processedArtifact = myUMLProcessor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
                 processedArtifacts[count] = processedArtifact;
                 count++;
 
