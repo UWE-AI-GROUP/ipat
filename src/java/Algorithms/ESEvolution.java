@@ -331,8 +331,6 @@ public class ESEvolution implements MetaHeuristic {
                 File thisfile = new File(outProfilePath);
                 nextGen.get(k).setFile(thisfile);
 
-                System.out.println("VALUE OF NEXTGEN(K) = " + ((SolutionAttributes) nextGen.get(k).getSolutionAttributes().get("Page_bg_Red")).getValue());
-
             } catch (StringIndexOutOfBoundsException ex) {
                 System.out.println("The profile names do not follow the correct convention to be processed."
                         + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
