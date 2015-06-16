@@ -5,8 +5,8 @@
  */
 package Com;
 
-import Src.Controller;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,8 +67,12 @@ public class Abort extends HttpServlet {
             System.out.println("Error, abort button pressed before upload of input files.");
         }
         else{
+            String usecase = (String) session.getAttribute("usecase");
          session.invalidate();
-            System.out.println("Project Aborted by user");
+         System.out.println("Project Aborted by user");
+          RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
+            dispatcher.forward(request, response);
+            
         }
  response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");

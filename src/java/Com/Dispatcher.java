@@ -133,6 +133,11 @@ public class Dispatcher extends HttpServlet {
                 Logger.getLogger(Dispatcher.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+             System.out.println("input path : " + inputFolder);
+             System.out.println("output path : " + outputFolder);
+              System.out.println("profile path : " + profilePath);
+               System.out.println("hintsXML path : " + hintsFile);
+            
             System.out.println("file uploaded");
             // TODO make the fileRepository Folder generic so it doesnt need to be changed
             // for each migration of the program to a different server
@@ -140,11 +145,6 @@ public class Dispatcher extends HttpServlet {
             File output = new File(outputFolder);
             File profile = new File(profilePath);
             File hintsXML = new File(hintsFile);
-            
-            System.out.println("input path : " + input.getAbsolutePath());
-             System.out.println("output path : " + output.getAbsolutePath());
-              System.out.println("profile path : " + profile.getAbsolutePath());
-               System.out.println("hintsXML path : " + hintsXML.getAbsolutePath());
             
             
             Processor processor = (Processor) session.getAttribute("processor");
