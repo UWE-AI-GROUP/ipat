@@ -115,6 +115,13 @@ public class Profile {
     public void removeKernel(String kernelName) {
         kernels.remove(kernelName);
     }
+    
+    public void replaceKernel(Kernel kernel)
+      {
+        Kernel oldvalue =  (Kernel) kernels.put(kernel.getName(), kernel);
+        if(oldvalue==null)
+              System.out.println("Error replacing kernel " + kernel.getName() + "in profile " + this.getName() + " Not previously present in profile");
+      }
 
     /**
      * Adds the variable.
@@ -141,6 +148,13 @@ public class Profile {
     public void removeVariable(String varname) {
         solutionAttributes.remove(varname);
     }
+    
+    public void replaceVariable( SolutionAttributes var)
+      {
+        SolutionAttributes oldval = (SolutionAttributes)        solutionAttributes.put(var.getName(), var);
+        if (oldval ==null)
+              System.out.println("error replacing profile variable " + var.getName() + " in profile " + this.getName() +" old value not found or null");
+      }
 
     /**
      * Gets the file.
