@@ -28,20 +28,20 @@
         <div id="preview">
              <div id="variables">
                 <div class="variableInfo">
-                    <label for="loadedProfile">loaded Profile:</label>
-                    <input name="loadedProfile" id="loadedProfile" value="N/A" type="text">
+                    <label for="loadedProfile">loaded Profile:</label><br>
+                    <input class="variableBox" name="loadedProfile" id="loadedProfile" value="N/A" type="text">
                 </div>
                 <div class="variableInfo">
-                    <label for="generationCount">Generation Count:</label>
-                    <input name="generationCount" id="generationCount" value="0" type="text">
+                    <label for="generationCount">Generation Count:</label><br>
+                    <input class="variableBox" name="generationCount" id="generationCount" value="0" type="text">
                 </div>
                 <div class="variableInfo">
-                    <label for="applicationMode">Application Mode:</label>
-                    <input name="applicationMode" id="applicationMode" value="Standard" type="text">
+                    <label for="applicationMode">Application Mode:</label><br>
+                    <input class="variableBox" name="applicationMode" id="applicationMode" value="Standard" type="text">
                 </div>
                 <div class="variableInfo">
-                    <label for="Generation">Profiles/Generation:</label>
-                    <input name="Generation" id="Generation" value="6" type="text">
+                    <label for="Generation">Profiles/Generation:</label><br>
+                    <input class="variableBox" name="Generation" id="Generation" value="6" type="text">
                 </div>
             </div>
             <iframe class="previewFrame" id="previewFrame" name="previewFrame" ></iframe>
@@ -68,9 +68,10 @@
                 </div>
             </div>
             <div id="buttons">
-             <button type="button" name="abortButton" id="abort">Abort</button>         
-             <button type="button" name="resetScoresButton" id="resetScores">Reset Scores</button>
-             <button  name="nextGenerationButton" id="nextGeneration">Next Generation</button>   
+             <button class="buttons" type="button" name="abortButton" id="abort">Abort</button>         
+             <button class="buttons" type="button" name="resetScoresButton" id="resetScores">Reset Scores</button>
+             <button class="buttons" name="nextGenerationButton" id="nextGeneration">Next Generation</button>   
             </div> 
         </div>
 </body>
+</html>
