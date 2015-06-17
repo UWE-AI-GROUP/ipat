@@ -372,7 +372,6 @@ public class Profile {
 
                   //  System.out.println("\n Profile variable \n");
                     Element elem = hint.getChild("name");
-                    // System.out.println("elem value = " + elem.getValue());
                     SolutionAttributes var = (SolutionAttributes) mySolutionAttributes.get(elem.getValue());
                     elem.setText(var.getName());
 

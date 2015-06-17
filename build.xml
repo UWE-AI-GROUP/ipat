@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="IPAT_Kierans_Fork" default="default" basedir=".">
-    <description>Builds, tests, and runs the project IPAT_Kierans_Fork.</description>
+<project name="Interactive_Parameter_Adaptation_Tool" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Interactive Parameter Adaptation Tool.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 

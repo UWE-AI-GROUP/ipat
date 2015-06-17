@@ -21,15 +21,19 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
+import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 /**
  *
  * @author kieran
  */
 public class Dispatcher extends HttpServlet {
+
+    private static final Logger logger = Logger.getLogger(Dispatcher.class);
 
     int maxFileSize = 51200;
     int maxMemSize = 4096;
@@ -38,7 +42,9 @@ public class Dispatcher extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
+       
         this.contextPath = getServletContext().getRealPath("/");
+        logger.info("session context path = " + contextPath);
         this.fileRepository = contextPath + "/temp file repository/";
     }
 
@@ -55,12 +61,6 @@ public class Dispatcher extends HttpServlet {
             throws ServletException, IOException {
 
         File file;
-        String clientDataPath;
-        
-        String hintsFile = null;
-        String profilePath = null;
-        String inputFolder = null;
-        String outputFolder = null;
 
         Boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
@@ -92,7 +92,7 @@ public class Dispatcher extends HttpServlet {
                 while (i.hasNext()) {
                     FileItem fi = (FileItem) i.next();
                     if (!fi.isFormField()) {
-                        
+
                         // Get the uploaded file parameters
                         String fileName = fi.getName();
                         //  String fieldName = fi.getFieldName();
@@ -104,20 +104,22 @@ public class Dispatcher extends HttpServlet {
                         String outputPath = getServletContext().getInitParameter("clientFolder");
                         // initialise the output path for the artifacts 
                         if (outputPath.equalsIgnoreCase("")) {
-                            clientDataPath = contextPath + "/Client Data/";
+                            System.out.println("Client data 1 = " + contextPath + "/Client Data/");
+                            session.setAttribute("clientDataPath", contextPath + "/Client Data/");
                         } else {
-                            clientDataPath = getServletContext().getInitParameter("clientFolder");
+                            System.out.println("Client data 2 = " + getServletContext().getInitParameter("clientFolder"));
+                            session.setAttribute("clientDataPath", getServletContext().getInitParameter("clientFolder"));
                         }
                         // initialise the Paths for the hints and profiles to be read from based on use case
-                        profilePath = contextPath + "/data/" + session.getAttribute("usecase") + "/Profiles/";
-                        hintsFile = contextPath + "/data/" + session.getAttribute("usecase") + "/hints.xml";
-                        
-                        File input = new File(clientDataPath + session.getId() + "/input/");
+                        session.setAttribute("profilePath", contextPath + "/data/" + (String) session.getAttribute("usecase") + "/Profiles/");
+                        session.setAttribute("hintsFile", contextPath + "/data/" + (String) session.getAttribute("usecase") + "/hints.xml");
+
+                        File input = new File((String) session.getAttribute("clientDataPath") + session.getId() + "/input/");
                         input.mkdirs();
-                        File output = new File(clientDataPath + session.getId() + "/output/");
+                        File output = new File((String) session.getAttribute("clientDataPath") + session.getId() + "/output/");
                         output.mkdirs();
-                        inputFolder = clientDataPath + session.getId() + "/input/";
-                        outputFolder = clientDataPath + session.getId() + "/output/";
+                        session.setAttribute("inputFolder", (String) session.getAttribute("clientDataPath") + session.getId() + "/input/");
+                        session.setAttribute("outputFolder", (String) session.getAttribute("clientDataPath") + session.getId() + "/output/");
 
                         if (fileName.lastIndexOf("\\") >= 0) {
                             file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/")));
@@ -128,25 +130,24 @@ public class Dispatcher extends HttpServlet {
                     }
                 }
             } catch (FileUploadException ex) {
-                Logger.getLogger(Dispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                logger.info(ex, ex);
             } catch (Exception ex) {
-                Logger.getLogger(Dispatcher.class.getName()).log(Level.SEVERE, null, ex);
+                logger.info(ex, ex);
             }
 
-             System.out.println("input path : " + inputFolder);
-             System.out.println("output path : " + outputFolder);
-              System.out.println("profile path : " + profilePath);
-               System.out.println("hintsXML path : " + hintsFile);
-            
-            System.out.println("file uploaded");
+            System.out.println("File(s) uploaded by user : "
+                    + "\ninput path : " + (String) session.getAttribute("inputFolder")
+                    + "\noutput path : " + (String) session.getAttribute("outputFolder")
+                    + "\nprofile path : " + (String) session.getAttribute("profilePath")
+                    + "\nhintsXML path : " + (String) session.getAttribute("hintsFile"));
+
             // TODO make the fileRepository Folder generic so it doesnt need to be changed
             // for each migration of the program to a different server
-            File input = new File(inputFolder);
-            File output = new File(outputFolder);
-            File profile = new File(profilePath);
-            File hintsXML = new File(hintsFile);
-            
-            
+            File input = new File((String) session.getAttribute("inputFolder"));
+            File output = new File((String) session.getAttribute("outputFolder"));
+            File profile = new File((String) session.getAttribute("profilePath"));
+            File hintsXML = new File((String) session.getAttribute("hintsFile"));
+
             Processor processor = (Processor) session.getAttribute("processor");
             Controller controller = new Controller(input, output, profile, hintsXML, processor);
             HashMap initialArtifacts = controller.initialArtifacts();

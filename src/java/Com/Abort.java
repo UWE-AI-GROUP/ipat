@@ -6,7 +6,6 @@
 package Com;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +30,7 @@ public class Abort extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,27 +59,23 @@ public class Abort extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
         HttpSession session = request.getSession(false);
-        if (session == null){
-            System.out.println("Error, abort button pressed before upload of input files.");
-        }
-        else{
+        if (session == null) {
+           
+        } else {
             String usecase = (String) session.getAttribute("usecase");
-         session.invalidate();
-         System.out.println("Project Aborted by user");
-          RequestDispatcher dispatcher = request.getRequestDispatcher("index.html");
-            dispatcher.forward(request, response);
-            
+            session.invalidate();
+           // Src.Utils.webLog("Project Aborted by user", (String) session.getAttribute("clientFolder"));
+            session = request.getSession(true);
+            session.setAttribute("usecase", usecase);
+
         }
- response.setContentType("text/html");
+        response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("Current Project Aborted.");    
+        response.getWriter().write("Current Project Aborted.");
     }
 
-    
-    
     /**
      * Returns a short description of the servlet.
      *

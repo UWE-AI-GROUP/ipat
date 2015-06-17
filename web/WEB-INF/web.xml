@@ -13,6 +13,7 @@
         <param-name>clientFolder</param-name>
         <param-value></param-value>
     </context-param>
+
     <listener>
         <listener-class>Com.SessionCounterListener</listener-class>
     </listener>
