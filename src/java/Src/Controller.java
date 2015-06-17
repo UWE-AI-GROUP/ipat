@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
  */
 public class Controller {
 
-    Display display;
+    
     Processor Processor;
     Profile currentProfile = null;
     Profile leader = null;

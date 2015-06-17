@@ -21,11 +21,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
-import java.util.Properties;
-import java.util.logging.Level;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  *
@@ -104,10 +101,8 @@ public class Dispatcher extends HttpServlet {
                         String outputPath = getServletContext().getInitParameter("clientFolder");
                         // initialise the output path for the artifacts 
                         if (outputPath.equalsIgnoreCase("")) {
-                            System.out.println("Client data 1 = " + contextPath + "/Client Data/");
                             session.setAttribute("clientDataPath", contextPath + "/Client Data/");
                         } else {
-                            System.out.println("Client data 2 = " + getServletContext().getInitParameter("clientFolder"));
                             session.setAttribute("clientDataPath", getServletContext().getInitParameter("clientFolder"));
                         }
                         // initialise the Paths for the hints and profiles to be read from based on use case
@@ -135,7 +130,7 @@ public class Dispatcher extends HttpServlet {
                 logger.info(ex, ex);
             }
 
-            System.out.println("File(s) uploaded by user : "
+            logger.info("File(s) uploaded by user : "
                     + "\ninput path : " + (String) session.getAttribute("inputFolder")
                     + "\noutput path : " + (String) session.getAttribute("outputFolder")
                     + "\nprofile path : " + (String) session.getAttribute("profilePath")
@@ -153,7 +148,7 @@ public class Dispatcher extends HttpServlet {
             HashMap initialArtifacts = controller.initialArtifacts();
             session.setAttribute("Controller", controller);
 
-            System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
+            logger.info("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
                     + "Awaiting user to update parameters to generate next generation of results.\n");
 
             String json = new Gson().toJson(initialArtifacts);
