@@ -781,6 +781,7 @@ button.ui-button::-moz-focus-inner {
 .ui-tabs .ui-tabs-nav {
 	margin: 0;
 	padding: .2em .2em 0;
+        min-width: 480px;
 }
 .ui-tabs .ui-tabs-nav li {
 	list-style: none;
@@ -811,9 +812,11 @@ button.ui-button::-moz-focus-inner {
 }
 .ui-tabs .ui-tabs-panel {
 	display: block;
+        min-width: 700px;
 	border-width: 0;
 	padding: 1em 1.4em;
 	background: none;
+        color: darkblue;
 }
 .ui-tooltip {
 	padding: 8px;

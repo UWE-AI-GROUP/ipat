@@ -5,9 +5,9 @@
  */
 package Com;
 
+import Algorithms.Processor;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.HashMap;
@@ -21,6 +21,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -28,22 +30,19 @@ import com.google.gson.Gson;
  */
 public class Dispatcher extends HttpServlet {
 
-    int maxFileSize;
-    int maxMemSize;
-    String fileRepository;
-    String webPath;
+    private static final Logger logger = Logger.getLogger(Dispatcher.class);
 
-    public void init() throws ServletException {
-        this.webPath = getServletConfig().getInitParameter("clientFolder");
-        this.maxFileSize = Integer.parseInt(getServletConfig().getInitParameter("maxFileSize"));
-        this.maxMemSize = Integer.parseInt(getServletConfig().getInitParameter("maxMemSize"));
-        this.fileRepository = getServletConfig().getInitParameter("fileRepository");
-    }
+    int maxFileSize = 51200;
+    int maxMemSize = 4096;
+    String fileRepository;
+    String contextPath;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    public void init() throws ServletException {
+       
+        this.contextPath = getServletContext().getRealPath("/");
+        logger.info("session context path = " + contextPath);
+        this.fileRepository = contextPath + "/temp file repository/";
     }
 
     /**
@@ -65,108 +64,99 @@ public class Dispatcher extends HttpServlet {
             return;
         }
 
-        // Create a session object if it is already not  created.
-        HttpSession session = request.getSession(true);
-        // Get session creation time.
-        Date createTime = new Date(session.getCreationTime());
-        // Get last access time of this web page.
-        Date lastAccessTime = new Date(session.getLastAccessedTime());
-
-        String visitCountKey = new String("visitCount");
-        String userIDKey = new String("userID");
-        String userID = new String("ABCD");
-        Integer visitCount = (Integer) session.getAttribute(visitCountKey);
-
-        // Check if this is new comer on your web page.
-        if (visitCount == null) {
-
-            session.setAttribute(userIDKey, userID);
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            System.out.println("Error, Please load welcome page and select the type of use case desired.");
         } else {
 
-            visitCount++;
-            userID = (String) session.getAttribute(userIDKey);
-        }
-        session.setAttribute(visitCountKey, visitCount);
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            // maximum size that will be stored in memory
+            factory.setSizeThreshold(maxMemSize);
+            // Location to save data that is larger than maxMemSize.
+            factory.setRepository(new File(fileRepository));
 
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        // maximum size that will be stored in memory
-        factory.setSizeThreshold(maxMemSize);
-        // Location to save data that is larger than maxMemSize.
-        factory.setRepository(new File(fileRepository));
+            // Create a new file upload handler
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            // maximum file size to be uploaded.
+            upload.setSizeMax(maxFileSize);
 
-        // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        // maximum file size to be uploaded.
-        upload.setSizeMax(maxFileSize);
-
-        try {
             // Parse the request to get file items
-            List fileItems = upload.parseRequest(request);
-            // Process the uploaded file items
-            Iterator i = fileItems.iterator();
-            while (i.hasNext()) {
-                FileItem fi = (FileItem) i.next();
-                if (!fi.isFormField()) {
-                    // Get the uploaded file parameters
-                    String fieldName = fi.getFieldName();
-                    String fileName = fi.getName();
-                    String contentType = fi.getContentType();
-                    boolean isInMemory = fi.isInMemory();
-                    long sizeInBytes = fi.getSize();
-                    // Write the file to server in "/uploads/{sessionID}/"   
-                    String clientDataPath = getServletContext().getInitParameter("clientFolder");
-                    // TODO clear the client folder here
-                    // FileUtils.deleteDirectory(new File("clientDataPath"));
-                    if (fileName.lastIndexOf("\\") >= 0) {
+            List fileItems;
+            try {
+                fileItems = upload.parseRequest(request);
+                // Process the uploaded file items
+                Iterator i = fileItems.iterator();
+                while (i.hasNext()) {
+                    FileItem fi = (FileItem) i.next();
+                    if (!fi.isFormField()) {
 
-                        File input = new File(clientDataPath + session.getId() + "/input/");
+                        // Get the uploaded file parameters
+                        String fileName = fi.getName();
+                        //  String fieldName = fi.getFieldName();
+                        //  String contentType = fi.getContentType();
+                        //  boolean isInMemory = fi.isInMemory();
+                        //  long sizeInBytes = fi.getSize();
+
+                        // get specified paths in the web.xml, if they are left as null then set defaults  
+                        String outputPath = getServletContext().getInitParameter("clientFolder");
+                        // initialise the output path for the artifacts 
+                        if (outputPath.equalsIgnoreCase("")) {
+                            session.setAttribute("clientDataPath", contextPath + "/Client Data/");
+                        } else {
+                            session.setAttribute("clientDataPath", getServletContext().getInitParameter("clientFolder"));
+                        }
+                        // initialise the Paths for the hints and profiles to be read from based on use case
+                        session.setAttribute("profilePath", contextPath + "/data/" + (String) session.getAttribute("usecase") + "/Profiles/");
+                        session.setAttribute("hintsFile", contextPath + "/data/" + (String) session.getAttribute("usecase") + "/hints.xml");
+
+                        File input = new File((String) session.getAttribute("clientDataPath") + session.getId() + "/input/");
                         input.mkdirs();
-                        File output = new File(clientDataPath + session.getId() + "/output/");
+                        File output = new File((String) session.getAttribute("clientDataPath") + session.getId() + "/output/");
                         output.mkdirs();
-                        session.setAttribute("inputFolder", clientDataPath + session.getId() + "/input/");
-                        session.setAttribute("outputFolder", clientDataPath + session.getId() + "/output/");
+                        session.setAttribute("inputFolder", (String) session.getAttribute("clientDataPath") + session.getId() + "/input/");
+                        session.setAttribute("outputFolder", (String) session.getAttribute("clientDataPath") + session.getId() + "/output/");
 
-                        file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/")));
-                    } else {
-                        File input = new File(clientDataPath + session.getId() + "/input/");
-                        input.mkdirs();
-                        File output = new File(clientDataPath + session.getId() + "/output/");
-                        output.mkdirs();
-                        session.setAttribute("inputFolder", clientDataPath + session.getId() + "/input/");
-                        session.setAttribute("outputFolder", clientDataPath + session.getId() + "/output/");
-
-                        file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/") + 1));
+                        if (fileName.lastIndexOf("\\") >= 0) {
+                            file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/")));
+                        } else {
+                            file = new File(input.getAbsolutePath() + "/" + fileName.substring(fileName.lastIndexOf("/") + 1));
+                        }
+                        fi.write(file);
                     }
-                    fi.write(file);
                 }
+            } catch (FileUploadException ex) {
+                logger.info(ex, ex);
+            } catch (Exception ex) {
+                logger.info(ex, ex);
             }
-        } catch (Exception ex) {
-            System.out.println("Failure: File Upload");
-            System.out.println(ex);
-            //TODO show error page for website
+
+            logger.info("File(s) uploaded by user : "
+                    + "\ninput path : " + (String) session.getAttribute("inputFolder")
+                    + "\noutput path : " + (String) session.getAttribute("outputFolder")
+                    + "\nprofile path : " + (String) session.getAttribute("profilePath")
+                    + "\nhintsXML path : " + (String) session.getAttribute("hintsFile"));
+
+            // TODO make the fileRepository Folder generic so it doesnt need to be changed
+            // for each migration of the program to a different server
+            File input = new File((String) session.getAttribute("inputFolder"));
+            File output = new File((String) session.getAttribute("outputFolder"));
+            File profile = new File((String) session.getAttribute("profilePath"));
+            File hintsXML = new File((String) session.getAttribute("hintsFile"));
+
+            Processor processor = (Processor) session.getAttribute("processor");
+            Controller controller = new Controller(input, output, profile, hintsXML, processor);
+            HashMap initialArtifacts = controller.initialArtifacts();
+            session.setAttribute("Controller", controller);
+
+            logger.info("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
+                    + "Awaiting user to update parameters to generate next generation of results.\n");
+
+            String json = new Gson().toJson(initialArtifacts);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         }
-        System.out.println("file uploaded");
-        // TODO make the fileRepository Folder generic so it doesnt need to be changed
-        // for each migration of the program to a different server
-        File input = new File((String) session.getAttribute("inputFolder"));
-        File output = new File((String) session.getAttribute("outputFolder"));
-        File profile = new File(getServletContext().getInitParameter("profileFolder"));
-        File hintsXML = new File(getServletContext().getInitParameter("hintsXML"));
 
-        System.out.println("folders created");
-
-        Controller controller = new Controller(input, output, profile, hintsXML);
-        HashMap initialArtifacts = controller.initialArtifacts();
-        session.setAttribute("Controller", controller);
-       
-
-        System.out.println("Initialisation of profiles for session (" + session.getId() + ") is complete\n"
-                + "Awaiting user to update parameters to generate next generation of results.\n");
-
-        String json = new Gson().toJson(initialArtifacts);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
     }
 
     /**

@@ -8,10 +8,9 @@ package Src;
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
-import Algorithms.CSSProcessor;
-import Algorithms.UMLProcessor;
 import Algorithms.ESEvolution;
 import Algorithms.HintsProcessor;
+import Algorithms.Processor;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -35,8 +34,8 @@ import org.xml.sax.SAXException;
  */
 public class Controller {
 
-    Display display;
-    UMLProcessor myUMLProcessor = new UMLProcessor();
+    
+    Processor Processor;
     Profile currentProfile = null;
     Profile leader = null;
     ESEvolution evolution = new ESEvolution();
@@ -97,13 +96,15 @@ public class Controller {
      * @param outputFolder
      * @param profileFolder
      * @param hintsXML
+     * @param processor
      * @throws IOException
      */
-    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML) throws IOException {
+    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, Processor processor) throws IOException {
         this.outputFolder = outputFolder;
         this.inputFolder = inputFolder;
         this.profileFolder = profileFolder;
         this.hintsXML = hintsXML;
+        this.Processor = processor;
     }
 
     // Generates the first set of results and returns them in the appropriate display to the view
@@ -249,7 +250,7 @@ public class Controller {
 
                 rawArtifact = raw_artifacts[artifactID];
                 //System.out.println(rawArtifact.getFilename());
-                processedArtifact = myUMLProcessor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                processedArtifact = Processor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
                 processedArtifacts[count] = processedArtifact;
                 count++;
 
@@ -427,7 +428,7 @@ public class Controller {
         while (iterator.hasNext()) {
             cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
             String get = byImageArray.get(iterator.next());
-            cells += get; // ###########################################JEFNPAOSJG{
+            cells += get + "</div>"; 
             count++;
         }
         cells += "</div>"; // div_/2

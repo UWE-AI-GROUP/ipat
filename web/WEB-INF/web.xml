@@ -1,73 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet-mapping>
-        <servlet-name>newGenRequest</servlet-name>
-        <url-pattern>/newGen</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>main.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <context-param>
         <description>Location for client data</description>
         <param-name>clientFolder</param-name>
-        <param-value>
-         /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/build/web/Client Data/
-        </param-value>
+        <param-value></param-value>
     </context-param>
-     <context-param>
-        <description>Location for hintsXML</description>
-        <param-name>hintsXML</param-name>
-        <param-value>
-         /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/build/web/data/hints.xml
-        </param-value>
-    </context-param>
-    <context-param>
-        <description>Location of Profiles</description>
-        <param-name>profileFolder</param-name>
-        <param-value>
-         /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/build/web/data/profiles/
-        </param-value>
-    </context-param>
+
     <listener>
         <listener-class>Com.SessionCounterListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>Dispatcher</servlet-name>
-        <servlet-class>Com.Dispatcher</servlet-class>
-        <init-param>
-            <param-name>maxFileSize</param-name>
-            <param-value>51200</param-value>
-        </init-param>
-        <init-param>
-            <param-name>maxMemSize</param-name>
-            <param-value>4096</param-value>
-        </init-param>
-        <init-param>
-            <param-name>fileRepository</param-name>
-            <param-value>
-                /Users/j4-smith/Documents/Dropbox/current code/webIPAT/ipat/build/web/temp file repository/
-            </param-value>
-        </init-param>
-    </servlet>
-    <servlet>
         <servlet-name>newGenRequest</servlet-name>
         <servlet-class>Com.newGenRequest</servlet-class>
+    </servlet>
+    <servlet>
+      <servlet-name>Dispatcher</servlet-name>
+        <servlet-class>Com.Dispatcher</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Dispatcher</servlet-name>
         <url-pattern>/FileUpload</url-pattern>
     </servlet-mapping>
-     <servlet>
+    <servlet>
         <servlet-name>Abort</servlet-name>
         <servlet-class>Com.Abort</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Abort</servlet-name>
         <url-pattern>/abort</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>setUseCase</servlet-name>
+        <servlet-class>Com.setUseCase</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newGenRequest</servlet-name>
+        <url-pattern>/newGen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>setUseCase</servlet-name>
+        <url-pattern>/setUseCase</url-pattern>
     </servlet-mapping>
 </web-app>

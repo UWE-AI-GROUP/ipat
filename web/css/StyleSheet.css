@@ -10,50 +10,54 @@ and open the template in the editor.
 
 
 #program {
-   position: fixed;
-  width: 99%;
-  height: 98%;
-  display: inline-block;
-  border-style: solid;
-  border-width: 3px;
+    position: absolute;
+    width: 99%;
+    height: 98%;
+    min-width: 630px;
+    min-height: 650px;
+    alignment-adjust: central;
+    display: inline-block;
+    background-image: url("backgroundImage.jpg");
+     background-size: 100% 100%;
+    background-repeat: no-repeat;
+    color: aquamarine;
 }
 
 #preview {
-   width: 45%;
-  height: 94%;
-  float: right;
-  border-style: solid;
-  border-width: 2px;
-  text-align: center;
+    width: 45%;
+    height: 94%;
+    float: right;
+    text-align: center;
 }
 
 #form {
-    width: 54%;
-  height: 100%;
-  float: left;
-  display: inline-block;
+    width: 50%;
+    height: 100%;
+    float: left;
+    padding-left: 10px;
+    display: inline-block;
 }
 
 #variables{
-     width: 100%;
-  height: 10%;
-  display: inline-block;
-  font-size: 90%;
+    width: 100%;
+    height: 10%;
+    display: inline-block;
+    font-size: 90%;
 }
 
 #fileChoose{
     width: 100%;
     height: 15%;
-    border-style: solid;
-    border-width: 1px;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 #iframeTable{
     width: 100%;
     height: 75%;
-    border-style: solid;
-    border-width: 2px;
+    padding-left: 10px;
     overflow: auto;
+    background-color: slategrey;
 }
 
 #wrap {  
@@ -64,10 +68,9 @@ and open the template in the editor.
 }
 
 #buttons{
-   width: 100%;
-  height: 3%;
-  border-style: solid;
-  border-width: 2px;
+    width: 100%;
+    height: 3%;
+      padding: 7px;
 }
 
 #filelist{
@@ -77,9 +80,10 @@ and open the template in the editor.
 
 .previewFrame{
     height: 80%;
-  width: 90%;
-  position: relative;
-  top: 40px;
+    width: 90%;
+    position: relative;
+    top: 50px;
+
 }
 
 #tabs-byProfile img {
@@ -89,6 +93,10 @@ and open the template in the editor.
     margin-left: auto;
     margin-right: auto;
     border-width: 0px;
+}
+
+.variableBox{
+    max-width: 70px
 }
 
 .tabs-menu li {
@@ -109,10 +117,11 @@ and open the template in the editor.
 
 .variableInfo{
     display: inline-block;
-  width: 50%;
-  float: left;
-  height: 48%;
-  padding-top: 1%;
+    width: 50%;
+    float: left;
+    height: 48%;
+    padding-top: 12px;
+    padding-bottom: 7px;
 }
 
 .tabs-menu .current a {
@@ -129,7 +138,7 @@ and open the template in the editor.
 }
 
 .tab-content {
-      width: 90%;
+    width: 90%;
     padding: 10px;
     position: absolute;
 }
@@ -140,40 +149,52 @@ body {
 }
 
 .cellFrames {
-     float: left;
-  display: inline-block;
-   width: 400px;
-  height: 370px;
-  -ms-zoom: 0.8;
-  -ms-transform-origin: 0 0;
-  -moz-transform: scale(0.8);
-  -moz-transform-origin: 0px 80px;
-  -o-transform: scale(0.8);
-  -o-transform-origin: 0px 80px;
-  -webkit-transform: scale(0.8);
-  -webkit-transform-origin: 0 0;
+    float: left;
+    display: inline-block;
+    width: 400px;
+    height: 370px;
+    -ms-zoom: 0.8;
+    -ms-transform-origin: 0 0;
+    -moz-transform: scale(0.8);
+    -moz-transform-origin: 0px 80px;
+    -o-transform: scale(0.8);
+    -o-transform-origin: 0px 80px;
+    -webkit-transform: scale(0.8);
+    -webkit-transform-origin: 0 0;
 }
 
 .cell  {
-      width: 100%;
-   height: 310px;
-  float: left;
-  padding: 5px;
-  border-style: inset;
+    width: 100%;
+    min-width: 630px;
+    height: 310px;
+    float: left;
+    padding: 5px;
+    border-style: inset;
 }
 
 .overlay{
     display: inline-block;
     width: 322px;
-  height: 300px;
+    height: 300px;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
 }
 
 .label{
-    float: right;}
+    float: right;
+    padding-right: 23px;
+}
 
 .hint{
-   display: table-header-group;
-      z-index: 2;
+    height: 40px;
+    width: 110%;
+    right: 70px;
+    min-width: 700px;
+    z-index: 2;
+    position: relative;
+}
+
+.hintScore {
+    float: left;
+
 }
