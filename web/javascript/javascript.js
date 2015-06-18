@@ -26,15 +26,15 @@ $(document).ready(function () {
         var valid = true;
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            if ((!file.type.match('text/html'))&&(!file.type.match('text/xml'))) {
-                alert('Please only select files with .htm and .html extensions.');
-                $('#tabs-byProfile').empty();
-                $('#filelist').val('');
-                $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
-                files = null;
-                valid = false;
-                break;
-            }
+//            if ((!file.type.match('text/html'))&&(!file.type.match('text/xml'))) {
+//                alert('Please only select files of type text/html or text/xml.');
+//                $('#tabs-byProfile').empty();
+//                $('#filelist').val('');
+//                $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
+//                files = null;
+//                valid = false;
+//                break;
+//            }
             formData.append('filesToUpload', file, file.name);
             document.getElementById("filelist").value += file.name + "\n";
         }

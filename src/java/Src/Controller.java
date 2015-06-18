@@ -216,7 +216,8 @@ public class Controller {
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-               boolean bool = name.endsWith(".xml") || name.endsWith(".htm");
+               //boolean bool = name.endsWith(".xml") || name.endsWith(".htm");
+                boolean bool =  name.endsWith(".htm");
                 return bool;
             }
         };
