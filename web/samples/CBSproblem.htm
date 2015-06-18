@@ -44,19 +44,21 @@ var paper = new joint.dia.Paper({
 
 
 var uml = joint.shapes.uml;
-
+//empty container fo the classes which get add by UMLProcessor
 var classes = {
 
 };
-
+//added each class to the graph as a cell
 _.each(classes, function(c) { graph.addCell(c); });
 
+//empty array fo the links which get add by UMLProcessor
 var relations = [
   
 ];
-
+//add the links ot the graph
 _.each(relations, function(r) { graph.addCell(r); });
-
+//make the multiple links seperate
+_.each(classes, function(c){ adjustVertices(graph,c);});
 
 
 var myAdjustVertices = _.partial(adjustVertices, graph);
