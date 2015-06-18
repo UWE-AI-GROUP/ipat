@@ -281,7 +281,7 @@ public class ESEvolution implements MetaHeuristic {
             File thisfile = best.get(toCopy).getFile();
             Profile toAdd = Utils.getProfileFromFile(thisfile);
             nextGen.add(toAdd);
-            System.out.println("have made a copy of best[" + copied + "] with filename " + thisfile.getName());
+            //System.out.println("have made a copy of best[" + copied + "] with filename " + thisfile.getName());
         }
 
         // apply mutation where necessary - i.e. leaving one dulicate of each of the best
