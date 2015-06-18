@@ -176,20 +176,25 @@ else
   
     //initialsie the s tring and the poosiution values
     String jointjsClassesScript =  ""; 
-           int xpos=0,ypos=0;
-           
+           double xpos=0,ypos=0,height=0;
+           double vertex=0.0, numVertices = (double) classesPresent.size();
+           double halfBoxSize = 250;
            
     //then do the loop
     for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();)
           {
             Integer nextClass = (Integer) iterator.next();
-            xpos = xpos + nextClass;
-            ypos = ypos+nextClass;
+            //put the class boxes at the vertices of a regular polyogn
+            xpos = halfBoxSize +halfBoxSize * Math.cos(2 * Math.PI *  vertex/ numVertices) ;
+
+            ypos = halfBoxSize+ halfBoxSize * Math.sin(2 * Math.PI * vertex / numVertices);
+            vertex++;
+            height = 150;
             //create the string to add to our html
             //TODO chaneg the box colour according ot cohesion
             String textToAdd =    classNames.get(nextClass)
                             + ": new uml.Class({position: { x:"
-                            + xpos + "  , y: " + ypos+ "},size: { width: 150, height: 100 },name:'"
+                            + xpos + "  , y: " + ypos+ "},size: { width: 150, height: "+height+" },name:'"
                             + classNames.get(nextClass)  + "',attributes: [";
             if(classAttributesMap.containsKey(nextClass))
               {
@@ -223,9 +228,7 @@ else
                 jointjsClassesScript = jointjsClassesScript + ",\n";
             
             
-            //move the next box along
-            xpos = (xpos+200)%500;
-            ypos = (ypos+100)%500;
+            
           }
     
     
@@ -244,7 +247,7 @@ for(int class1=0;class1<=highestClasses;class1++)
             jointjsCouplingScript = jointjsCouplingScript 
                     + "new joint.dia.Link({ source: { id: classes." 
                     + classNames.get(class1) + ".id }, target: { id: classes." 
-                    + classNames.get(class2) +".id }}),";
+                    + classNames.get(class2) +".id }})," + "\n";
           }
 //7. Assign a background colour to box for each class that reflects the level of internal uses (related to cohesion)
 //8. Possibly reposition the classes in the display to minimise the number of crossing arrows so the result is clearer
@@ -309,6 +312,8 @@ for(int class1=0;class1<=highestClasses;class1++)
              problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
              problemDefinition = problemDefinition + ".xml";
              File definitionFile = new File(pathToXML, problemDefinition);
+             
+             //TODO  put in a try-catch to deal with missing xml file
              //at this stage we'll put a copy in the session directpory as well
              String pathToOutputFile = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("input")) + "output/" + problemDefinition;
              File copyOfDefinition = new File(pathToOutputFile);
