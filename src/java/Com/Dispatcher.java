@@ -21,6 +21,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
 import com.google.gson.Gson;
+import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
 
@@ -32,7 +33,7 @@ public class Dispatcher extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(Dispatcher.class);
 
-    int maxFileSize = 51200;
+    int maxFileSize = 819600;
     int maxMemSize = 4096;
     String fileRepository;
     String contextPath;
@@ -42,7 +43,7 @@ public class Dispatcher extends HttpServlet {
        
         this.contextPath = getServletContext().getRealPath("/");
         logger.info("session context path = " + contextPath);
-        this.fileRepository = contextPath + "/temp file repository/";
+        this.fileRepository = contextPath + "/tempFileRepository/";
     }
 
     /**
@@ -61,27 +62,37 @@ public class Dispatcher extends HttpServlet {
 
         Boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
+            System.out.println("Error, system did not think there wa a multipart request.");
             return;
         }
 
         HttpSession session = request.getSession(false);
         if (session == null) {
             System.out.println("Error, Please load welcome page and select the type of use case desired.");
-        } else {
+        } 
+        else {
 
             DiskFileItemFactory factory = new DiskFileItemFactory();
             // maximum size that will be stored in memory
             factory.setSizeThreshold(maxMemSize);
             // Location to save data that is larger than maxMemSize.
-            factory.setRepository(new File(fileRepository));
+            File myRepository =new File(fileRepository);
+            if (myRepository.mkdirs())
+                       System.out.println("Created repository directory " + fileRepository);
+            factory.setRepository(myRepository);
+            String repname = factory.getRepository().getName();
+            String reppath = factory.getRepository().getAbsolutePath();
+                    System.out.println("factory repository is " + reppath + repname);
 
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload(factory);
             // maximum file size to be uploaded.
             upload.setSizeMax(maxFileSize);
+           
+            
 
             // Parse the request to get file items
-            List fileItems;
+            List<FileItem> fileItems;
             try {
                 fileItems = upload.parseRequest(request);
                 // Process the uploaded file items
@@ -92,6 +103,7 @@ public class Dispatcher extends HttpServlet {
 
                         // Get the uploaded file parameters
                         String fileName = fi.getName();
+                        System.out.println("filename read is " + fileName);
                         //  String fieldName = fi.getFieldName();
                         //  String contentType = fi.getContentType();
                         //  boolean isInMemory = fi.isInMemory();
