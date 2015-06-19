@@ -20,7 +20,7 @@ definition of the elements of the CBS problem with the jointJS script to display
 
         
 
-        <title>IPAT Demo: Software Class Model Evolution for the Cinema Booking System Problem.</title>
+        <title>IPAT Demo: Software Class Model Evolution.</title>
         
     </head>
     <body>
@@ -59,6 +59,8 @@ var relations = [
 _.each(relations, function(r) { graph.addCell(r); });
 //make the multiple links seperate
 _.each(classes, function(c){ adjustVertices(graph,c);});
+
+
 
 
 var myAdjustVertices = _.partial(adjustVertices, graph);
