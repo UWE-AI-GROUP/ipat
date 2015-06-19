@@ -308,10 +308,9 @@ for(int class1=0;class1<=highestClasses;class1++)
             //the problem defintion has the same name a the artefact but with a xml ending
             String problemDefinition = artifact.getFilename();
             String pathToArtefactFile =   artifact.getFile().getParent();
-            String pathToXML = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("Client")) + "samples";
              problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
              problemDefinition = problemDefinition + ".xml";
-             File definitionFile = new File(pathToXML, problemDefinition);
+             File definitionFile = new File(pathToArtefactFile,problemDefinition);
              
              //TODO  put in a try-catch to deal with missing xml file
              //at this stage we'll put a copy in the session directpory as well
