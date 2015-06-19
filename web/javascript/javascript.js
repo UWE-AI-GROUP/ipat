@@ -26,6 +26,7 @@ $(document).ready(function () {
         var valid = true;
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
+    
 //            if ((!file.type.match('text/html'))&&(!file.type.match('text/xml'))) {
 //                alert('Please only select files of type text/html or text/xml.');
 //                $('#tabs-byProfile').empty();
@@ -60,7 +61,7 @@ $(document).ready(function () {
                         $('#tabs-byImage').empty();
                         $('#tabs-byImage').append(result["byImage"]);
                           tabClicked('li_0');
-                    }, 3000);
+                    }, 300);
                 }
             };
             xhr.send(formData);
@@ -128,7 +129,7 @@ $(document).ready(function () {
                     $('#tabs-byImage').append(result["byImage"]);
                     tabClicked('li_0');
                     
-                }, 3000);
+                }, 300);
             }
         }, false);
         genCount.value = parseInt(genCount.value) + 1;
