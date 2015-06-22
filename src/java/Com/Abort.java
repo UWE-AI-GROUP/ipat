@@ -64,7 +64,7 @@ public class Abort extends HttpServlet {
         if (session == null) {
            
         } else {
-            String usecase = (String) session.getAttribute("usecase");
+            String usecase = (String) session.getAttribute("");
             session.invalidate();
            // Src.Utils.webLog("Project Aborted by user", (String) session.getAttribute("clientFolder"));
             session = request.getSession(true);

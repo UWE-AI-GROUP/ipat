@@ -11,23 +11,24 @@
     <context-param>
         <description>Location for client data</description>
         <param-name>clientFolder</param-name>
-        <param-value></param-value>
+        <param-value/>
     </context-param>
-
     <listener>
         <listener-class>Com.SessionCounterListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>newGenRequest</servlet-name>
-        <servlet-class>Com.newGenRequest</servlet-class>
+        <servlet-class>Com.NewGen</servlet-class>
     </servlet>
     <servlet>
-      <servlet-name>Dispatcher</servlet-name>
+        <servlet-name>Dispatcher</servlet-name>
         <servlet-class>Com.Dispatcher</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Dispatcher</servlet-name>
         <url-pattern>/FileUpload</url-pattern>
+        <url-pattern>/CSS</url-pattern>
+        <url-pattern>/UML</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>Abort</servlet-name>
@@ -37,16 +38,8 @@
         <servlet-name>Abort</servlet-name>
         <url-pattern>/abort</url-pattern>
     </servlet-mapping>
-     <servlet>
-        <servlet-name>setUseCase</servlet-name>
-        <servlet-class>Com.setUseCase</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>newGenRequest</servlet-name>
         <url-pattern>/newGen</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>setUseCase</servlet-name>
-        <url-pattern>/setUseCase</url-pattern>
     </servlet-mapping>
 </web-app>

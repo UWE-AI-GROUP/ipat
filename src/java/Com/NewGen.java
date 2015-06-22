@@ -21,7 +21,7 @@ import com.google.gson.Gson;
  *
  * @author kieran
  */
-public class newGenRequest extends HttpServlet {
+public class NewGen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,8 +85,8 @@ public class newGenRequest extends HttpServlet {
             Controller controller = (Controller) session.getAttribute("Controller");
             Interaction interaction = new Interaction();
             interaction.updateProfileHints(data, controller);
-            HashMap mainloop = controller.mainloop();
-            String json = new Gson().toJson(mainloop);
+            HashMap HTML_Strings = controller.mainloop();
+            String json = new Gson().toJson(HTML_Strings);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
