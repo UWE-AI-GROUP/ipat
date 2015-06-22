@@ -5,14 +5,18 @@
  */
 
 
+/* global variables */
+
 $(document).ready(function () {
     var form = document.getElementById('fileUploadForm');
     var nextGen = document.getElementById("nextGeneration");
     var genCount = document.getElementById("generationCount");
     var abort = document.getElementById("abort");
     var reset = document.getElementById("resetScores");
+    var numOfProfiles = document.getElementByID("numOfProfiles");
     var image = "data/ajaxSpinner.gif";
     var artifactCount;
+    var variables;
     var hints;
 //================================================
 // file upload detected
@@ -158,6 +162,7 @@ $(document).ready(function () {
             document.getElementById("globalScore_" + i).value = 5;
         }
     }, false);
+
 //================================================
 // end of "on window load"
 });

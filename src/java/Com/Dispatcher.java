@@ -37,15 +37,14 @@ public class Dispatcher extends HttpServlet {
 
     int maxFileSize = 819600;
     int maxMemSize = 4096;
-    String fileRepository;
+    File myRepository;
     String contextPath;
 
     @Override
-    public void init() throws ServletException {
-
+    public void init(){
         this.contextPath = getServletContext().getRealPath("/");
         logger.info("session context path = " + contextPath);
-        this.fileRepository = contextPath + "/tempFileRepository/";
+        this.myRepository = new File(contextPath + "/tempFileRepository/");
     }
 
     @Override
@@ -68,6 +67,8 @@ public class Dispatcher extends HttpServlet {
                 problemDataFolderName = "CSS Evolution";
                 break;
             default:
+                logger.info("Trouble with the instantiation of the Processor in Dispatchers doGet(). No case"
+                        + " for this URL extension. Ensure case Strings in Dispatcher.doGet() exactly match those in web.xml");
                 throw new AssertionError();
         }
 
@@ -107,7 +108,7 @@ public class Dispatcher extends HttpServlet {
 
         Boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
-            System.out.println("Error, system did not think there wa a multipart request.");
+            logger.info("Error, system did not think there was a multipart request.");
             return;
         }
 
@@ -115,14 +116,11 @@ public class Dispatcher extends HttpServlet {
         // maximum size that will be stored in memory
         factory.setSizeThreshold(maxMemSize);
         // Location to save data that is larger than maxMemSize.
-        File myRepository = new File(fileRepository);
         if (myRepository.mkdirs()) {
-            System.out.println("Created repository directory " + fileRepository);
+            logger.info("Created repository directory " + myRepository.getAbsolutePath());
         }
         factory.setRepository(myRepository);
-        String repname = factory.getRepository().getName();
-        String reppath = factory.getRepository().getAbsolutePath();
-        System.out.println("factory repository is " + reppath + repname);
+        logger.info("factory repository is " + factory.getRepository().getAbsolutePath());
 
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
@@ -141,7 +139,7 @@ public class Dispatcher extends HttpServlet {
 
                     // Get the uploaded file parameters
                     String fileName = fi.getName();
-                    System.out.println("filename read is " + fileName);
+                    logger.info("filename read is " + fileName);
                     //  String fieldName = fi.getFieldName();
                     //  String contentType = fi.getContentType();
                     //  boolean isInMemory = fi.isInMemory();

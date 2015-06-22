@@ -52,7 +52,7 @@ public class Controller {
     /**
      *
      */
-    public int noOfProfiles = 6;
+    public int noOfProfiles;
 
     /**
      *
@@ -439,4 +439,10 @@ public class Controller {
         HM.put("count", Integer.toString(artifacts.length));
         return HM;
     }
+
+    public void setNoOfProfiles(int noOfProfiles) {
+        this.noOfProfiles = noOfProfiles;
+    }
+    
+    
 }

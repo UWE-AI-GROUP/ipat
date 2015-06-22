@@ -5,12 +5,14 @@
  */
 package Com;
 
+import Algorithms.Processor;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -18,6 +20,8 @@ import javax.servlet.http.HttpSession;
  */
 public class Abort extends HttpServlet {
 
+      private static final Logger logger = Logger.getLogger(Abort.class);
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -62,13 +66,15 @@ public class Abort extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null) {
-           
+
         } else {
-            String usecase = (String) session.getAttribute("");
+            String problemDataFolderName = (String) session.getAttribute("problemDataFolderName");
+            Processor processor = (Processor) session.getAttribute("processor");
+            logger.info("Project Aborted by user " + session.getId());
             session.invalidate();
-           // Src.Utils.webLog("Project Aborted by user", (String) session.getAttribute("clientFolder"));
             session = request.getSession(true);
-            session.setAttribute("usecase", usecase);
+            session.setAttribute("processor", processor);
+            session.setAttribute("problemDataFolderName", problemDataFolderName);
 
         }
         response.setContentType("text/html");

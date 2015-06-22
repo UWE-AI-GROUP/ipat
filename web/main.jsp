@@ -41,7 +41,7 @@
                 </div>
                 <div class="variableInfo">
                     <label for="Generation">Profiles/Generation:</label><br>
-                    <input class="variableBox" name="Generation" id="Generation" value="6" type="text">
+                    <input class="variableBox" name="numOfProfiles" id="numOfProfiles" value="6" type="text">
                 </div>
             </div>
             <iframe class="previewFrame" id="previewFrame" name="previewFrame" ></iframe>
