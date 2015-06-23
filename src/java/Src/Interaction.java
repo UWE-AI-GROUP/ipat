@@ -9,13 +9,14 @@ import Algorithms.HintsProcessor;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author kieran
  */
 public class Interaction {
-
+private static final Logger logger = Logger.getLogger(Interaction.class);
     /**
      *
      * @param data
@@ -32,7 +33,7 @@ public class Interaction {
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         // Run through the different hints (keys) in the data set
         Set keySet = data.keySet();
-        System.out.println("Num of Hints =" + numOfHints);
+        logger.debug("Num of Hints =" + numOfHints);
         int numOfResults = data.size() / numOfHints;
         int numOfUploads = numOfResults / numOfProfiles;
         for (Object keySet1 : keySet) {
@@ -126,8 +127,8 @@ public class Interaction {
 
         // for each profile
         for (int i = 0; i < numOfProfiles; i++) {
-            System.out.println("##############################");
-            System.out.println("Updating hints for Profile: " + i + "\n");
+         
+            logger.debug("Updating hints for Profile: " + i + "\n");
 
             // run through the hints getting each averageMap
             Set<String> hints = ordered.keySet();
@@ -140,7 +141,7 @@ public class Interaction {
                     Object value = profilesHintAverages.get(i);
                     Double intValue =  (Double) value;
                     controller.currentGenerationOfProfiles[i].setGlobalScore(intValue.intValue());
-                    System.out.println("Updated " + key + " : " + intValue.intValue());
+                    logger.info("Updated " + key + " : " + intValue.intValue());
                     
                 } else {
 
@@ -151,16 +152,16 @@ public class Interaction {
                         Boolean booleanValue = (Boolean) value;
                         hintProc = controller.hints.get(key);
                         if (booleanValue) {
-                            System.out.println("Updated " + key + " : true");
+                            logger.info("Updated " + key + " : true");
                             controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
                         } else {
-                            System.out.println("Updated " + key + " : false");
+                            logger.info("Updated " + key + " : false");
                             controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
                         }
                     } else {
                         Double doubleValue = (Double) value;
                         hintProc = controller.hints.get(key);
-                        System.out.println("Updated " + key + " : " + doubleValue);
+                        logger.info("Updated " + key + " : " + doubleValue);
                         controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
                     }
                 }

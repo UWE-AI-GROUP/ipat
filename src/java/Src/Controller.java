@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,7 +34,7 @@ import org.xml.sax.SAXException;
  * @author kieran
  */
 public class Controller {
-
+private static final Logger logger = Logger.getLogger(Controller.class);
     
     Processor Processor;
     Profile currentProfile = null;
@@ -161,7 +162,7 @@ public class Controller {
         //create an array holding all the files ending .xml in the profile folder to act as seeds
         File[] profiles_list = profileFolder.listFiles(filter);
         if (profiles_list == null) {
-            System.out.println("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.");
+            logger.error("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.");
             System.exit(0);
         }
 
@@ -178,7 +179,7 @@ public class Controller {
             for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
                 new_profiles_list[i + j] = profiles_list[1];
             }
-            System.out.println("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake);
+            logger.info("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake);
 
         } else if (profiles_list.length > noOfProfiles
                 && profiles_list.length < 9) {//if there ar pKernel few more but less than 9
@@ -317,8 +318,7 @@ public class Controller {
                                         break;
                                     default:
 
-                                        System.out.println("Error with Hint [ " + i + " ] = Tag: " + att + " / Value: " + value);
-                                        System.out.println("Check hints.xml for incorrect Tag names");
+                                        logger.error("Error with Hint [ " + i + " ] = Tag: " + att + " / Value: " + value + " - Check hints.xml for incorrect Tag names");
                                         throw new AssertionError();
                                 }
                             }
@@ -328,7 +328,7 @@ public class Controller {
                 }
             }
         } catch (ParserConfigurationException | SAXException | IOException | DOMException e) {
-            System.out.println(e.getMessage());
+            logger.fatal(e.getMessage());
         }
         return hintMap;
     }

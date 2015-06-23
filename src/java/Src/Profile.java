@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -27,6 +28,7 @@ import org.jdom.output.XMLOutputter;
  * @author kieran
  */
 public class Profile {
+    private static final Logger logger = Logger.getLogger(Profile.class);
 
     /**
      * The file.
@@ -120,7 +122,7 @@ public class Profile {
       {
         Kernel oldvalue =  (Kernel) kernels.put(kernel.getName(), kernel);
         if(oldvalue==null)
-              System.out.println("Error replacing kernel " + kernel.getName() + "in profile " + this.getName() + " Not previously present in profile");
+              logger.error("Error replacing kernel " + kernel.getName() + "in profile " + this.getName() + " Not previously present in profile");
       }
 
     /**
@@ -153,7 +155,7 @@ public class Profile {
       {
         SolutionAttributes oldval = (SolutionAttributes)        solutionAttributes.put(var.getName(), var);
         if (oldval ==null)
-              System.out.println("error replacing profile variable " + var.getName() + " in profile " + this.getName() +" old value not found or null");
+             logger.error("error replacing profile variable " + var.getName() + " in profile " + this.getName() +" old value not found or null");
       }
 
     /**
@@ -213,20 +215,20 @@ public class Profile {
         Iterator AttributesIterator = keys.iterator();
         while (AttributesIterator.hasNext()) {
             SolutionAttributes var = (SolutionAttributes) AttributesIterator.next();
-            System.out.println(var.getName() + " : " + var.getValue());
+           logger.info(var.getName() + " : " + var.getValue());
         }
         Set keySet = kernels.keySet();
         Iterator kernelIterator = keySet.iterator();
         while (kernelIterator.hasNext()) {
             String name = (String) kernelIterator.next();
-            System.out.println(name);
+            logger.debug(name);
             Kernel kernel = (Kernel) kernels.get(name);
             HashMap kVars = kernel.getVariables();
             Set kVarsKeys = kVars.keySet();
             Iterator kVarsKeysIterator = kVarsKeys.iterator();
             while (kVarsKeysIterator.hasNext()) {
                 SolutionAttributes var = (SolutionAttributes) kVars.get(kVarsKeysIterator.next());
-                System.out.println("   " + var.getName() + " : "
+                logger.debug("   " + var.getName() + " : "
                         + var.getValue());
             }
         }
@@ -522,7 +524,7 @@ public class Profile {
                 Double dubi = new Double(newValue);
                 value.setText(dubi.toString());
             } else {
-                System.out.println("couldn;t find child with name " + varname);
+                logger.error("couldn;t find child with name " + varname);
             }
 
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());

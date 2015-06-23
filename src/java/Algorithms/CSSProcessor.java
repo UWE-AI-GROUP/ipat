@@ -17,13 +17,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
+import org.apache.log4j.Logger;
 
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
  * CSS and PNG files.
  */
 public class CSSProcessor implements Processor {
-
+private static final Logger logger = Logger.getLogger(CSSProcessor.class);
     private HashMap cssLabels;
 
     public CSSProcessor() {
@@ -41,7 +42,7 @@ public class CSSProcessor implements Processor {
 
         HashMap kernels = profile.getKernels();
         if (kernels == null) {
-            System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");
+            logger.error("Error: applyProfileToArtifcat in CSSProcessor. No kernels present in Profile.");
         }
 
         // ----------- CSS Formatters -------------------------------//
@@ -54,7 +55,7 @@ public class CSSProcessor implements Processor {
         String css = "";
         HashMap pv = profile.getSolutionAttributes();
         if (pv == null) {
-            System.out.println("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");
+            logger.error("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");
         }
         Set keySet = pv.keySet();
         Iterator iterator = keySet.iterator();
@@ -194,7 +195,7 @@ public class CSSProcessor implements Processor {
              // TESTING : distinguishing the raw artifact name from the processed one (processed one)
             //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
             processedArtifactName = profileName + "-" + rawArtifactName + ".html";
-            System.out.println("Processed artifact name = " + processedArtifactName);
+            // System.out.println("Processed artifact name = " + processedArtifactName);
             outHtmlPath = outputFolder + processedArtifactName;
             String htmlFile = "";
             BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
@@ -214,8 +215,7 @@ public class CSSProcessor implements Processor {
 
             return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
-            System.out.println("");
-            e.printStackTrace();
+          logger.fatal(e.getMessage());
         }
         return null;
     }

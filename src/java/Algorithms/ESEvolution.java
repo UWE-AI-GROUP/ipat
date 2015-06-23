@@ -14,11 +14,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 /**
  * The Class ESEvolution.
  */
 public class ESEvolution implements MetaHeuristic {
+    private static final Logger logger = Logger.getLogger(ESEvolution.class);
 
     private ArrayList<Profile> best = new ArrayList<>(); //holds copies of all the current best solutions
     private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all the new generation of  solutions
@@ -215,7 +217,7 @@ public class ESEvolution implements MetaHeuristic {
             }
             //System.out.println("...................choosing new value " + newValue + "for ordinal variable " + variableToChange.getName() );
         } else {
-            System.out.println("Error - unkown variable type " + variableToChange.getType() + "for variable " + variableToChange.getName());
+            logger.error("Error - unkown variable type " + variableToChange.getType() + "for variable " + variableToChange.getName());
         }
         return newValue;
     }

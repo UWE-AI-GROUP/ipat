@@ -10,7 +10,6 @@ $(document).ready(function () {
     var genCount = document.getElementById("generationCount");
     var abort = document.getElementById("abort");
     var reset = document.getElementById("resetScores");
-    var image = "data/ajaxSpinner.gif";
     var artifactCount;
   
     var hints;
@@ -19,23 +18,11 @@ $(document).ready(function () {
 
     form.addEventListener('change', function (event) {
         event.preventDefault();
-        $('#tabs-byProfile').html("<img src='" + image + "' />");
-         $('#tabs-byImage').html("<img src='" + image + "' />");
         var files = document.getElementById('filesToUpload').files;
         var formData = new FormData();
         var valid = true;
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-    
-//            if ((!file.type.match('text/html'))&&(!file.type.match('text/xml'))) {
-//                alert('Please only select files of type text/html or text/xml.');
-//                $('#tabs-byProfile').empty();
-//                $('#filelist').val('');
-//                $('#filesToUpload').replaceWith("<input class='filesToUpload' name='filesToUpload' id='filesToUpload' type='file' multiple />");
-//                files = null;
-//                valid = false;
-//                break;
-//            }
             formData.append('filesToUpload', file, file.name);
             document.getElementById("filelist").value += file.name + "\n";
         }
@@ -108,19 +95,15 @@ $(document).ready(function () {
                 
             }
         }
-
-
         $('#tabs-byProfile').empty();
-        $('#tabs-byProfile').html("<img src='" + image + "' />");
         $('#tabs-byImage').empty();
-        $('#tabs-byImage').html("<img src='" + image + "' />");
         $.ajax({
             url: "newGen",
             type: "POST",
             data: {data: JSON.stringify(data)},
             success: function (result) {
 
-                $('#loading').html("<img src='" + image + "' />");
+                
                 artifactCount = result["count"];
                 setTimeout(function () {
                     $('#tabs-byProfile').empty();

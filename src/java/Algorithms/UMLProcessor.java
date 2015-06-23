@@ -20,16 +20,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
 
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
  * CSS and PNG files.
  */
 public class UMLProcessor implements Processor {
+    private static final Logger logger = Logger.getLogger(UMLProcessor.class);
 
     private HashMap<String,ArrayList> UsesMap;
     private ArrayList<String> methodList, attributeList;
@@ -67,7 +68,7 @@ public class UMLProcessor implements Processor {
 //1. Read through the profile  and make  lists of which methods and attributes are in which class 
 HashMap<String, SolutionAttributes> pv = profile.getSolutionAttributes();
 if (pv == null) 
-  { System.out.println("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
+  { logger.error("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
 else
   {
     for (Map.Entry<String, SolutionAttributes> entrySet : pv.entrySet())
@@ -115,14 +116,14 @@ else
 //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
 if( haveSameElements(methodsSeen, methodList)==false)
   {
-    System.out.println("problem - the list of methods in the profile is not the same as in the problem defintion");
-      System.out.println("defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
+    logger.error("problem - the list of methods in the profile is not the same as in the problem defintion"
+    +"defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
   }
  
 else if( haveSameElements(attributesSeen, attributeList)==false)
   {
-    System.out.println("problem - the list of attributes in the profile is not the same a in the problem defintion");
-        System.out.println("defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
+   logger.error("problem - the list of attributes in the profile is not the same a in the problem defintion"
+        +"defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
   }
  
 else
@@ -295,8 +296,7 @@ for(int class1=0;class1<=highestClasses;class1++)
               
                 return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
-            System.out.println("");
-            e.printStackTrace();
+            logger.fatal(e.getMessage() + " In UMLProcessor");
         }
         return null;
     }
@@ -318,7 +318,7 @@ for(int class1=0;class1<=highestClasses;class1++)
              File copyOfDefinition = new File(pathToOutputFile);
              if(!copyOfDefinition.exists())
                      {
-                         System.out.println("putting a copy of the problem definition in the output directory");
+                        logger.info("putting a copy of the problem definition in the output directory");
                        Files.copy(definitionFile.toPath(), copyOfDefinition.toPath(), StandardCopyOption.REPLACE_EXISTING);
                      }
 
@@ -385,8 +385,7 @@ for(int class1=0;class1<=highestClasses;class1++)
             //System.out.println("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file");
             }
          catch (Exception e) {
-            System.out.println("");
-            e.printStackTrace();
+           logger.fatal(e.getMessage());
         }      
       }
      

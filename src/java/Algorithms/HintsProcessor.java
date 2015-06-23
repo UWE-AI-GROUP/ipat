@@ -3,18 +3,18 @@ package Algorithms;
 import Src.Kernel;
 import Src.Profile;
 import Src.SolutionAttributes;
-import Src.Utils;
-import java.io.File;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author kieran
  */
 public class HintsProcessor {
+    private static final Logger logger = Logger.getLogger(HintsProcessor.class);
 
     private ArrayList profileVariablesAffected;
     private ArrayList kernelsAffected;
@@ -145,7 +145,7 @@ public class HintsProcessor {
         Profile thisProfile = toChange;
         if (effect.equalsIgnoreCase("setRateOfEvolutionEqualZero")) {
             if ((amount != 1.0) && (amount != 0.0)) {
-                System.out.println("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
+               logger.error("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
             } else {
                 thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
             }
@@ -184,7 +184,7 @@ public class HintsProcessor {
             //get the variable from the local copy in the hashtable
             currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
             if (currentVariable == null) {
-                System.out.println("error - trying to change  variable " + currentVarName + " which does not exist in profile");
+                logger.error("error - trying to change  variable " + currentVarName + " which does not exist in profile");
             } else {
                 //reset the value in thecopy of the variable
                 currentVariable.setValue(amount);
@@ -418,7 +418,7 @@ public class HintsProcessor {
             currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
 
             if (currentVariable == null) {
-                System.out.println("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
+                logger.error("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
             }
 
             //toggle the value of the variables

@@ -16,13 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author kieran
  */
 public class NewGen extends HttpServlet {
-
+ private static final Logger logger = Logger.getLogger(NewGen.class);
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -78,7 +79,7 @@ public class NewGen extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null) {
-            System.out.println("Error, next generation button pressed before upload of input files.");
+            logger.error("next generation button pressed before upload of input files.");
         } else {
             Gson gson = new Gson();
             HashMap data = gson.fromJson(request.getParameter("data"), HashMap.class);
