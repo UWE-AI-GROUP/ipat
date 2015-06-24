@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
  *
  * @author kieran
  */
-public class HintsProcessor {
-    private static final Logger logger = Logger.getLogger(HintsProcessor.class);
+public class Hint {
+    private static final Logger logger = Logger.getLogger(Hint.class);
 
     private ArrayList profileVariablesAffected;
     private ArrayList kernelsAffected;
@@ -27,21 +27,21 @@ public class HintsProcessor {
     private String defaultValue;
     private String effect;
 
-    public HintsProcessor() {
+    public Hint() {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
         kernelVariablesAffected = new ArrayList();
         hintName = null;
     }
 
-    public HintsProcessor(String name) {
+    public Hint(String name) {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
         kernelVariablesAffected = new ArrayList();
         hintName = name;
     }
 
-    public HintsProcessor(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, String theDefaultVal, String theEffect) {
+    public Hint(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, String theDefaultVal, String theEffect) {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
         kernelVariablesAffected = new ArrayList();

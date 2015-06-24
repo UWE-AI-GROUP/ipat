@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import Algorithms.HintsProcessor;
+import Algorithms.Hint;
 import Src.Controller;
 import java.io.File;
 import java.io.IOException;
@@ -88,7 +88,7 @@ public class MainFrame extends javax.swing.JFrame {
 //            }
 //        });
 
-        //Test Thrown Together To Ensure Hints Are Read Properly
+        //Test Thrown Together To Ensure Hint Are Read Properly
 //        File input = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\input");
 //        File output = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\Client Data\\output");
 //        File profile = new File("C:\\Users\\kieran\\Documents\\NetBeansProjects\\ipat\\build\\web\\data\\profiles\\");
@@ -100,7 +100,7 @@ public class MainFrame extends javax.swing.JFrame {
 //            Set keySet = map.keySet();
 //            for (Object key : keySet) {
 //              String k = (String) key;
-//                HintsProcessor v = (HintsProcessor) map.get(key);
+//                Hint v = (Hint) map.get(key);
 //                System.out.println("key: " + k );
 //                System.out.println("default value:      " + v.getDefaultValue());
 //                System.out.println("display text:       " + v.getDisplaytext());

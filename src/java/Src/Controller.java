@@ -9,7 +9,7 @@ package Src;
  the web/app.
  */
 import Algorithms.ESEvolution;
-import Algorithms.HintsProcessor;
+import Algorithms.Hint;
 import Algorithms.Processor;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -40,7 +40,7 @@ public class Controller {
     Processor Processor;
     
     ESEvolution evolution = new ESEvolution();
-    HashMap<String, HintsProcessor> hints = new HashMap<String, HintsProcessor>();
+    HashMap<String, Hint> hints = new HashMap<String, Hint>();
 
     /**
      * How many times a user has interacted during this session
@@ -296,7 +296,7 @@ public class Controller {
 
     public HashMap loadHintsXML() {
 
-        HashMap<String, HintsProcessor> hintMap = new HashMap<>();
+        HashMap<String, Hint> hintMap = new HashMap<>();
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -309,7 +309,7 @@ public class Controller {
                 Node item = interactionList.item(i);
                 if (item.getNodeType() == Node.ELEMENT_NODE) {
                     Element interaction = (Element) interactionList.item(i);
-                    HintsProcessor hint = new HintsProcessor();
+                    Hint hint = new Hint();
                     NodeList elements = interaction.getChildNodes();
                     for (int j = 0; j < elements.getLength(); j++) {
                         Node attribute = elements.item(j);
@@ -405,7 +405,7 @@ public class Controller {
                     Set keySet = hintMap.keySet();
                     for (Object key : keySet) {
                         String k = (String) key;
-                        HintsProcessor h = (HintsProcessor) hintMap.get(k);
+                        Hint h = (Hint) hintMap.get(k);
                         String displaytype = h.getDisplaytype();
 
                         // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***

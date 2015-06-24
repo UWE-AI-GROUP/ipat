@@ -5,7 +5,7 @@
  */
 package Src;
 
-import Algorithms.HintsProcessor;
+import Algorithms.Hint;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -28,7 +28,7 @@ private static final Logger logger = Logger.getLogger(Interaction.class);
         int numOfHints = controller.hints.size();
         HashMap<String, HashMap> averageCounters = new HashMap();
         HashMap<String, HashMap> ordered = new HashMap();
-        HintsProcessor hintProc;
+        Hint hintProc;
 
         // We don't know the order in which hints are initialised in hints.xml so organisation of return values is required
         // Run through the different hints (keys) in the data set
