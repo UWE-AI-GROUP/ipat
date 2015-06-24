@@ -830,7 +830,7 @@ public class Utils {
                     String dfault = hint.getChildText("default");
                     String flag = hint.getChildText("flag");
                     String unit = hint.getChildText("unit");
-                    SolutionAttributes variable = new SolutionAttributes(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                    IpatVariable variable = new IpatVariable(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
                     profile.addVariable(variable);
                 } else if (hint.getName().equalsIgnoreCase("kernel")) {
                     Iterator it = hint.getChildren().iterator();
@@ -859,7 +859,7 @@ public class Utils {
                         String dfault = hintt.getChildText("default");
                         String flag = hintt.getChildText("flag");
                         String unit = hintt.getChildText("unit");
-                        SolutionAttributes variable = new SolutionAttributes(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                        IpatVariable variable = new IpatVariable(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
                         vars.put(name, variable);
                     }
                     Kernel kernel = new Kernel(kernelName, vars);

@@ -50,8 +50,8 @@ public class Kernel {
 	}
         
         public void randomiseValues(){
-            Collection<SolutionAttributes> values = this.variables.values();
-            for (SolutionAttributes SA : values) {
+            Collection<IpatVariable> values = this.variables.values();
+            for (IpatVariable SA : values) {
                 SA.randomiseValues();
             }
         }

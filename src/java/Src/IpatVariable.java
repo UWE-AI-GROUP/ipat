@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
  *
  * @author kieran
  */
-public class SolutionAttributes {
+public class IpatVariable {
 
-    private static final Logger logger = Logger.getLogger(SolutionAttributes.class);
+    private static final Logger logger = Logger.getLogger(IpatVariable.class);
 
     /**
      * The dfault.
@@ -21,7 +21,7 @@ public class SolutionAttributes {
     private String dfault = "";
 
     /**
-     * The flag.
+     * Unused at present (sets variable as active or inactive)
      */
     private String flag = "";
 
@@ -79,7 +79,7 @@ public class SolutionAttributes {
      * @param flag the flag
      * @param unit the unit
      */
-    public SolutionAttributes(String name, String type, double lbound, double ubound,
+    public IpatVariable(String name, String type, double lbound, double ubound,
             double granularity, double rateOfEvolution, double value, String dfault, String flag, String unit) {
         this.name = name;
         this.type = type;
@@ -102,6 +102,36 @@ public class SolutionAttributes {
             this.value = this.granularity * Math.floor(((Math.random() * range) + this.lbound)/this.granularity); 
             // logger.debug("solution attribute value after randomisation : " + this.value);
         }
+    }
+
+    
+    
+    public void setDfault(String dfault) {
+        this.dfault = dfault;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public void setGranularity(double granularity) {
+        this.granularity = granularity;
+    }
+
+    public void setLbound(double lbound) {
+        this.lbound = lbound;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setUbound(double ubound) {
+        this.ubound = ubound;
     }
 
     /**

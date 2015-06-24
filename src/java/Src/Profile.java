@@ -84,8 +84,8 @@ public class Profile {
     }
 
     public void randomiseProfileVariableValues() {
-        Collection<SolutionAttributes> collection = this.solutionAttributes.values();
-        for (SolutionAttributes SA : collection) {
+        Collection<IpatVariable> collection = this.solutionAttributes.values();
+        for (IpatVariable SA : collection) {
             SA.randomiseValues();
            // logger.debug("new value for " + this.name + " PROFILE VARIABLE " + SA.getName() + " = " + SA.getValue() + "\n");
         }
@@ -98,8 +98,8 @@ public class Profile {
             k.randomiseValues();
            // logger.debug("new values for " + this.name + " KERNEL VARIABLE " + k.getName() + ":\n");
             HashMap variables = k.getVariables();
-           Collection<SolutionAttributes> KernelCollection = variables.values();
-            for (SolutionAttributes SA : KernelCollection) {
+           Collection<IpatVariable> KernelCollection = variables.values();
+            for (IpatVariable SA : KernelCollection) {
                 // logger.debug(SA.getName() + " = " + SA.getValue());
             }
            // logger.debug("\n----------------------------------------------------------------------------\n");
@@ -148,7 +148,7 @@ public class Profile {
      *
      * @param var the variable to be added to the solutionattributes hashtable
      */
-    public void addVariable(SolutionAttributes var) {
+    public void addVariable(IpatVariable var) {
         solutionAttributes.put(var.getName(), var);
     }
 
@@ -156,8 +156,8 @@ public class Profile {
         solutionAttributes.remove(varname);
     }
 
-    public void replaceVariable(SolutionAttributes var) {
-        SolutionAttributes oldval = (SolutionAttributes) solutionAttributes.put(var.getName(), var);
+    public void replaceVariable(IpatVariable var) {
+        IpatVariable oldval = (IpatVariable) solutionAttributes.put(var.getName(), var);
         if (oldval == null) {
             logger.error("error replacing profile variable " + var.getName() + " in profile " + this.getName() + " old value not found or null");
         }
@@ -219,7 +219,7 @@ public class Profile {
         Set keys = solutionAttributes.keySet();
         Iterator AttributesIterator = keys.iterator();
         while (AttributesIterator.hasNext()) {
-            SolutionAttributes var = (SolutionAttributes) AttributesIterator.next();
+            IpatVariable var = (IpatVariable) AttributesIterator.next();
             logger.info(var.getName() + " : " + var.getValue());
         }
         Set keySet = kernels.keySet();
@@ -232,7 +232,7 @@ public class Profile {
             Set kVarsKeys = kVars.keySet();
             Iterator kVarsKeysIterator = kVarsKeys.iterator();
             while (kVarsKeysIterator.hasNext()) {
-                SolutionAttributes var = (SolutionAttributes) kVars.get(kVarsKeysIterator.next());
+                IpatVariable var = (IpatVariable) kVars.get(kVarsKeysIterator.next());
                 logger.debug("   " + var.getName() + " : "
                         + var.getValue());
             }
@@ -313,7 +313,7 @@ public class Profile {
                     String flag = hint.getChildText("flag");
                     String unit = hint.getChildText("unit");
 
-                    SolutionAttributes variable = new SolutionAttributes(name, type,
+                    IpatVariable variable = new IpatVariable(name, type,
                             lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
                     profile.addVariable(variable);
                 } else if (hint.getName().equalsIgnoreCase("kernel")) {
@@ -351,7 +351,7 @@ public class Profile {
                         String flag = hintt.getChildText("flag");
                         String unit = hintt.getChildText("unit");
 
-                        SolutionAttributes variable = new SolutionAttributes(name, type,
+                        IpatVariable variable = new IpatVariable(name, type,
                                 lbound, ubound, granularity, rateOfEvolution, value, dfault,
                                 flag, unit);
                         vars.put(name, variable);
@@ -393,7 +393,7 @@ public class Profile {
 
                     //  System.out.println("\n Profile variable \n");
                     Element elem = hint.getChild("name");
-                    SolutionAttributes var = (SolutionAttributes) mySolutionAttributes.get(elem.getValue());
+                    IpatVariable var = (IpatVariable) mySolutionAttributes.get(elem.getValue());
                     elem.setText(var.getName());
 
                     elem = hint.getChild("type");
@@ -451,7 +451,7 @@ public class Profile {
 
                     while (it.hasNext()) {
                         Element hintt = (Element) it.next();
-                        SolutionAttributes varb = (SolutionAttributes) enu3.next();
+                        IpatVariable varb = (IpatVariable) enu3.next();
 
                         Element elem = hintt.getChild("name");
                         elem.setText(varb.getName());

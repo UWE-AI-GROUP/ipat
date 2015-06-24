@@ -4,7 +4,7 @@
 package Algorithms;
 
 import Src.Artifact;
-import Src.SolutionAttributes;
+import Src.IpatVariable;
 import Src.Profile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -66,15 +66,15 @@ public class UMLProcessor implements Processor {
         
 
 //1. Read through the profile  and make  lists of which methods and attributes are in which class 
-HashMap<String, SolutionAttributes> pv = profile.getSolutionAttributes();
+HashMap<String, IpatVariable> pv = profile.getSolutionAttributes();
 if (pv == null) 
   { logger.error("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");}
 else
   {
-    for (Map.Entry<String, SolutionAttributes> entrySet : pv.entrySet())
+    for (Map.Entry<String, IpatVariable> entrySet : pv.entrySet())
         {
         String elementName = entrySet.getKey();
-        SolutionAttributes ipvar = entrySet.getValue();
+        IpatVariable ipvar = entrySet.getValue();
 
         //get the class it is in - held in the SolutionAttribute variable as its value
         Integer elementClass = (int) ipvar.getValue();

@@ -2,7 +2,7 @@ package Algorithms;
 
 import Src.Kernel;
 import Src.Profile;
-import Src.SolutionAttributes;
+import Src.IpatVariable;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -170,7 +170,7 @@ public class HintsProcessor {
 
     public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        SolutionAttributes currentVariable = null;
+        IpatVariable currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
@@ -182,7 +182,7 @@ public class HintsProcessor {
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
-            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
             if (currentVariable == null) {
                 logger.error("error - trying to change  variable " + currentVarName + " which does not exist in profile");
             } else {
@@ -218,7 +218,7 @@ public class HintsProcessor {
 
                 while (kvarIterator.hasNext()) {
                     currentVarName = (String) kvarIterator.next();
-                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                    currentVariable = (IpatVariable) vars.get(currentVarName);
                     //reset the value in thecopy of the variable
                     currentVariable.setValue(amount);
                     vars.put(currentVarName, currentVariable);
@@ -243,7 +243,7 @@ public class HintsProcessor {
      */
     public Profile InterpretSetRateOfEvolutionEqualZeroHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        SolutionAttributes currentVariable = null;
+        IpatVariable currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
@@ -252,7 +252,7 @@ public class HintsProcessor {
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
-            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
             //set the rate of evoltion to zero so mutation has no effect
             currentVariable.setRateOfEvolution(amount);
             //remove the old variable with this name from thisProfile
@@ -285,7 +285,7 @@ public class HintsProcessor {
 
                 while (kvarIterator.hasNext()) {
                     currentVarName = (String) kvarIterator.next();
-                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                    currentVariable = (IpatVariable) vars.get(currentVarName);
                     //set the rate of evoltion to zero so mutation has no effect
                     currentVariable.setRateOfEvolution(amount);
                     vars.put(currentVarName, currentVariable);
@@ -311,7 +311,7 @@ public class HintsProcessor {
      */
     public Profile InterpretModeratingHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        SolutionAttributes currentVariable = null;
+        IpatVariable currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
@@ -327,7 +327,7 @@ public class HintsProcessor {
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
-            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
             //set the rate of evoltion to zero so mutation has no effect
             double oldValue = currentVariable.getValue();
 
@@ -370,7 +370,7 @@ public class HintsProcessor {
 
                 while (kvarIterator.hasNext()) {
                     currentVarName = (String) kvarIterator.next();
-                    currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                    currentVariable = (IpatVariable) vars.get(currentVarName);
                     double oldValue = currentVariable.getValue();
 
                     //calculate raw new value
@@ -405,7 +405,7 @@ public class HintsProcessor {
      */
     public Profile InterpretToggleHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        SolutionAttributes currentVariable = null;
+        IpatVariable currentVariable = null;
         HashMap profileLevelVars = thisProfile.getSolutionAttributes();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
@@ -415,7 +415,7 @@ public class HintsProcessor {
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
-            currentVariable = (SolutionAttributes) profileLevelVars.get(currentVarName);
+            currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
 
             if (currentVariable == null) {
                 logger.error("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
@@ -461,7 +461,7 @@ public class HintsProcessor {
 
                     while (kvarIterator.hasNext()) {
                         currentVarName = (String) kvarIterator.next();
-                        currentVariable = (SolutionAttributes) vars.get(currentVarName);
+                        currentVariable = (IpatVariable) vars.get(currentVarName);
                         //toggle the value of the variables
                         if (amount == rangeMin) {
                             newValue = currentVariable.getLbound();

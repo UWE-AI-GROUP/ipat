@@ -4,7 +4,7 @@
 package Algorithms;
 
 import Src.Artifact;
-import Src.SolutionAttributes;
+import Src.IpatVariable;
 import Src.Kernel;
 import Src.Profile;
 import java.io.BufferedReader;
@@ -66,7 +66,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         int green = 0;
         while (iterator.hasNext()) {
             String vkey = iterator.next().toString();
-            SolutionAttributes ipvar = (SolutionAttributes) pv.get(vkey);
+            IpatVariable ipvar = (IpatVariable) pv.get(vkey);
 
             if (ipvar.getName().contains("Page")) {
                 colorCheck++;
@@ -129,7 +129,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
             green = 0;
             while (evars.hasNext()) {
                 String vkey = evars.next().toString();
-                SolutionAttributes ipvar = (SolutionAttributes) vars.get(vkey);
+                IpatVariable ipvar = (IpatVariable) vars.get(vkey);
 
                 if (ipvar.getName().contains("color")) {
                     colorCheck++;
