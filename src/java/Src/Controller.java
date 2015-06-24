@@ -40,7 +40,6 @@ public class Controller {
     Processor Processor;
     
     ESEvolution evolution = new ESEvolution();
-    ArrayList<ResultItem> data = new ArrayList<ResultItem>();
     HashMap<String, HintsProcessor> hints = new HashMap<String, HintsProcessor>();
     long lastTime = 0;
 
