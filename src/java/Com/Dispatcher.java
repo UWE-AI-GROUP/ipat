@@ -108,7 +108,7 @@ public class Dispatcher extends HttpServlet {
 
         Boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
-            logger.info("Error, system did not think there was a multipart request.");
+            logger.info("Error, system did not think there was a multipart request.\n");
             return;
         }
 
@@ -117,10 +117,10 @@ public class Dispatcher extends HttpServlet {
         factory.setSizeThreshold(maxMemSize);
         // Location to save data that is larger than maxMemSize.
         if (myRepository.mkdirs()) {
-            logger.info("Created repository directory " + myRepository.getAbsolutePath());
+            logger.info("Created repository directory " + myRepository.getAbsolutePath()+"\n");
         }
         factory.setRepository(myRepository);
-        logger.info("factory repository is " + factory.getRepository().getAbsolutePath());
+        logger.info("factory repository is " + factory.getRepository().getAbsolutePath()+"\n");
 
         // Create a new file upload handler
         ServletFileUpload upload = new ServletFileUpload(factory);
@@ -139,7 +139,7 @@ public class Dispatcher extends HttpServlet {
 
                     // Get the uploaded file parameters
                     String fileName = fi.getName();
-                    logger.info("filename read is " + fileName);
+                    logger.info("filename read is " + fileName +"\n");
                     //  String fieldName = fi.getFieldName();
                     //  String contentType = fi.getContentType();
                     //  boolean isInMemory = fi.isInMemory();
@@ -173,16 +173,16 @@ public class Dispatcher extends HttpServlet {
                 }
             }
         } catch (FileUploadException ex) {
-            logger.info(ex, ex);
+            logger.info(ex +"\n", ex );
         } catch (Exception ex) {
-            logger.info(ex, ex);
+            logger.info(ex +"\n", ex);
         }
 
-        logger.info("File(s) uploaded by user : "
-                + "\ninput path : " + inputFolder.getAbsolutePath()
-                + "\noutput path : " + outputFolder.getAbsolutePath()
-                + "\nprofile path : " + profilePath.getAbsolutePath()
-                + "\nhintsXML path : " + hintsXML.getAbsolutePath());
+        logger.info("File(s) uploaded by user : " +"\n"
+                + "\ninput path : " + inputFolder.getAbsolutePath()+"\n"
+                + "\noutput path : " + outputFolder.getAbsolutePath()+"\n"
+                + "\nprofile path : " + profilePath.getAbsolutePath()+"\n"
+                + "\nhintsXML path : " + hintsXML.getAbsolutePath()+"\n");
 
         if (inputFolder != null && outputFolder != null && profilePath != null && hintsXML != null) {
 
@@ -198,7 +198,7 @@ public class Dispatcher extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
         } else {
-            logger.info("There was a fatal error in Dispatcher. Filepaths are not correctly instantiated.");
+            logger.info("There was a fatal error in Dispatcher. Filepaths are not correctly instantiated."+"\n");
         }
 
     }

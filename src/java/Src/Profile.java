@@ -28,6 +28,7 @@ import org.jdom.output.XMLOutputter;
  * @author kieran
  */
 public class Profile {
+
     private static final Logger logger = Logger.getLogger(Profile.class);
 
     /**
@@ -83,21 +84,25 @@ public class Profile {
     }
 
     public void randomiseProfileVariableValues() {
-        Collection vals = this.solutionAttributes.values();
-        Iterator iterator = vals.iterator();
-        while (iterator.hasNext()) {
-            SolutionAttributes SA = (SolutionAttributes) iterator.next();
-            SA.randomizeValues();
+        Collection<SolutionAttributes> collection = this.solutionAttributes.values();
+        for (SolutionAttributes SA : collection) {
+            SA.randomiseValues();
+           // logger.debug("new value for " + this.name + " PROFILE VARIABLE " + SA.getName() + " = " + SA.getValue() + "\n");
         }
     }
 
     // TODO randomise kernel Values
-    public void randomiseKernelValues() {
-        Collection vals = this.kernels.values();
-        Iterator iterator = vals.iterator();
-        while (iterator.hasNext()) {
-            Kernel SA = (Kernel) iterator.next();
-            // SA.randomizeValues();
+    public void randomiseKernelVariableValues() {
+        Collection<Kernel> collection = this.kernels.values();
+        for (Kernel k : collection) {
+            k.randomiseValues();
+           // logger.debug("new values for " + this.name + " KERNEL VARIABLE " + k.getName() + ":\n");
+            HashMap variables = k.getVariables();
+           Collection<SolutionAttributes> KernelCollection = variables.values();
+            for (SolutionAttributes SA : KernelCollection) {
+                // logger.debug(SA.getName() + " = " + SA.getValue());
+            }
+           // logger.debug("\n----------------------------------------------------------------------------\n");
         }
     }
 
@@ -117,13 +122,13 @@ public class Profile {
     public void removeKernel(String kernelName) {
         kernels.remove(kernelName);
     }
-    
-    public void replaceKernel(Kernel kernel)
-      {
-        Kernel oldvalue =  (Kernel) kernels.put(kernel.getName(), kernel);
-        if(oldvalue==null)
-              logger.error("Error replacing kernel " + kernel.getName() + "in profile " + this.getName() + " Not previously present in profile");
-      }
+
+    public void replaceKernel(Kernel kernel) {
+        Kernel oldvalue = (Kernel) kernels.put(kernel.getName(), kernel);
+        if (oldvalue == null) {
+            logger.error("Error replacing kernel " + kernel.getName() + "in profile " + this.getName() + " Not previously present in profile");
+        }
+    }
 
     /**
      * Adds the variable.
@@ -150,13 +155,13 @@ public class Profile {
     public void removeVariable(String varname) {
         solutionAttributes.remove(varname);
     }
-    
-    public void replaceVariable( SolutionAttributes var)
-      {
-        SolutionAttributes oldval = (SolutionAttributes)        solutionAttributes.put(var.getName(), var);
-        if (oldval ==null)
-             logger.error("error replacing profile variable " + var.getName() + " in profile " + this.getName() +" old value not found or null");
-      }
+
+    public void replaceVariable(SolutionAttributes var) {
+        SolutionAttributes oldval = (SolutionAttributes) solutionAttributes.put(var.getName(), var);
+        if (oldval == null) {
+            logger.error("error replacing profile variable " + var.getName() + " in profile " + this.getName() + " old value not found or null");
+        }
+    }
 
     /**
      * Gets the file.
@@ -215,7 +220,7 @@ public class Profile {
         Iterator AttributesIterator = keys.iterator();
         while (AttributesIterator.hasNext()) {
             SolutionAttributes var = (SolutionAttributes) AttributesIterator.next();
-           logger.info(var.getName() + " : " + var.getValue());
+            logger.info(var.getName() + " : " + var.getValue());
         }
         Set keySet = kernels.keySet();
         Iterator kernelIterator = keySet.iterator();
@@ -386,7 +391,7 @@ public class Profile {
 
                 if (hint.getName().equalsIgnoreCase("variable")) {
 
-                  //  System.out.println("\n Profile variable \n");
+                    //  System.out.println("\n Profile variable \n");
                     Element elem = hint.getChild("name");
                     SolutionAttributes var = (SolutionAttributes) mySolutionAttributes.get(elem.getValue());
                     elem.setText(var.getName());
@@ -540,12 +545,12 @@ public class Profile {
 
     // used for if the Profile is to have a hard copy of itself in a specified location on disk
     public boolean writeProfileToFile(String outputPath) {
-        
+
         /* apply changes to solution attribute values in memory to their hard copy file before 
-        copying that file to the location specified as "outputPath"
-        */
+         copying that file to the location specified as "outputPath"
+         */
         this.setProfile();
-        
+
         String copy = "";
         File file = this.getFile();
         BufferedWriter writer;

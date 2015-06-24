@@ -5,6 +5,7 @@
  */
 package Src;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -48,5 +49,11 @@ public class Kernel {
 		return variables;
 	}
         
+        public void randomiseValues(){
+            Collection<SolutionAttributes> values = this.variables.values();
+            for (SolutionAttributes SA : values) {
+                SA.randomiseValues();
+            }
+        }
         
 }

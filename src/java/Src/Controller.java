@@ -34,8 +34,9 @@ import org.xml.sax.SAXException;
  * @author kieran
  */
 public class Controller {
-private static final Logger logger = Logger.getLogger(Controller.class);
-    
+
+    private static final Logger logger = Logger.getLogger(Controller.class);
+
     Processor Processor;
     Profile currentProfile = null;
     Profile leader = null;
@@ -44,7 +45,6 @@ private static final Logger logger = Logger.getLogger(Controller.class);
     HashMap<String, HintsProcessor> hints = new HashMap<String, HintsProcessor>();
     long lastTime = 0;
 
-    // From GlobalVariables
     /**
      *
      */
@@ -53,7 +53,7 @@ private static final Logger logger = Logger.getLogger(Controller.class);
     /**
      *
      */
-    public int noOfProfiles;
+    public int noOfProfiles = 3;
 
     /**
      *
@@ -90,7 +90,6 @@ private static final Logger logger = Logger.getLogger(Controller.class);
      */
     public static File hintsXML;
 
-    // TODO Constructor which takes Artifact + what view to use
     /**
      *
      * @param inputFolder
@@ -108,8 +107,9 @@ private static final Logger logger = Logger.getLogger(Controller.class);
         this.Processor = processor;
     }
 
-    // Generates the first set of results and returns them in the appropriate display to the view
     /**
+     * Generates the first set of results and returns them in the appropriate
+     * display to the view
      *
      * @return
      */
@@ -127,87 +127,122 @@ private static final Logger logger = Logger.getLogger(Controller.class);
         return loadWebDisplay;
     }
 
-    // Generates the next generation of results and returns them to the view
     /**
+     * Generates the next generation of results and returns them to the view by
+     * telling the metaheuristic to update its working memory, creates the next
+     * generation, applies those profiles to the raw artifacts to get something
+     * to display,
      *
      * @return
      */
     public HashMap mainloop() {
-
-        //tell the metaheuristic to update its working memory
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        //now you are ready to create the next generation - which since they all were sorted the same should contain all the initial provided profiles
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
             currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
-            //System.out.println("in controller.mainloop() just read profile with name " + currentGenerationOfProfiles[i].getName());
         }
-        //now apply those profiles ot the raw artifacts to get something to display
         getResultArtifacts();
-        // load user feedback back into the appropriate parameter values (e.g. profile.globalscore) in currentGenerationOfProfiles
         return loadWebDisplay();
     }
 
-    // initialises the Profiles in memory from the files in the profile folder, generating new ones if the count is <6
-    // or if the count is >9 accepts only 6 of them 
+    /**
+     * initialises the Profiles in memory from the files in the profile folder,
+     * generating new ones if the count is <6
+     * or if the count is >9 accepts only 6 of them
+     */
     private void bootstrapApplication() {
 
-        //set up pKernel filter ot pick up all the filesending with .xml
+        //set up Profiles filter to pick up all the files ending with .xml within Profile folder
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
                 return name.endsWith(".xml");
             }
         };
+
         //create an array holding all the files ending .xml in the profile folder to act as seeds
         File[] profiles_list = profileFolder.listFiles(filter);
         if (profiles_list == null) {
-            logger.error("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.");
+            logger.error("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.\n");
             System.exit(0);
         }
 
         //declare an array to hold the new profiles
         File[] new_profiles_list = new File[noOfProfiles];
 
-        //next steps depend on  number of seeds
-        if ( profiles_list.length < noOfProfiles) {// if there are no, or less than desired numner of seeds
-            int i;
-            for ( i = 0; i < noOfProfiles; i++) {
-                new_profiles_list[i] = profiles_list[i];
-            }
-            int diffOfNrOfProfilesToMake = noOfProfiles - profiles_list.length;
-            for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
-                new_profiles_list[i + j] = profiles_list[1];
-            }
-            logger.info("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake);
+        try {
 
-        } else if (profiles_list.length > noOfProfiles
-                && profiles_list.length < 9) {//if there ar pKernel few more but less than 9
-            //just increase the number used and copy all the seeds
-            noOfProfiles = profiles_list.length;
-            new_profiles_list = new File[noOfProfiles];
-            new_profiles_list = profiles_list;
-        } else {//we had just the right number - or more than 9
-            for (int i = 0; i < noOfProfiles; i++) {
-                new_profiles_list[i] = profiles_list[i];
+            // if there are less than desired numner of seeds
+            if (0 < profiles_list.length && profiles_list.length < noOfProfiles) {
+
+                logger.debug("profiles_list.length = " + profiles_list.length + "\n");
+                logger.debug("noOfProfiles = " + noOfProfiles + "\n");
+
+                // fill new array with the seeds from profile folder
+                for (int i = 0; i < profiles_list.length; i++) {
+                    new_profiles_list[i] = profiles_list[i];
+                }
+
+                int diffOfNrOfProfilesToMake = noOfProfiles - profiles_list.length;
+
+                // fill the remaining space with copies of an abitrary Profile 
+                for (int j = 0; j < diffOfNrOfProfilesToMake; j++) {
+                    new_profiles_list[profiles_list.length + j] = profiles_list[0]; //changed 1 for -1
+                }
+
+                logger.info("Found only " + profiles_list.length + " profiles, randomly generated remaining " + diffOfNrOfProfilesToMake + "\n");
+
+                //if there are more required than number of seeds but less than 9
+            } else if (profiles_list.length > noOfProfiles && profiles_list.length < 9) {
+                //just increase the number used and copy all the seeds
+                noOfProfiles = profiles_list.length;
+                new_profiles_list = new File[noOfProfiles];
+                new_profiles_list = profiles_list;
+
+                //we had just the right number - or more than 9    
+            } else if (profiles_list.length > 9 || profiles_list.length == noOfProfiles) {
+                for (int i = 0; i < noOfProfiles; i++) {
+                    new_profiles_list[i] = profiles_list[i];
+                }
+
+                // we have no Profile seeds or some error has occured
+            } else {
+                logger.fatal("There are no Profiles Seeds found. "
+                        + "Please Check the profile folder path is correct and that Profile seeds exist within it.\n");
             }
+
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            logger.error("The array out of bounds in Controller.bootstrapApplication() "
+                    + " number of profiles desired: " + noOfProfiles + "\nNumber of profile seeds: " + profiles_list.length
+                    + " profile list to be used as current generation: " + new_profiles_list.length + "\n" + ex.getLocalizedMessage());
         }
-        //copy the updated list of prpfile names back into the profiles list array of file names
-      //  profiles_list = new_profiles_list;
 
-        //finally create the first generation
-        //declare an array to hold the next gneration of profiles
+        //
         currentGenerationOfProfiles = new Profile[noOfProfiles];
-        //and for each one read the actual profile from the relevant file
-        for (int i = 0; i < profiles_list.length; i++) {
+        //for each one read the actual profile from the relevant file
+        for (int i = 0; i < noOfProfiles; i++) {
             {
                 currentGenerationOfProfiles[i] = Utils.getProfileFromFile(new_profiles_list[i]);
                 // randomise the generated extra profiles
-                if (i > profiles_list.length) {
+                if (i >= profiles_list.length) {
+                    logger.debug("randomising generated profile [" + i + "]\n");
+                    //create the new filename for this extra profile
+                    File fileRename = new File(this.profileFolder + "/gen_0-profile_" +(i+1)+ ".xml");
+                    if (fileRename != null) {
+                        System.out.println("fileRename : " + fileRename.getAbsolutePath());
+                    }
+                    //write the profile we are copying into this new file so that it exists on disk
+                    currentGenerationOfProfiles[i].writeProfileToFile(fileRename.getAbsolutePath());
+                    //chnage the sotred values in memory
+                    currentGenerationOfProfiles[i].setFile(fileRename);
                     currentGenerationOfProfiles[i].randomiseProfileVariableValues();
+                    currentGenerationOfProfiles[i].randomiseKernelVariableValues();
+                    //and writw back to disk for posterity
+                    currentGenerationOfProfiles[i].setProfile();
+                    currentGenerationOfProfiles[i].writeProfileToFile(fileRename.getAbsolutePath());
+                    
                 }
             }
-            System.out.println(currentGenerationOfProfiles[i].getName());
         }
     }
 
@@ -217,8 +252,8 @@ private static final Logger logger = Logger.getLogger(Controller.class);
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-               //boolean bool = name.endsWith(".xml") || name.endsWith(".htm");
-                boolean bool =  name.endsWith(".htm");
+                //boolean bool = name.endsWith(".xml") || name.endsWith(".htm");
+                boolean bool = name.endsWith(".htm");
                 return bool;
             }
         };
@@ -429,7 +464,7 @@ private static final Logger logger = Logger.getLogger(Controller.class);
         while (iterator.hasNext()) {
             cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
             String get = byImageArray.get(iterator.next());
-            cells += get + "</div>"; 
+            cells += get + "</div>";
             count++;
         }
         cells += "</div>"; // div_/2
@@ -443,6 +478,5 @@ private static final Logger logger = Logger.getLogger(Controller.class);
     public void setNoOfProfiles(int noOfProfiles) {
         this.noOfProfiles = noOfProfiles;
     }
-    
-    
+
 }
