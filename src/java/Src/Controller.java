@@ -38,8 +38,7 @@ public class Controller {
     private static final Logger logger = Logger.getLogger(Controller.class);
 
     Processor Processor;
-    Profile currentProfile = null;
-    Profile leader = null;
+    
     ESEvolution evolution = new ESEvolution();
     ArrayList<ResultItem> data = new ArrayList<ResultItem>();
     HashMap<String, HintsProcessor> hints = new HashMap<String, HintsProcessor>();
@@ -53,7 +52,7 @@ public class Controller {
     /**
      *
      */
-    public int noOfProfiles = 3;
+    public int noOfProfiles;
 
     /**
      *
@@ -270,7 +269,7 @@ public class Controller {
 
     // Responsible for applying profiles to artifacts
     private void getResultArtifacts() {
-
+        Profile currentProfile = null;
         Artifact rawArtifact;
         Artifact processedArtifact = null;
         processedArtifacts = new Artifact[raw_artifacts.length * noOfProfiles];

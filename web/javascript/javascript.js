@@ -11,7 +11,7 @@ $(document).ready(function () {
     var abort = document.getElementById("abort");
     var reset = document.getElementById("resetScores");
     var artifactCount;
-  
+
     var hints;
 //================================================
 // file upload detected
@@ -47,7 +47,7 @@ $(document).ready(function () {
                         $('#tabs-byProfile').append(result["byProfile"]);
                         $('#tabs-byImage').empty();
                         $('#tabs-byImage').append(result["byImage"]);
-                          tabClicked('li_0');
+                        tabClicked('li_0');
                     }, 300);
                 }
             };
@@ -63,6 +63,23 @@ $(document).ready(function () {
     nextGen.addEventListener('click', function () {
 
         var data = {};
+        var scores = {};
+        var vars = {};
+
+        // get the number of profiles to be used
+        if (/^[1-8]*$/.test($("#numOfProfiles").val())) {
+
+            vars["ProfileNum"] = $(this).val();
+            $.ajax({
+                url: "VariableChange",
+                type: "POST",
+                data: {vars: JSON.stringify(vars)},
+                success: function (result) {
+                    alert("Number of Profiles Changed");
+                }
+            });
+        }
+
 
         if ($("#tabs-byProfile").attr('aria-hidden') === 'false') {
             var all = $("#tabs-byProfile .cell");
@@ -72,27 +89,27 @@ $(document).ready(function () {
             alert("Error: unable to determine which tab is selected");
         }
 
-        for (var i = 0; i < all.length; i++) {           
+        for (var i = 0; i < all.length; i++) {
             var inputs = $(all[i]).find("input");
             for (var j = 0; j < inputs.length; j++) {
                 var name = $(inputs[j]).prop('id');
                 if ($(inputs[j]).prop('type') === "checkbox") {
                     var value = $(inputs[j]).is(':checked');
-                    data[name] = value;
-                }                
+                    scores[name] = value;
+                }
                 else if ($(inputs[j]).prop('type') === "range") {
                     var value = $(inputs[j]).val();
-                    data[name] = value;
-                }    
+                    scores[name] = value;
+                }
                 // incase the src for the "cells" is ever needed
 //                else if ($(inputs[j]).prop('tagName') === 'IFRAME') {
 //                    var value = $(inputs[j]).attr('src');
 //                    data[name] = value;
 //                }
                 else {
-                     alert("Error: A javascript JQuery check needs to be implemented for " + $(inputs[i]).attr('id') + " in javascript.js");
+                    alert("Error: A javascript JQuery check needs to be implemented for " + $(inputs[i]).attr('id') + " in javascript.js");
                 }
-                
+
             }
         }
         $('#tabs-byProfile').empty();
@@ -103,7 +120,7 @@ $(document).ready(function () {
             data: {data: JSON.stringify(data)},
             success: function (result) {
 
-                
+
                 artifactCount = result["count"];
                 setTimeout(function () {
                     $('#tabs-byProfile').empty();
@@ -111,7 +128,7 @@ $(document).ready(function () {
                     $('#tabs-byImage').empty();
                     $('#tabs-byImage').append(result["byImage"]);
                     tabClicked('li_0');
-                    
+
                 }, 300);
             }
         }, false);
