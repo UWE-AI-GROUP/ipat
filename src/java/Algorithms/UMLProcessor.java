@@ -6,6 +6,8 @@ package Algorithms;
 import Src.Artifact;
 import Src.IpatVariable;
 import Src.Profile;
+import Src.Utils;
+import static Src.Utils.haveSameElements;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -114,13 +116,13 @@ else
     }
   }
 //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
-if( haveSameElements(methodsSeen, methodList)==false)
+if(     Utils.haveSameElements(methodsSeen, methodList)==false)
   {
     logger.error("problem - the list of methods in the profile is not the same as in the problem defintion"
     +"defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
   }
  
-else if( haveSameElements(attributesSeen, attributeList)==false)
+else if( Utils.haveSameElements(attributesSeen, attributeList)==false)
   {
    logger.error("problem - the list of attributes in the profile is not the same a in the problem defintion"
         +"defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
@@ -391,64 +393,6 @@ for(int class1=0;class1<=highestClasses;class1++)
      
     
     
-    /**
- * Returns if both {@link Collection Collections} contains the same elements, in the same quantities, regardless of order and collection type.
- * <p>
- * Empty collections and {@code null} are regarded as equal.
-     * @param <T> type of first collection
-     * @param col1 first collection
-     * @param col2 second collection to compare to first
-     * @return true or false
- */
-public static <T> boolean haveSameElements(Collection<T> col1, Collection<T> col2) {
-    if (col1 == col2)
-        return true;
-
-    // If either list is null, return whether the other is empty
-    if (col1 == null)
-        return col2.isEmpty();
-    if (col2 == null)
-        return col1.isEmpty();
-
-    // If lengths are not equal, they can't possibly match
-    if (col1.size() != col2.size())
-        return false;
-
-    // Helper class, so we don't have to do a whole lot of autoboxing
-    class Count
-    {
-        // Initialize as 1, as we would increment it anyway
-        public int count = 1;
-    }
-
-    final Map<T, Count> counts = new HashMap<>();
-
-    // Count the items in list1
-    for (final T item : col1) {
-        final Count count = counts.get(item);
-        if (count != null)
-            count.count++;
-        else
-            // If the map doesn't contain the item, put a new count
-            counts.put(item, new Count());
-    }
-
-    // Subtract the count of items in list2
-    for (final T item : col2) {
-        final Count count = counts.get(item);
-        // If the map doesn't contain the item, or the count is already reduced to 0, the lists are unequal 
-        if (count == null || count.count == 0)
-            return false;
-        count.count--;
-    }
-
-    // If any count is nonzero at this point, then the two lists don't match
-    for (final Count count : counts.values())
-        if (count.count != 0)
-            return false;
-
-    return true;
-}
     
 }
 

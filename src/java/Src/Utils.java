@@ -6,8 +6,10 @@
 package Src;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Random;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -54,6 +56,59 @@ public class Utils {
      */
     public static int GetRandIntInRange(int b1, int b2) {
         return ((int) ((b2 - b1 + 1) * GetRandDouble01())) + b1;
+    }
+
+    /**
+     * Returns if both {@link Collection Collections} contains the same elements, in the same quantities, regardless of order and collection type.
+     * <p>
+     * Empty collections and {@code null} are regarded as equal.
+     * @param <T> type of first collection
+     * @param col1 first collection
+     * @param col2 second collection to compare to first
+     * @return true or false
+     */
+    public static <T> boolean haveSameElements(Collection<T> col1, Collection<T> col2) {
+        if (col1 == col2) {
+            return true;
+        }
+        if (col1 == null) {
+            return col2.isEmpty();
+        }
+        if (col2 == null) {
+            return col1.isEmpty();
+        }
+        if (col1.size() != col2.size()) {
+            return false;
+        }
+
+        // Helper class, so we don't have to do a whole lot of autoboxing
+        class Count {
+
+            // Initialize as 1, as we would increment it anyway
+            public int count = 1;
+        }
+        final Map<T, Count> counts = new HashMap<>();
+        for (final T item : col1) {
+            final Count count = counts.get(item);
+            if (count != null) {
+                count.count++;
+            } else {
+                counts.put(item, new Count());
+            }
+        }
+        for (final T item : col2) {
+            final Count count = counts.get(item);
+            if (count == null || count.count == 0) {
+                return false;
+            }
+            count.count--;
+        }
+        for (final Count count : counts.values()) {
+            if (count.count != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

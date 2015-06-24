@@ -14,10 +14,15 @@ import java.util.HashMap;
  */
 public class Kernel {
     
-	/** The name. */
+	/** 
+         * The name of the Kernel item which is likely to repeat
+         */
 	private String name= "";
 	
-	/** The variables. */
+	/** 
+         * The hashmap containing the IpatVariable(s) which are likely to
+         * repeat.
+         */
 	private HashMap variables;
 
 	/**
