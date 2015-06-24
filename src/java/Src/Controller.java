@@ -41,50 +41,51 @@ public class Controller {
     
     ESEvolution evolution = new ESEvolution();
     HashMap<String, HintsProcessor> hints = new HashMap<String, HintsProcessor>();
-    long lastTime = 0;
 
     /**
-     *
+     * How many times a user has interacted during this session
      */
     public int iterationCount = 0;
 
     /**
-     *
+     * the number of candidate solutions presented for evaluation 
      */
     public int noOfProfiles;
 
     /**
-     *
+     * An array of the user supplied html files to process
      */
     public Artifact[] raw_artifacts;
 
     /**
-     *
+     * results of applying profiles to raw artefacts : shown to user for evaluation
      */
     public Artifact[] processedArtifacts;
 
     /**
-     *
+     * the profiles being current evaluated and processed
      */
     public Profile[] currentGenerationOfProfiles;
 
     /**
-     *
+     * the folder on the server disk which stores the uploaded artefacts 
      */
     public static File inputFolder;
 
     /**
-     *
+     * the folder on the server disk which stores the processed artefacts
      */
     public static File outputFolder;
 
     /**
-     *
+     * the folder on the server disk holding the user-supplied initial candidate solutions.
+     * naming Format : These should be placed within a sub directory named "profiles", with
+     * the hint.xml file within this folder
      */
     public static File profileFolder;
 
     /**
-     *
+     * the xml file which holds the designer supplied hints for the application
      */
     public static File hintsXML;
 
@@ -111,7 +112,7 @@ public class Controller {
      *
      * @return
      */
-    public HashMap initialArtifacts() {
+    public HashMap initialisation() {
         bootstrapApplication();
         loadRawArtifacts();
         hints = loadHintsXML();
@@ -366,7 +367,7 @@ public class Controller {
         return hintMap;
     }
 
-    public HashMap loadWebDisplay() {
+    public HashMap<String, String> loadWebDisplay() {
 
         HashMap hintMap = this.hints;
         Artifact[] artifacts = this.processedArtifacts;
