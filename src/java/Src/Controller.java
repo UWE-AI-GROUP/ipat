@@ -14,7 +14,6 @@ import Algorithms.Processor;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -231,14 +230,14 @@ public class Controller {
                         System.out.println("fileRename : " + fileRename.getAbsolutePath());
                     }
                     //write the profile we are copying into this new file so that it exists on disk
-                    currentGenerationOfProfiles[i].writeProfileToFile(fileRename.getAbsolutePath());
+                    currentGenerationOfProfiles[i].copyToNewFile(fileRename.getAbsolutePath());
                     //chnage the sotred values in memory
                     currentGenerationOfProfiles[i].setFile(fileRename);
                     currentGenerationOfProfiles[i].randomiseProfileVariableValues();
                     currentGenerationOfProfiles[i].randomiseKernelVariableValues();
                     //and writw back to disk for posterity
-                    currentGenerationOfProfiles[i].setProfile();
-                    currentGenerationOfProfiles[i].writeProfileToFile(fileRename.getAbsolutePath());
+                    currentGenerationOfProfiles[i].writeToFile();
+                    currentGenerationOfProfiles[i].copyToNewFile(fileRename.getAbsolutePath());
                     
                 }
             }
@@ -474,8 +473,32 @@ public class Controller {
         return HM;
     }
 
-    public void setNoOfProfiles(int noOfProfiles) {
-        this.noOfProfiles = noOfProfiles;
+    public void setNoOfProfiles(int newNoOfProfiles) {
+        
+        Profile [] newCurrentGenerationOfProfiles = new Profile[newNoOfProfiles];
+        for (int i = 0; i < newNoOfProfiles; i++) {
+           if (i < this.noOfProfiles) { 
+               newCurrentGenerationOfProfiles[i] = currentGenerationOfProfiles[i];
+           }
+                // randomise the generated extra profiles
+                if (i >= this.noOfProfiles) {
+                    newCurrentGenerationOfProfiles[i] = currentGenerationOfProfiles[0];
+                    logger.debug("randomising generated profile [" + i + "]\n");
+                    //create the new filename for this extra profile
+                    String fileRename = this.profileFolder + "/gen_0-profile_" +(i+1)+ ".xml";
+                    //write the profile we are copying into this new file so that it exists on disk
+                    newCurrentGenerationOfProfiles[i].copyToNewFile(fileRename);
+                    //chnage the sotred values in memory
+                    newCurrentGenerationOfProfiles[i].setFile(new File(fileRename));
+                    newCurrentGenerationOfProfiles[i].randomiseProfileVariableValues();
+                    newCurrentGenerationOfProfiles[i].randomiseKernelVariableValues();
+                    //and writw back to disk for posterity
+                    newCurrentGenerationOfProfiles[i].writeToFile();
+                    newCurrentGenerationOfProfiles[i].copyToNewFile(fileRename);               
+                }
+            }
+        this.noOfProfiles = newNoOfProfiles;
+        this.currentGenerationOfProfiles = newCurrentGenerationOfProfiles;
+        System.out.println("How Many in Controller.setNoOfProfiles after : " + this.noOfProfiles);
     }
-
 }
