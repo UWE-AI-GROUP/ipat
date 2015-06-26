@@ -82,6 +82,76 @@ public class Profile {
         kernels = new HashMap();
         this.file = file;
         this.name = file.getName();
+        
+        try {
+            Document XmlDoc = new SAXBuilder().build(file);
+            Element root = XmlDoc.getRootElement();
+            Element profileNode = root.getChild("profile", root.getNamespace());
+            Iterator iterator = profileNode.getChildren().iterator();
+            int i = 0;
+            while (iterator.hasNext()) {
+                Element hint = (Element) iterator.next();
+                if (hint.getName().equalsIgnoreCase("variable")) {
+                    String name = hint.getChildText("name");
+                    String type = hint.getChildText("type");
+                    String temp = hint.getChildText("lbound");
+                    Double dub = new Double(temp);
+                    double lbound = dub.doubleValue();
+                    temp = hint.getChildText("ubound");
+                    dub = new Double(temp);
+                    double ubound = dub.doubleValue();
+                    temp = hint.getChildText("granularity");
+                    dub = new Double(temp);
+                    double granularity = dub.doubleValue();
+                    temp = hint.getChildText("rateOfEvolution");
+                    dub = new Double(temp);
+                    double rateOfEvolution = dub.doubleValue();
+                    temp = hint.getChildText("value");
+                    dub = new Double(temp);
+                    double value = dub.doubleValue();
+                    String dfault = hint.getChildText("default");
+                    String flag = hint.getChildText("flag");
+                    String unit = hint.getChildText("unit");
+                    IpatVariable variable = new IpatVariable(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                    profileLevelVariables.put(variable.getName(), variable);
+                } else if (hint.getName().equalsIgnoreCase("kernel")) {
+                    Iterator it = hint.getChildren().iterator();
+                    Element nm = (Element) it.next();
+                    String kernelName = nm.getText();
+                    HashMap vars = new HashMap();
+                    while (it.hasNext()) {
+                        Element hintt = (Element) it.next();
+                        String name = hintt.getChildText("name");
+                        String type = hintt.getChildText("type");
+                        String temp = hintt.getChildText("lbound");
+                        Double dub = new Double(temp);
+                        double lbound = dub.doubleValue();
+                        temp = hintt.getChildText("ubound");
+                        dub = new Double(temp);
+                        double ubound = dub.doubleValue();
+                        temp = hintt.getChildText("granularity");
+                        dub = new Double(temp);
+                        double granularity = dub.doubleValue();
+                        temp = hintt.getChildText("rateOfEvolution");
+                        dub = new Double(temp);
+                        double rateOfEvolution = dub.doubleValue();
+                        temp = hintt.getChildText("value");
+                        dub = new Double(temp);
+                        double value = dub.doubleValue();
+                        String dfault = hintt.getChildText("default");
+                        String flag = hintt.getChildText("flag");
+                        String unit = hintt.getChildText("unit");
+                        IpatVariable variable = new IpatVariable(name, type, lbound, ubound, granularity, rateOfEvolution, value, dfault, flag, unit);
+                        vars.put(name, variable);
+                    }
+                    Kernel kernel = new Kernel(kernelName, vars);
+                    kernels.put(kernel.getName(), kernel);
+                } else if (hint.getName().equalsIgnoreCase("interaction")) {
+                }
+            }
+        } catch (Exception pce) {
+            pce.printStackTrace();
+        }
     }
 
     public void randomiseProfileVariableValues() {

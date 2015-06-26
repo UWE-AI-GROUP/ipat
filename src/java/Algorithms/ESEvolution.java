@@ -237,7 +237,7 @@ public class ESEvolution implements MetaHeuristic {
             //System.out.println("in evolution.getNextGenProfileAtIndex with index: " + which );
             //File thisfile = nextGen.get(which).getFile();
             //System.out.println("... nextgen profile name is: " + nextGen.get(which).getName() + " and filename " + thisfile.getName());
-            //return getProfileFromFile(thisfile);
+            //return new Profile(thisfile);
 
             Profile toreturn = nextGen.get(which);
             return toreturn;
@@ -283,7 +283,7 @@ public class ESEvolution implements MetaHeuristic {
             //copy all the profiles from the  set of the previous best 
             // create new profile object so that adding best to nextGen doesnt just reference the same object
             File thisfile = best.get(toCopy).getFile();
-            Profile toAdd = Utils.getProfileFromFile(thisfile);
+            Profile toAdd = new Profile(thisfile);
             nextGen.add(toAdd);
             //System.out.println("have made a copy of best[" + copied + "] with filename " + thisfile.getName());
         }
