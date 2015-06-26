@@ -156,7 +156,7 @@ public class ESEvolution implements MetaHeuristic {
         }
 
         //finally write the mutated profile back to file
-        //nextGen.get(which).writeProfileToFile(profilename);
+        //nextGen.get(which).copyToNewFile(profilename);
         //nextGen.get(which).printProfile();
         //System.out.println("finished mutating profle" + which);
         return true;
@@ -252,6 +252,8 @@ public class ESEvolution implements MetaHeuristic {
     @Override
     public void generateNextSolutions(int howMany) {
 
+        System.out.println("How Many in ESEvolution.generateNextSolutions : " + howMany);
+        
         int copied, toCopy;
         //check that the working memory is not empty
         if (best.size() <= 0) {
@@ -329,7 +331,7 @@ public class ESEvolution implements MetaHeuristic {
                 String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
 
                 //write to file
-                nextGen.get(k).writeProfileToFile(outProfilePath);
+                nextGen.get(k).copyToNewFile(outProfilePath);
                 File thisfile = new File(outProfilePath);
                 nextGen.get(k).setFile(thisfile);
 

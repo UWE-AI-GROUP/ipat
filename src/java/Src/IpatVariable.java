@@ -21,7 +21,7 @@ public class IpatVariable {
     private String dfault = "";
 
     /**
-     * Unused at present (sets variable as active or inactive)
+     * The flag.
      */
     private String flag = "";
 
@@ -102,36 +102,6 @@ public class IpatVariable {
             this.value = this.granularity * Math.floor(((Math.random() * range) + this.lbound)/this.granularity); 
             // logger.debug("solution attribute value after randomisation : " + this.value);
         }
-    }
-
-    
-    
-    public void setDfault(String dfault) {
-        this.dfault = dfault;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
-
-    public void setGranularity(double granularity) {
-        this.granularity = granularity;
-    }
-
-    public void setLbound(double lbound) {
-        this.lbound = lbound;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setUbound(double ubound) {
-        this.ubound = ubound;
     }
 
     /**

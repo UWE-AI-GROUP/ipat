@@ -828,7 +828,7 @@ public class Utils {
     //                String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
     //
     //                //write to file
-    //                nextGen.get(i).writeProfileToFile(outProfilePath);
+    //                nextGen.get(i).copyToNewFile(outProfilePath);
     //                File thisfile = new File(outProfilePath);
     //                nextGen.get(i).setFile(thisfile);
     //
@@ -845,7 +845,7 @@ public class Utils {
     //  String outProfileName= nextGen.get(toSave).getName();
     // String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
     //System.out.println("saving next gen profile to file: " + outProfileName);
-    // nextGen.get(toSave).writeProfileToFile(outProfilePath);
+    // nextGen.get(toSave).copyToNewFile(outProfilePath);
     //}
     //}
     // TODO read in the global scores from the profile.xml files

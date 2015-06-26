@@ -57,19 +57,19 @@ public class Profile {
     private int noOfKernels;
 
     /**
-     * The no of kernel solutionAttributes.
+     * The no of kernel profileLevelVariables.
      */
     private int noOfKernerlVariables;
 
     /**
-     * The no of profile solutionAttributes.
+     * The no of profile profileLevelVariables.
      */
     private int noOfProfileVariables;
 
     /**
-     * The solutionAttributes.
+     * The profileLevelVariables.
      */
-    private HashMap solutionAttributes;
+    private HashMap profileLevelVariables;
 
     /**
      * Instantiates a new ipat profile.
@@ -77,14 +77,14 @@ public class Profile {
      * @param file the file
      */
     public Profile(File file) {
-        solutionAttributes = new HashMap();
+        profileLevelVariables = new HashMap();
         kernels = new HashMap();
         this.file = file;
         this.name = file.getName();
     }
 
     public void randomiseProfileVariableValues() {
-        Collection<IpatVariable> collection = this.solutionAttributes.values();
+        Collection<IpatVariable> collection = this.profileLevelVariables.values();
         for (IpatVariable SA : collection) {
             SA.randomiseValues();
            // logger.debug("new value for " + this.name + " PROFILE VARIABLE " + SA.getName() + " = " + SA.getValue() + "\n");
@@ -149,15 +149,15 @@ public class Profile {
      * @param var the variable to be added to the solutionattributes hashtable
      */
     public void addVariable(IpatVariable var) {
-        solutionAttributes.put(var.getName(), var);
+        profileLevelVariables.put(var.getName(), var);
     }
 
     public void removeVariable(String varname) {
-        solutionAttributes.remove(varname);
+        profileLevelVariables.remove(varname);
     }
 
     public void replaceVariable(IpatVariable var) {
-        IpatVariable oldval = (IpatVariable) solutionAttributes.put(var.getName(), var);
+        IpatVariable oldval = (IpatVariable) profileLevelVariables.put(var.getName(), var);
         if (oldval == null) {
             logger.error("error replacing profile variable " + var.getName() + " in profile " + this.getName() + " old value not found or null");
         }
@@ -204,19 +204,19 @@ public class Profile {
     }
 
     /**
-     * Gets the solutionAttributes.
+     * Gets the profileLevelVariables.
      *
-     * @return the solutionAttributes
+     * @return the profileLevelVariables
      */
     public HashMap getSolutionAttributes() {
-        return solutionAttributes;
+        return profileLevelVariables;
     }
 
     /**
      * Prints the profile.
      */
     public void printProfile() {
-        Set keys = solutionAttributes.keySet();
+        Set keys = profileLevelVariables.keySet();
         Iterator AttributesIterator = keys.iterator();
         while (AttributesIterator.hasNext()) {
             IpatVariable var = (IpatVariable) AttributesIterator.next();
@@ -372,7 +372,7 @@ public class Profile {
      * @param profile the profile
      * @return true, if successful
      */
-    public boolean setProfile() {
+    public boolean writeToFile() {
 
         try {
 
@@ -544,12 +544,12 @@ public class Profile {
     }
 
     // used for if the Profile is to have a hard copy of itself in a specified location on disk
-    public boolean writeProfileToFile(String outputPath) {
+    public boolean copyToNewFile(String outputPath) {
 
         /* apply changes to solution attribute values in memory to their hard copy file before 
          copying that file to the location specified as "outputPath"
          */
-        this.setProfile();
+        this.writeToFile();
 
         String copy = "";
         File file = this.getFile();

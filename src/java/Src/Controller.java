@@ -49,7 +49,7 @@ public class Controller {
     /**
      * the number of candidate solutions presented for evaluation 
      */
-    public int noOfProfiles;
+    public int noOfProfiles = 6;
 
     /**
      * An array of the user supplied html files to process
@@ -116,6 +116,7 @@ public class Controller {
         loadRawArtifacts();
         hints = loadHintsXML();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
+        System.out.println("initialise no of Profiles = " + noOfProfiles);
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
             currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
@@ -167,7 +168,9 @@ public class Controller {
 
         //declare an array to hold the new profiles
         File[] new_profiles_list = new File[noOfProfiles];
-
+        
+        System.out.println("Number of Profiles in Controller = " + noOfProfiles);
+        
         try {
 
             // if there are less than desired numner of seeds
@@ -236,7 +239,7 @@ public class Controller {
                     currentGenerationOfProfiles[i].randomiseProfileVariableValues();
                     currentGenerationOfProfiles[i].randomiseKernelVariableValues();
                     //and writw back to disk for posterity
-                    currentGenerationOfProfiles[i].writeToFile();
+                   //currentGenerationOfProfiles[i].writeToFile();
                     currentGenerationOfProfiles[i].copyToNewFile(fileRename.getAbsolutePath());
                     
                 }
@@ -499,6 +502,7 @@ public class Controller {
             }
         this.noOfProfiles = newNoOfProfiles;
         this.currentGenerationOfProfiles = newCurrentGenerationOfProfiles;
+        evolution.updateWorkingMemory(currentGenerationOfProfiles);
         System.out.println("How Many in Controller.setNoOfProfiles after : " + this.noOfProfiles);
     }
 }

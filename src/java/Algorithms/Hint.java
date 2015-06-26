@@ -162,7 +162,7 @@ public class Hint {
         //finally write the changed values to file
         String profilePath = thisProfile.getFile().getPath();
         String profileNameAndPath = profilePath + thisProfile.getName();
-        thisProfile.writeProfileToFile(profileNameAndPath);
+        thisProfile.copyToNewFile(profileNameAndPath);
 
         //and then return
         return thisProfile;

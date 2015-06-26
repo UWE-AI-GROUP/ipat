@@ -187,7 +187,7 @@ public class Dispatcher extends HttpServlet {
         if (inputFolder != null && outputFolder != null && profilePath != null && hintsXML != null) {
 
             Controller controller = new Controller(inputFolder, outputFolder, profilePath, hintsXML, processor);
-            HashMap HTML_Strings = controller.initialArtifacts();
+            HashMap HTML_Strings = controller.initialisation();
             session.setAttribute("Controller", controller);
 
             logger.info("Initialisation of profiles for session (" + session.getId() + ") is complete\n"

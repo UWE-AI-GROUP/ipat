@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
@@ -81,11 +86,35 @@ public class NewGen extends HttpServlet {
         if (session == null) {
             logger.error("next generation button pressed before upload of input files.");
         } else {
-            Gson gson = new Gson();
-            HashMap data = gson.fromJson(request.getParameter("data"), HashMap.class);
             Controller controller = (Controller) session.getAttribute("Controller");
             Interaction interaction = new Interaction();
-            interaction.updateProfileHints(data, controller);
+            Gson gson = new Gson();
+            JsonObject data = gson.fromJson(request.getParameter("data"), JsonObject.class);
+            //LinkedTreeMap data = gson.fromJson(request.getParameter("data"), LinkedTreeMap.class);
+            HashMap vars = gson.fromJson( data.get("vars").getAsJsonObject(), HashMap.class);
+            HashMap scores = gson.fromJson( data.get("scores").getAsJsonObject(), HashMap.class);
+            
+            Set keySet = vars.keySet();
+            Iterator iterator = keySet.iterator();
+            while (iterator.hasNext()) {
+                String next = (String) iterator.next();
+
+                switch (next) {
+                    case "ProfileNum":
+                        int profileCount = Integer.parseInt((String) vars.get(next));
+                        logger.info(next + " has been found inside VariableChange Servlet with value: " + profileCount);
+                        
+                        session.setAttribute("profileCount", profileCount);
+                        break;
+                    default:
+                        logger.error("failed to change a variable within VariableChange Servlet");
+                        throw new AssertionError();
+                }
+            }
+            
+            interaction.updateProfileHints(scores, controller);
+            int profileCount = Integer.parseInt( (String) vars.get("ProfileNum"));
+            controller.setNoOfProfiles(profileCount);
             HashMap HTML_Strings = controller.mainloop();
             String json = new Gson().toJson(HTML_Strings);
             response.setContentType("application/json");

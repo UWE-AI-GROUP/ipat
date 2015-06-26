@@ -62,24 +62,13 @@ $(document).ready(function () {
 
     nextGen.addEventListener('click', function () {
 
-        var data = {};
         var scores = {};
         var vars = {};
+        var data = {};
 
-        // get the number of profiles to be used
-        if (/^[1-8]*$/.test($("#numOfProfiles").val())) {
-
-            vars["ProfileNum"] = $(this).val();
-            $.ajax({
-                url: "VariableChange",
-                type: "POST",
-                data: {vars: JSON.stringify(vars)},
-                success: function (result) {
-                    alert("Number of Profiles Changed");
-                }
-            });
+         if (/^[1-8]*$/.test($("#numOfProfiles").val())) {
+            vars["ProfileNum"] = $("#numOfProfiles").val();
         }
-
 
         if ($("#tabs-byProfile").attr('aria-hidden') === 'false') {
             var all = $("#tabs-byProfile .cell");
@@ -112,6 +101,10 @@ $(document).ready(function () {
 
             }
         }
+        
+        data['scores'] = scores;
+        data['vars'] = vars;
+        
         $('#tabs-byProfile').empty();
         $('#tabs-byImage').empty();
         $.ajax({
@@ -159,6 +152,21 @@ $(document).ready(function () {
         }
     }, false);
 
+
+//    $('#numOfProfiles').change(function () {
+//        alert($('#numOfProfiles').val());
+//
+//        var vars = {};
+//        // get the number of profiles to be used
+//        if (/^[1-8]*$/.test($("#numOfProfiles").val())) {
+//            vars["ProfileNum"] = $("#numOfProfiles").val();
+//            $.ajax({
+//                url: "VariableChange",
+//                type: "POST",
+//                data: {vars: JSON.stringify(vars)}
+//            });
+//        }
+//    });
 //================================================
 // end of "on window load"
 });
