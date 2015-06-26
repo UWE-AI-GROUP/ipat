@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -401,27 +402,27 @@ public class Profile {
                     elem.setText(var.getType());
 
                     elem = hint.getChild("lbound");
-                    Double dub = new Double(var.getLbound());
+                    Double dub = var.getLbound(); // changed from new Double
                     //  System.out.println("var.getLbound() = " + var.getLbound());
                     elem.setText(dub.toString());
 
                     elem = hint.getChild("ubound");
-                    dub = new Double(var.getUbound());
+                    dub = var.getUbound();
                     // System.out.println("var.getUbound() = " + var.getUbound());
                     elem.setText(dub.toString());
 
                     elem = hint.getChild("granularity");
-                    dub = new Double(var.getGranularity());
+                    dub = var.getGranularity();
                     // System.out.println("var.getGranularity() = " + var.getGranularity());
                     elem.setText(dub.toString());
 
                     elem = hint.getChild("rateOfEvolution");
-                    dub = new Double(var.getRateOfEvolution());
+                    dub = var.getRateOfEvolution();
                     //  System.out.println("var.getRateOfEvolution() = " + var.getRateOfEvolution());
                     elem.setText(dub.toString());
 
                     elem = hint.getChild("value");
-                    dub = new Double(var.getValue());
+                    dub = var.getValue();
                     //  System.out.println("var.getValue() = " + var.getValue());
                     elem.setText(dub.toString());
 
@@ -460,23 +461,23 @@ public class Profile {
                         elem.setText(varb.getType());
 
                         elem = hintt.getChild("lbound");
-                        Double dub = new Double(varb.getLbound());
+                        Double dub = varb.getLbound();
                         elem.setText(dub.toString());
 
                         elem = hintt.getChild("ubound");
-                        dub = new Double(varb.getUbound());
+                        dub = varb.getUbound();
                         elem.setText(dub.toString());
 
                         elem = hintt.getChild("granularity");
-                        dub = new Double(varb.getGranularity());
+                        dub = varb.getGranularity();
                         elem.setText(dub.toString());
 
                         elem = hintt.getChild("rateOfEvolution");
-                        dub = new Double(varb.getRateOfEvolution());
+                        dub = varb.getRateOfEvolution();
                         elem.setText(dub.toString());
 
                         elem = hintt.getChild("value");
-                        dub = new Double(varb.getValue());
+                        dub = varb.getValue();
                         elem.setText(dub.toString());
 
                         elem = hintt.getChild("default");
@@ -499,9 +500,9 @@ public class Profile {
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             String xmlString = outputter.outputString(XmlDoc);
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()));
-            writer.write(xmlString);
-            writer.close();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()))) {
+                writer.write(xmlString);
+            }
 
         } catch (JDOMException | IOException pce) {
             System.out.println(pce.getMessage());
@@ -526,7 +527,7 @@ public class Profile {
             Element graph = root.getChild(varname, root.getNamespace());
             if (graph != null) {
                 Element value = graph.getChild("value");
-                Double dubi = new Double(newValue);
+                Double dubi = newValue;
                 value.setText(dubi.toString());
             } else {
                 logger.error("couldn;t find child with name " + varname);
@@ -535,11 +536,11 @@ public class Profile {
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             String xmlString = outputter.outputString(XmlDoc);
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.file.getAbsolutePath()));
-            writer.write(xmlString);
-            writer.close();
-        } catch (Exception pce) {
-            pce.printStackTrace();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.file.getAbsolutePath()))) {
+                writer.write(xmlString);
+            }
+        } catch (JDOMException | IOException pce) {
+            logger.error(Arrays.toString(pce.getStackTrace()) + " in Profile");
         }
     }
 
@@ -551,18 +552,18 @@ public class Profile {
          */
         this.writeToFile();
 
-        String copy = "";
-        File file = this.getFile();
+        String copy;
+        File fileCopy = this.getFile();
         BufferedWriter writer;
         XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
         try {
-            Document XmlDoc = new SAXBuilder().build(file);
+            Document XmlDoc = new SAXBuilder().build(fileCopy);
             copy = outputter.outputString(XmlDoc);
             writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write(copy);
             writer.close();
-        } catch (Exception pce) {
-            pce.printStackTrace();
+        } catch (JDOMException | IOException pce) {
+           logger.error(Arrays.toString(pce.getStackTrace()) + " in Profile");
         }
         return true; // copy;
     }

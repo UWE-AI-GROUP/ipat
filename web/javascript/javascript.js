@@ -11,8 +11,9 @@ $(document).ready(function () {
     var abort = document.getElementById("abort");
     var reset = document.getElementById("resetScores");
     var artifactCount;
-
     var hints;
+    
+    
 //================================================
 // file upload detected
 
@@ -152,22 +153,6 @@ $(document).ready(function () {
         }
     }, false);
 
-
-//    $('#numOfProfiles').change(function () {
-//        alert($('#numOfProfiles').val());
-//
-//        var vars = {};
-//        // get the number of profiles to be used
-//        if (/^[1-8]*$/.test($("#numOfProfiles").val())) {
-//            vars["ProfileNum"] = $("#numOfProfiles").val();
-//            $.ajax({
-//                url: "VariableChange",
-//                type: "POST",
-//                data: {vars: JSON.stringify(vars)}
-//            });
-//        }
-//    });
-//================================================
 // end of "on window load"
 });
 //================================================
