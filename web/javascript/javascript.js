@@ -5,6 +5,8 @@
  */
 
 $(document).ready(function () {
+    abortCurrentSession();
+    
     // global variables
     window.artifactCount;
     window.hints;
@@ -179,9 +181,6 @@ function abortCurrentSession() {
     $("#generationCount").val = 0;
     $.ajax({
         url: "abort",
-        type: "POST",
-        success: function (result) {
-            alert(result);
-        }
+        type: "POST"
     });
 }

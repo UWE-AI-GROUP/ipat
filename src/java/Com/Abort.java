@@ -77,9 +77,6 @@ public class Abort extends HttpServlet {
             session.setAttribute("problemDataFolderName", problemDataFolderName);
 
         }
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("Current Project Aborted.");
     }
 
     /**
