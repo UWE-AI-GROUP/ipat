@@ -155,8 +155,6 @@ function callNextGeneration() {
         type: "POST",
         data: {data: JSON.stringify(data)},
         success: function (result) {
-
-
             artifactCount = result["count"];
             setTimeout(function () {
                 $('#tabs-byProfile').empty();
@@ -164,7 +162,6 @@ function callNextGeneration() {
                 $('#tabs-byImage').empty();
                 $('#tabs-byImage').append(result["byImage"]);
                 tabClicked('li_0');
-
             }, 300);
         }
     }, false);

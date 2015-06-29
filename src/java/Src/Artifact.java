@@ -11,6 +11,8 @@ import java.io.File;
  *
  * @author kieran
  */
+
+// TODO add javadoc
 public class Artifact {
     	
 	private File file;

@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Vector;
 import org.apache.log4j.Logger;
 
+//TODO add javadoc and replace vector
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
  * CSS and PNG files.

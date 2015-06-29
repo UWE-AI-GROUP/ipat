@@ -5,15 +5,10 @@
  */
 package Src;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
 
 /**
  *
@@ -631,133 +626,7 @@ public class Utils {
         return a * a;
     }
 
-    /**
-     * Sq.
-     *
-     * @param a the a
-     * @return the int
-     */
-    /*
-     std::string GetFileNameFromPath( std::string pathName)
-     {
-     int posiNameStart1 = (int) pathName.find_last_of("\\");
-     int posiNameStart2 = (int) pathName.find_last_of("//");
-     int posiNameStart = max(posiNameStart1, posiNameStart2);
-     if(posiNameStart == std::string::npos)
-     {
-     //ErrorLog err; err.WriteErrorLog("[GetFileNameFromPath] Character '\' not found in path name");
-     //exit(EXIT_FAILURE);
-     return pathName;
-     }
-     else
-     {
-     return pathName.substr(posiNameStart + 1);
-     }
-     }
-     /**
-     * @param pathName		Name of a path (or any string containing a "\")
-     */
-    /*
-     std::string GetRidOfWordAfterLastBackslash( std::string pathName)
-     {
-     int posiNameStart = (int) pathName.find_last_of("\\");
-     if(posiNameStart == std::string::npos)
-     {
-     //ErrorLog err; err.WriteErrorLog("[GetRidOfWordAfterLastBackslash] Character '\' not found in path name");
-     //exit(EXIT_FAILURE);
-     return pathName;
-     }
-     else
-     {
-     return pathName.substr(0, posiNameStart);
-     }
-     }
-     /**
-     * @param pathName		Name of a path (or any string containing a "\")
-     * @param n				Number of times last word will be erased
-     */
-    /*
-     std::string GetRidOfWordAfterLastBackslash_nTimes(std::string pathName, unsigned int n)
-     {
-     for(unsigned int i = 0; i < n; i++)
-     {
-     if(pathName.empty())
-     {
-     return "";
-     }
-     else
-     {
-     pathName = GetRidOfWordAfterLastBackslash(pathName);
-     }
-     }
-     return pathName;
-     }
-     /**
-     * @param fileName		Name of a file including extension (or any string containing a ".")
-     */
-    /*
-     std::string GetRidOfExtension( std::string fileName)
-     {
-     int posiNameEnd = (int) fileName.find_last_of(".");
-     if(posiNameEnd == std::string::npos)
-     {
-     return fileName;
-     }
-     else
-     {
-     return fileName.substr(0, posiNameEnd);
-     }
-     }
-     */
-	/////////////////////////////////////////////////////////////////////////////
-    // VECTORS
-	/*
-     int Sum(Vector<Integer> v)
-     {
-     int total = 0;
-     for(int i = 0; i < v.size(); i++)
-     total += ((Integer)v.get(i)).intValue();
-     return total;
-     }
-     double Sum(Vector<Double> v)
-     {
-     double total = 0.0;
-     for(int i = 0; i < v.size(); i++)
-     total += ((Double)v.get(i)).doubleValue();
-     return total;
-     }
-     double Ave( std::vector<int> &v)
-     {
-     if(v.size() != 0)
-     return ((double)(Sum(v))) / (double)(v.size());
-     else
-     return 0.0;
-     }
-     double Ave( std::vector<double> &v)
-     {
-     if(v.size() != 0)
-     return Sum(v) / (double)(v.size());
-     else
-     return 0.0;
-     }
-     double StdDev( std::vector<double> &v)
-     {
-     if(v.size() != 0)
-     {
-     double mean = Ave(v);
-     double temp = 0.0;
-     for(unsigned int i = 0; i < v.size(); i++)
-     {
-     temp += Sq(v[i] - mean);
-     }
-     return sqrt( temp / (double)(v.size()) );
-     }
-     else
-     return 0.0;
-     }
-     */
-    /////////////////////////////////////////////////////////////////////////////
-    // MATH
+  
     int Sq(int a) {
         return a * a;
     }

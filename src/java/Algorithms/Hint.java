@@ -198,7 +198,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (0 == 1) ;//TODO if kernel == null throw an exception
+            if (kernel == null) { 
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+            }
             else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -265,7 +267,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (0 == 1) ;//TODO if kernel == null throw an exception
+            if (kernel == null) { 
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+            }
             else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -350,7 +354,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (0 == 1) ;//TODO if kernel == null throw an exception
+             if (kernel == null) { 
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+            }
             else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -441,7 +447,9 @@ public class Hint {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (kernel != null) {
-                if (0 == 1) ;//TODO if kernel == null throw an exception
+                if (kernel == null) { 
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+            }
                 else {
                     HashMap vars = kernel.getVariables();
                     Iterator kvarIterator;

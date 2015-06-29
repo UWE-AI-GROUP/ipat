@@ -15,8 +15,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,7 +35,7 @@ public class Controller {
     private static final Logger logger = Logger.getLogger(Controller.class);
 
     Processor Processor;
-    
+    Display display;
     ESEvolution evolution = new ESEvolution();
     HashMap<String, Hint> hints = new HashMap<String, Hint>();
 
@@ -97,12 +95,13 @@ public class Controller {
      * @param processor
      * @throws IOException
      */
-    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, Processor processor) throws IOException {
+    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, Processor processor, Display display) throws IOException {
         this.outputFolder = outputFolder;
         this.inputFolder = inputFolder;
         this.profileFolder = profileFolder;
         this.hintsXML = hintsXML;
         this.Processor = processor;
+        this.display = display;
     }
 
     /**
@@ -113,17 +112,17 @@ public class Controller {
      */
     public HashMap initialisation() {
         bootstrapApplication();
+        logger.info("initial no of Profiles = " + noOfProfiles);
         loadRawArtifacts();
         hints = loadHintsXML();
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        System.out.println("initialise no of Profiles = " + noOfProfiles);
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
             currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
-        HashMap loadWebDisplay = loadWebDisplay();
-        return loadWebDisplay;
+        HashMap<String, String> results = display.loadWebDisplay(this);
+        return results;
     }
 
     /**
@@ -141,7 +140,8 @@ public class Controller {
             currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
-        return loadWebDisplay();
+      HashMap<String, String> results =  display.loadWebDisplay(this);
+        return results;
     }
 
     /**
@@ -158,21 +158,15 @@ public class Controller {
                 return name.endsWith(".xml");
             }
         };
-
         //create an array holding all the files ending .xml in the profile folder to act as seeds
         File[] profiles_list = profileFolder.listFiles(filter);
         if (profiles_list == null) {
             logger.error("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.\n");
             System.exit(0);
         }
-
         //declare an array to hold the new profiles
         File[] new_profiles_list = new File[noOfProfiles];
-        
-        System.out.println("Number of Profiles in Controller = " + noOfProfiles);
-        
         try {
-
             // if there are less than desired numner of seeds
             if (0 < profiles_list.length && profiles_list.length < noOfProfiles) {
 
@@ -208,12 +202,12 @@ public class Controller {
 
                 // we have no Profile seeds or some error has occured
             } else {
-                logger.fatal("There are no Profiles Seeds found. "
+                logger.error("There are no Profiles Seeds found. "
                         + "Please Check the profile folder path is correct and that Profile seeds exist within it.\n");
             }
 
         } catch (ArrayIndexOutOfBoundsException ex) {
-            logger.error("The array out of bounds in Controller.bootstrapApplication() "
+            logger.fatal("The array out of bounds in Controller.bootstrapApplication() "
                     + " number of profiles desired: " + noOfProfiles + "\nNumber of profile seeds: " + profiles_list.length
                     + " profile list to be used as current generation: " + new_profiles_list.length + "\n" + ex.getLocalizedMessage());
         }
@@ -226,12 +220,10 @@ public class Controller {
                 currentGenerationOfProfiles[i] = new Profile(new_profiles_list[i]);
                 // randomise the generated extra profiles
                 if (i >= profiles_list.length) {
-                    logger.debug("randomising generated profile [" + i + "]\n");
+                    logger.debug("randomising generating profile [" + i + "]\n");
                     //create the new filename for this extra profile
                     File fileRename = new File(this.profileFolder + "/gen_0-profile_" +(i+1)+ ".xml");
-                    if (fileRename != null) {
-                        System.out.println("fileRename : " + fileRename.getAbsolutePath());
-                    }
+                    logger.debug("fileRename of Profile to be generated : " + fileRename.getAbsolutePath());
                     //write the profile we are copying into this new file so that it exists on disk
                     currentGenerationOfProfiles[i].copyToNewFile(fileRename.getAbsolutePath());
                     //chnage the sotred values in memory
@@ -281,7 +273,7 @@ public class Controller {
         for (int profileID = 0; profileID < noOfProfiles; profileID++) {
             currentProfile = currentGenerationOfProfiles[profileID];
             // TESTING : distinguishing the Raw artifact name from the processed one (raw artifact)
-            //  System.out.println("Processing : " + currentProfile.getName());
+            logger.debug("Processing : " + currentProfile.getName());
 
             // Process the profile to generate CSS
             for (int artifactID = 0; artifactID < raw_artifacts.length; artifactID++) {
@@ -369,112 +361,6 @@ public class Controller {
         return hintMap;
     }
 
-    public HashMap<String, String> loadWebDisplay() {
-
-        HashMap hintMap = this.hints;
-        Artifact[] artifacts = this.processedArtifacts;
-        HashMap<String, String> byImageArray = new HashMap<>();
-        HashMap<String, String> HM = new HashMap();
-        int resultCount = 0;
-        String hintString = "";
-
-        // [layer one] create the list for the profile tabs 
-        String cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // tabs menu div
-        for (int i = 0; i < noOfProfiles; i++) {
-            cells += "<li  id='li_" + i + "' onclick='tabClicked(this.id)'><a class='tabText_" + i + "' href='#byProfile_" + i + "'>" + i + "</a></li>";
-        }
-
-        // [layer two] create div which will contain all the seporate tabs and their cells this is needed for the CSS 
-        cells += " </ul> <div class='tabstuff'>"; // tabStuff div
-        String cell = "";
-        // populate div sections containing tables for each profile tab
-        for (int i = 0; i < noOfProfiles; i++) {
-            cells += "<div id='byProfile_" + i + "' class='tab-content'>"; // byProfile div
-            for (Artifact artifact : artifacts) {
-                cell = "";
-                // if the artifact corresponds to the profile number, print out the cell
-                String name = artifact.getFilename().substring(artifact.getFilename().indexOf("-") + 1);
-                String[] parts = name.split("-");
-                int profileNum = Integer.parseInt(parts[0].substring(parts[0].indexOf("_") + 1));
-                if (profileNum == i) {
-                    // get the string for the artifact file being displayed
-                    String relativeSrcPath = artifact.getFilepath().substring(artifact.getFilepath().lastIndexOf("Client Data"));
-                    // this section of the cell will contain the image itself, as well as the overlay which allows it to be previewed-(see javascript)
-                    cell = "<div class='cell'>" // cell div
-                            + "<div id='overlay_" + resultCount + "' class='overlay' onclick='frameClick(this.id)'></div>"
-                            + "<iframe src='" + relativeSrcPath + "' scrolling='no' class='cellFrames' id='frame_" + resultCount + "' ></iframe>";
-                    // read off the hints and apply their values to the cell, populating it with options for the user to choose and input data with
-                    Set keySet = hintMap.keySet();
-                    for (Object key : keySet) {
-                        String k = (String) key;
-                        Hint h = (Hint) hintMap.get(k);
-                        String displaytype = h.getDisplaytype();
-
-                        // ***ADD ADDITIONAL HINT INPUTS ↓HERE IN THIS SWITCH STATEMENT↓ AND FOLLOW THE CONVENTION SET OUT***
-                        switch (displaytype) {
-                            case "range":
-                                cell += "<div class='hint'><input type='range' class='hintScore' id ='" + h.getHintName() + "_" + resultCount + "' min='" + h.getRangeMin() + "' max='" + h.getRangeMax() + "' value='" + h.getDefaultValue() + "' step='1'/><label for='" + h.getHintName() + "_" + resultCount + "' class='label'>" + h.getDisplaytext() + "</label></div>";
-                                hintString += h.getHintName() + "_" + resultCount + ",";
-                                break;
-                            case "checkbox":
-                                cell += "<div class='hint'><input type='checkbox' id='" + h.getHintName() + "_" + resultCount + "' class='hintScore' ><label for='" + h.getHintName() + "_" + resultCount + "' class='label'>" + h.getDisplaytext() + "</label></div>";
-                                hintString += h.getHintName() + "_" + resultCount + ",";
-                                break;
-                            default:
-                                throw new AssertionError();
-                        }
-                    }
-
-                    cell += "</div>"; // cell div close
-                    resultCount += 1;
-
-                    // populate the array which will display the "byImage" View
-                    String key = name.substring(name.indexOf("-") + 1);
-                    if (byImageArray.containsKey(key)) {
-                        String get = byImageArray.get(key);
-                        get += cell;
-                        byImageArray.put(key, get);
-                    } else {
-                        byImageArray.put(key, cell);
-                    }
-                }
-                cells += cell; // byProfile div close
-            }
-            cells += "</div>";
-        }
-        cells += "</div>"; // tabStuff div close
-
-        HM.put("byProfile", cells);
-
-        //=================================================================
-        // Create byImage String for view.
-        cells = "<div id='tabs-container'><ul class='tabs-menu'>"; // div_1
-        Set<String> keySet = byImageArray.keySet();
-        Iterator<String> iterator = keySet.iterator();
-        int count = 0;
-
-        while (iterator.hasNext()) {
-            String next = iterator.next();
-            cells += "<li  id='li_" + count + "' onclick='tabClicked(this.id)'><a class='tabText_" + count + "' href='#byImage_" + count + "'>" + next + "</a></li>";
-            count++;
-        }
-        cells += " </ul> <div class='tabstuff'>"; // div_2
-        iterator = keySet.iterator();
-        count = 0;
-
-        while (iterator.hasNext()) {
-            cells += "<div id='byImage_" + count + "' class='tab-content'>"; // div_3
-            String get = byImageArray.get(iterator.next());
-            cells += get + "</div>";
-            count++;
-        }
-        cells += "</div>"; // div_/2
-        HM.put("byImage", cells);
-
-        HM.put("hintString", hintString);
-        HM.put("count", Integer.toString(artifacts.length));
-        return HM;
-    }
 
     public void setNoOfProfiles(int newNoOfProfiles) {
         
@@ -504,5 +390,9 @@ public class Controller {
         this.currentGenerationOfProfiles = newCurrentGenerationOfProfiles;
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         System.out.println("How Many in Controller.setNoOfProfiles after : " + this.noOfProfiles);
+    }
+    
+    public HashMap getHints(){
+    return this.hints;
     }
 }

@@ -56,7 +56,7 @@ public class ESEvolution implements MetaHeuristic {
      * @return true, if successful
      */
     private boolean mutateProfile(int which, double mutation_rate) {
-
+  
         int numberofactivekernels = 0;
         double newval;
 
@@ -229,16 +229,12 @@ public class ESEvolution implements MetaHeuristic {
      */
     @Override
     public Profile getNextGenProfileAtIndex(int which) {
+        //TODO add logging
         if (which < 0) {
             throw new UnsupportedOperationException("tried to acces nextGen item with negative index");
         } else if (which > nextGen.size()) {
             throw new UnsupportedOperationException("tried to acces nextGen item with index " + which + "but there are only" + best.size());
         } else {
-            //System.out.println("in evolution.getNextGenProfileAtIndex with index: " + which );
-            //File thisfile = nextGen.get(which).getFile();
-            //System.out.println("... nextgen profile name is: " + nextGen.get(which).getName() + " and filename " + thisfile.getName());
-            //return new Profile(thisfile);
-
             Profile toreturn = nextGen.get(which);
             return toreturn;
         }
@@ -251,6 +247,7 @@ public class ESEvolution implements MetaHeuristic {
      */
     @Override
     public void generateNextSolutions(int howMany) {
+        //TODO add logging
 
         System.out.println("How Many in ESEvolution.generateNextSolutions : " + howMany);
         
@@ -299,7 +296,7 @@ public class ESEvolution implements MetaHeuristic {
             //       + " and mutation parameter is " + rateToApply);
             //now apply mutation with this parameter
             this.mutateProfile(toMutate, rateToApply);
-
+            
             //System.out.println("..... mutate profile " + toMutate + " complete");
         }
 
@@ -319,6 +316,7 @@ public class ESEvolution implements MetaHeuristic {
 
                 //get generation and increment it
                 generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
+                //TODO add logging 
                 //System.out.println("after reading generation  has value " + generation);
                 generation++;
                 String outProfileName = "gen_" + generation + profileTemplate + k + ".xml";
@@ -366,6 +364,7 @@ public class ESEvolution implements MetaHeuristic {
             }
         }
         // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
+        //TODO add logging
 //        for (Profile best1 : best) {
 //            System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best1.getName() + " : " + best1.getGlobalScore());
 //        }

@@ -24,6 +24,8 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+//TODO JavaDoc
+
 /**
  *
  * @author kieran
@@ -162,18 +164,18 @@ public class Profile {
         }
     }
 
-    // TODO randomise kernel Values
+   
     public void randomiseKernelVariableValues() {
         Collection<Kernel> collection = this.kernels.values();
-        for (Kernel k : collection) {
-            k.randomiseValues();
-           // logger.debug("new values for " + this.name + " KERNEL VARIABLE " + k.getName() + ":\n");
-            HashMap variables = k.getVariables();
+        for (Kernel kernel : collection) {
+            kernel.randomiseValues();
+            logger.debug("new values for " + this.name + " KERNEL VARIABLE " + kernel.getName() + ":\n");
+            HashMap variables = kernel.getVariables();
            Collection<IpatVariable> KernelCollection = variables.values();
             for (IpatVariable SA : KernelCollection) {
-                // logger.debug(SA.getName() + " = " + SA.getValue());
+                 logger.debug(SA.getName() + " = " + SA.getValue());
             }
-           // logger.debug("\n----------------------------------------------------------------------------\n");
+           logger.debug("\n----------------------------------------------------------------------------\n");
         }
     }
 
@@ -482,39 +484,6 @@ public class Profile {
         return true;
     }
 
-    /**
-     * Sets the value of a given variable.
-     *
-     * @param profile the profile
-     * @param varname name of the variable
-     * @param newValue value to be updated
-     */
-    /* added by Jim novemeber 2012 to make setProfileScore more generic */
-    public void setProfileVariableValue(String varname, double newValue) {
-        HashMap elements = new HashMap();
-        try {
-            Document XmlDoc = new SAXBuilder().build(this.file);
-
-            Element root = XmlDoc.getRootElement();
-            Element graph = root.getChild(varname, root.getNamespace());
-            if (graph != null) {
-                Element value = graph.getChild("value");
-                Double dubi = newValue;
-                value.setText(dubi.toString());
-            } else {
-                logger.error("couldn;t find child with name " + varname);
-            }
-
-            XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-            String xmlString = outputter.outputString(XmlDoc);
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.file.getAbsolutePath()))) {
-                writer.write(xmlString);
-            }
-        } catch (JDOMException | IOException pce) {
-            logger.error(Arrays.toString(pce.getStackTrace()) + " in Profile");
-        }
-    }
 
     // used for if the Profile is to have a hard copy of itself in a specified location on disk
     public boolean copyToNewFile(String outputPath) {

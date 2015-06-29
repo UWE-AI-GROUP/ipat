@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Src.Controller;
+import Src.Display;
 import com.google.gson.Gson;
 import javax.servlet.RequestDispatcher;
 import org.apache.commons.fileupload.FileUploadException;
@@ -186,7 +187,8 @@ public class Dispatcher extends HttpServlet {
 
         if (inputFolder != null && outputFolder != null && profilePath != null && hintsXML != null) {
 
-            Controller controller = new Controller(inputFolder, outputFolder, profilePath, hintsXML, processor);
+            Display webDisplay = new WebDisplay();
+            Controller controller = new Controller(inputFolder, outputFolder, profilePath, hintsXML, processor, webDisplay);
             HashMap HTML_Strings = controller.initialisation();
             session.setAttribute("Controller", controller);
 
