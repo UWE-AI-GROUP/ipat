@@ -4,7 +4,7 @@
 package Algorithms;
 
 import Src.Artifact;
-import Src.SolutionAttributes;
+import Src.IpatVariable;
 import Src.Kernel;
 import Src.Profile;
 import java.io.BufferedReader;
@@ -12,21 +12,24 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.Vector;
 import org.apache.log4j.Logger;
 
+//TODO add javadoc
 /**
  * The Class CSSProcessor processes profiles to generate next generation HTML,
  * CSS and PNG files.
  */
 public class CSSProcessor implements Processor {
 private static final Logger logger = Logger.getLogger(CSSProcessor.class);
-    private HashMap cssLabels;
+    private HashMap<String, ArrayList> cssLabels;
 
+    /**
+     *
+     */
     public CSSProcessor() {
         this.cssLabels = setupCSSLabelStore();
 
@@ -37,6 +40,15 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
      Artifact - the raw artifact to be processed
      index - the identifier for the profile
      */
+
+    /**
+     *
+     * @param profile
+     * @param artifact
+     * @param outputFolder
+     * @return
+     */
+    
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
@@ -66,7 +78,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         int green = 0;
         while (iterator.hasNext()) {
             String vkey = iterator.next().toString();
-            SolutionAttributes ipvar = (SolutionAttributes) pv.get(vkey);
+            IpatVariable ipvar = (IpatVariable) pv.get(vkey);
 
             if (ipvar.getName().contains("Page")) {
                 colorCheck++;
@@ -92,31 +104,31 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         css += csspLine;
         Set keySet1 = kernels.keySet();
         Iterator kernelsEnuTemp = keySet1.iterator();
-        String[] tempVector = new String[kernels.size()];
+        String[] tempArray = new String[kernels.size()];
         int k = 3;
         while (kernelsEnuTemp.hasNext()) {
             String kernelName = kernelsEnuTemp.next().toString();
             if (kernelName.equalsIgnoreCase("h1")) {
-                tempVector[0] = kernelName;
+                tempArray[0] = kernelName;
             } else if (kernelName.equalsIgnoreCase("h2")) {
-                tempVector[1] = kernelName;
+                tempArray[1] = kernelName;
             } else if (kernelName.equalsIgnoreCase("p")) {
-                tempVector[2] = kernelName;
+                tempArray[2] = kernelName;
             } else {
-                tempVector[k] = kernelName;
+                tempArray[k] = kernelName;
                 k++;
             }
         }
-        Vector tempVector2 = new Vector();
-        for (int n = 0; n < tempVector.length; n++) {
-            tempVector2.add(n, tempVector[n]);
+        ArrayList<String> tempArray2 = new ArrayList();
+        for (int n = 0; n < tempArray.length; n++) {
+            tempArray2.add(n, tempArray[n]);
         }
         double CSS_lastfontsize = 72.0;
 
-        Enumeration kernelsEnu = tempVector2.elements();
-        while (kernelsEnu.hasMoreElements()) {
+        Iterator kernelsEnu = tempArray2.iterator();
+        while (kernelsEnu.hasNext()) {
             String cssLine = "";
-            String ktype = kernelsEnu.nextElement().toString();
+            String ktype = kernelsEnu.next().toString();
             Kernel kernel1 = (Kernel) kernels.get(ktype);
             cssLine += kernel1.getName() + CSS_Start_Braces;
             HashMap vars = kernel1.getVariables();
@@ -129,7 +141,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
             green = 0;
             while (evars.hasNext()) {
                 String vkey = evars.next().toString();
-                SolutionAttributes ipvar = (SolutionAttributes) vars.get(vkey);
+                IpatVariable ipvar = (IpatVariable) vars.get(vkey);
 
                 if (ipvar.getName().contains("color")) {
                     colorCheck++;
@@ -151,7 +163,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
                 } else {
                     if (ipvar.getType().equalsIgnoreCase("cardinal")) {
                         Double val = ipvar.getValue();
-                        Vector values = (Vector) cssLabels.get(ipvar.getName());
+                        ArrayList<String> values = (ArrayList) cssLabels.get(ipvar.getName());
                         String value = (String) values.get(val.intValue());
                         cssLine += ipvar.getName() + CSS_PropSeparator + value
                                 + CSS_PropPairSeparator;
@@ -220,6 +232,10 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap setupCSSLabelStore() {
         // Cardinal variables store
 
@@ -238,21 +254,21 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
                 = {"0px 0px 10px 10px", "10px 10px 0px 0px", "0px 10px 10px 0px",
                     "10px 0px 0px 10px", "10px 0px 10px 0px"};
 
-        HashMap cssStore = new HashMap();
+        HashMap<String, ArrayList> cssStore = new HashMap();
 
-        Vector temp = new Vector();
+        ArrayList temp = new ArrayList();
         for (int i = 0; i < fontfamilies.length; i++) {
             temp.add(fontfamilies[i]);
         }
         cssStore.put("font-family", temp);
 
-        temp = new Vector();
+        temp = new ArrayList();
         for (int i = 0; i < floatvals.length; i++) {
             temp.add(floatvals[i]);
         }
         cssStore.put("float", temp);
 
-        temp = new Vector();
+        temp = new ArrayList();
         for (int i = 0; i < margin.length; i++) {
             temp.add(margin[i]);
         }

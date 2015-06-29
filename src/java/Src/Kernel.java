@@ -5,6 +5,7 @@
  */
 package Src;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -13,10 +14,15 @@ import java.util.HashMap;
  */
 public class Kernel {
     
-	/** The name. */
+	/** 
+         * The name of the Kernel item which is likely to repeat
+         */
 	private String name= "";
 	
-	/** The variables. */
+	/** 
+         * The hashmap containing the IpatVariable(s) which are likely to
+         * repeat.
+         */
 	private HashMap variables;
 
 	/**
@@ -48,5 +54,11 @@ public class Kernel {
 		return variables;
 	}
         
+        public void randomiseValues(){
+            Collection<IpatVariable> values = this.variables.values();
+            for (IpatVariable SA : values) {
+                SA.randomiseValues();
+            }
+        }
         
 }
