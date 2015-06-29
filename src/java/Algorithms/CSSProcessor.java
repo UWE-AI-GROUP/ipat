@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -23,7 +24,7 @@ import org.apache.log4j.Logger;
  * The Class CSSProcessor processes profiles to generate next generation HTML,
  * CSS and PNG files.
  */
-public class CSSProcessor implements Processor {
+public final class CSSProcessor implements Processor {
 private static final Logger logger = Logger.getLogger(CSSProcessor.class);
     private HashMap<String, ArrayList> cssLabels;
 
@@ -32,7 +33,6 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
      */
     public CSSProcessor() {
         this.cssLabels = setupCSSLabelStore();
-
     }
 
     /*
@@ -205,9 +205,9 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
             String rawArtifactName = artifact.getFilename();
             rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
              // TESTING : distinguishing the raw artifact name from the processed one (processed one)
-            //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
+            //  logger.debug("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
             processedArtifactName = profileName + "-" + rawArtifactName + ".html";
-            // System.out.println("Processed artifact name = " + processedArtifactName);
+            // logger.debug("Processed artifact name = " + processedArtifactName);
             outHtmlPath = outputFolder + processedArtifactName;
             String htmlFile = "";
             BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
@@ -221,13 +221,13 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
                 }
             }
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter(outHtmlPath));
-            writer.write(htmlFile);
-            writer.close();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(outHtmlPath))) {
+                writer.write(htmlFile);
+            }
 
             return new Artifact(new File(outHtmlPath));
         } catch (Exception e) {
-          logger.fatal(e.getMessage());
+          logger.fatal("fatal error in CSSProcessor " + Arrays.toString(e.getStackTrace()));
         }
         return null;
     }
@@ -257,21 +257,15 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         HashMap<String, ArrayList> cssStore = new HashMap();
 
         ArrayList temp = new ArrayList();
-        for (int i = 0; i < fontfamilies.length; i++) {
-            temp.add(fontfamilies[i]);
-        }
+        temp.addAll(Arrays.asList(fontfamilies));
         cssStore.put("font-family", temp);
 
         temp = new ArrayList();
-        for (int i = 0; i < floatvals.length; i++) {
-            temp.add(floatvals[i]);
-        }
+        temp.addAll(Arrays.asList(floatvals));
         cssStore.put("float", temp);
 
         temp = new ArrayList();
-        for (int i = 0; i < margin.length; i++) {
-            temp.add(margin[i]);
-        }
+        temp.addAll(Arrays.asList(margin));
         cssStore.put("margin", temp);
 
         return cssStore;

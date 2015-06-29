@@ -132,9 +132,14 @@ public class Controller {
      * generation, applies those profiles to the raw artifacts to get something
      * to display,
      *
+     * @param scores
+     * @param profileCount
      * @return
      */
-    public HashMap mainloop() {
+    public HashMap mainloop(HashMap scores, int profileCount ) {
+        Interaction interaction = new Interaction();
+        interaction.updateProfileHints(scores, this);
+        setNoOfProfiles(profileCount);
         evolution.updateWorkingMemory(currentGenerationOfProfiles);
         evolution.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {

@@ -6,7 +6,6 @@
 package Com;
 
 import Src.Controller;
-import Src.Interaction;
 import java.io.IOException;
 import java.util.HashMap;
 import javax.servlet.ServletException;
@@ -31,7 +30,8 @@ public class NewGen extends HttpServlet {
 
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method for the next generation
+     * request button in the web view. 
      *
      * @param request servlet request
      * @param response servlet response
@@ -44,13 +44,11 @@ public class NewGen extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null) {
-            logger.error("next generation button pressed before upload of input files.");
+            logger.error("request cannot be processed, no session.");
         } else {
             Controller controller = (Controller) session.getAttribute("Controller");
-            Interaction interaction = new Interaction();
             Gson gson = new Gson();
             JsonObject data = gson.fromJson(request.getParameter("data"), JsonObject.class);
-            //LinkedTreeMap data = gson.fromJson(request.getParameter("data"), LinkedTreeMap.class);
             HashMap vars = gson.fromJson( data.get("vars").getAsJsonObject(), HashMap.class);
             HashMap scores = gson.fromJson( data.get("scores").getAsJsonObject(), HashMap.class);
             
@@ -67,16 +65,13 @@ public class NewGen extends HttpServlet {
                         session.setAttribute("profileCount", profileCount);
                         break;
                     default:
-                        logger.error("failed to change a variable within VariableChange Servlet");
+                        logger.error("failed to change variable " +next+ " within VariableChange Servlet");
                         throw new AssertionError();
                 }
             }
             
             int profileCount = Integer.parseInt( (String) vars.get("ProfileNum"));
-            
-            interaction.updateProfileHints(scores, controller);
-            controller.setNoOfProfiles(profileCount);
-            HashMap HTML_Strings = controller.mainloop();
+            HashMap HTML_Strings = controller.mainloop(scores, profileCount);
             String json = new Gson().toJson(HTML_Strings);
             response.setContentType("application/json"); 
             response.setCharacterEncoding("UTF-8");
