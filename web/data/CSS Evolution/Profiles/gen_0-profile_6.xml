@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ipat>
-  <profile>
+<profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="../../Ipat.xsd">
     <variable>
       <name>Page_bg_Blue</name>
       <type>ordinal</type>
@@ -397,29 +397,11 @@
         <flag>active</flag>
       </variable>
     </kernel>
-  </profile>
-  <hints>
-    <hint>
-      <type>Radio</type>
-      <value>Radio1</value>
-    </hint>
-    <hint>
-      <type>Radio</type>
-      <value>Radio2</value>
-    </hint>
-    <hint>
-      <type>Radio</type>
-      <value>Radio3</value>
-    </hint>
-    <hint>
-      <type>Checkbox</type>
-      <value>Checkbox</value>
-    </hint>
-  </hints>
+  
   <globalscore>
     <value>0</value>
     <ubound>10</ubound>
     <lbound>0</lbound>
   </globalscore>
-</ipat>
+</profile>
 
