@@ -372,8 +372,8 @@ public class Profile {
         try {
 
             Document XmlDoc = new SAXBuilder().build(this.getFile());
-            Element root = XmlDoc.getRootElement();
-            Element profileNode = root.getChild("profile", root.getNamespace());
+            //Element root = XmlDoc.getRootElement();
+            Element profileNode = XmlDoc.getRootElement();//root.getChild("profile", root.getNamespace());
             List children = profileNode.getChildren();
             Iterator iterator = children.iterator();
             HashMap mySolutionAttributes = this.getSolutionAttributes();
