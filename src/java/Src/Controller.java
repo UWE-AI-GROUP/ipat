@@ -37,7 +37,7 @@ public class Controller {
     Processor Processor;
     Display display;
     ESEvolution evolution = new ESEvolution();
-    HashMap<String, Hint> hints = new HashMap<String, Hint>();
+    HashMap<String, Hint> hints = new HashMap<>();
 
     /**
      * How many times a user has interacted during this session

@@ -27,6 +27,9 @@ public class CSSProcessor implements Processor {
 private static final Logger logger = Logger.getLogger(CSSProcessor.class);
     private HashMap<String, ArrayList> cssLabels;
 
+    /**
+     *
+     */
     public CSSProcessor() {
         this.cssLabels = setupCSSLabelStore();
 
@@ -37,6 +40,15 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
      Artifact - the raw artifact to be processed
      index - the identifier for the profile
      */
+
+    /**
+     *
+     * @param profile
+     * @param artifact
+     * @param outputFolder
+     * @return
+     */
+    
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
@@ -220,6 +232,10 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap setupCSSLabelStore() {
         // Cardinal variables store
 

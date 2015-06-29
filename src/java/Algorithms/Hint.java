@@ -10,15 +10,21 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
+ * A Hint is an optional interaction provided to the user which produces an
+ * application specific bias in the search space of the problem.
  *
- * @author kieran
+ * Instances of this class are loaded at runtime from Controller.loadHintsXML()
+ * which extracts them from an external file where they are stored as a HashMap
+ * to be read from upon the generation of results in the Display interface.
+ *
  */
 public class Hint {
+
     private static final Logger logger = Logger.getLogger(Hint.class);
 
-    private ArrayList profileVariablesAffected;
-    private ArrayList kernelsAffected;
-    private ArrayList kernelVariablesAffected;
+    private final ArrayList profileVariablesAffected;
+    private final ArrayList kernelsAffected;
+    private final ArrayList kernelVariablesAffected;
     private String hintName;
     private String displaytype;
     private String displaytext;
@@ -27,6 +33,11 @@ public class Hint {
     private String defaultValue;
     private String effect;
 
+    /**
+     * Empty constructor which initialises the final ArrayLists of -
+     * profileVariablesAffected - kernelsAffected - kernelVariablesAffected and
+     * sets the hintName to null.
+     */
     public Hint() {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
@@ -34,6 +45,13 @@ public class Hint {
         hintName = null;
     }
 
+    /**
+     * Overloaded constructor which initialises the final ArrayLists of -
+     * profileVariablesAffected - kernelsAffected - kernelVariablesAffected and
+     * sets the hintName to the one provided as a parameter
+     *
+     * @param name
+     */
     public Hint(String name) {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
@@ -41,6 +59,18 @@ public class Hint {
         hintName = name;
     }
 
+    /**
+     * A fully loaded constructor which also checks to ensure that the min and
+     * max range values haven't been incorrectly set the wrong way around.
+     *
+     * @param theName
+     * @param theDisplaytype
+     * @param theDisplaytext
+     * @param theRangeMin
+     * @param theRangeMax
+     * @param theDefaultVal
+     * @param theEffect
+     */
     public Hint(String theName, String theDisplaytype, String theDisplaytext, double theRangeMin, double theRangeMax, String theDefaultVal, String theEffect) {
         profileVariablesAffected = new ArrayList();
         kernelsAffected = new ArrayList();
@@ -48,115 +78,215 @@ public class Hint {
         hintName = theName;
         displaytype = theDisplaytype;
         displaytext = theDisplaytext;
-        if (theRangeMax < theRangeMin)//check that they haven;t been entered the wrong way around
-        {
+        if (theRangeMax < theRangeMin) {
             rangeMax = theRangeMin;
             rangeMin = theRangeMax;
         } else {
             rangeMin = theRangeMin;
             rangeMax = theRangeMax;
         }
-
         defaultValue = theDefaultVal;
         effect = theEffect;
     }
 
+    /**
+     * adds the name of a kernel affected by this hint.
+     *
+     * @param kernelName
+     */
     public void AddAffectedKernel(String kernelName) {
         kernelsAffected.add(kernelName);
     }
 
+    /**
+     *
+     * @return ArrayList of all kernels affected by this Hint.
+     */
     public ArrayList getKernelsAffected() {
         return kernelsAffected;
     }
 
+    /**
+     *
+     * @return name of the hint used in memory as a reference
+     */
     public String getHintName() {
         return hintName;
     }
 
+    /**
+     * Sets the hintName, used primarily when loading hints into memory from
+     * file
+     *
+     * @param hintName
+     */
     public void setHintName(String hintName) {
         this.hintName = hintName;
     }
 
+    /**
+     * adds the name of a Profile level variable affected by this hint.
+     *
+     * @param newVarName
+     */
     public void addAffectedProfileVariable(String newVarName) {
         profileVariablesAffected.add(newVarName);
     }
 
+    /**
+     * gets the names of Profile level variables affected by this hint.
+     *
+     * @return ArrayList of profile level variables names
+     */
     public ArrayList getProfileVariablesAffected() {
         return profileVariablesAffected;
     }
 
+    /**
+     *
+     * @param newVarName
+     */
     public void addAffectedKernelVariable(String newVarName) {
         kernelVariablesAffected.add(newVarName);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList getKernelVariablesAffected() {
         return kernelVariablesAffected;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDisplaytype() {
         return displaytype;
     }
 
+    /**
+     *
+     * @param displaytype
+     */
     public void setDisplaytype(String displaytype) {
         this.displaytype = displaytype;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDisplaytext() {
         return displaytext;
     }
 
+    /**
+     *
+     * @param displaytext
+     */
     public void setDisplaytext(String displaytext) {
         this.displaytext = displaytext;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getRangeMin() {
         return rangeMin;
     }
 
+    /**
+     *
+     * @param rangeMin
+     */
     public void setRangeMin(double rangeMin) {
         this.rangeMin = rangeMin;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getRangeMax() {
         return rangeMax;
     }
 
+    /**
+     *
+     * @param rangeMax
+     */
     public void setRangeMax(double rangeMax) {
         this.rangeMax = rangeMax;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDefaultValue() {
         return this.defaultValue;
     }
 
+    /**
+     *
+     * @param defaultValue
+     */
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEffect() {
         return effect;
     }
 
+    /**
+     *
+     * @param effect
+     */
     public void setEffect(String effect) {
         this.effect = effect;
     }
 
+    /**
+     * Evaluates using the effect attribute of the hint which form of processing
+     * is required for the "amount" value supplied as a parameter to the given
+     * candidate solution.
+     *
+     * @param toChange - The candidate solution for which the hints were applied
+     * to.
+     * @param amount - The numerical multiplier which determines the degree to
+     * which the value is changed
+     * @return
+     */
     public Profile InterpretHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
-        if (effect.equalsIgnoreCase("setRateOfEvolutionEqualZero")) {
-            if ((amount != 1.0) && (amount != 0.0)) {
-               logger.error("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
-            } else {
-                thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
-            }
-        } else if (effect.equalsIgnoreCase("moderateByValue")) {
-            thisProfile = InterpretModeratingHintInProfile(toChange, amount);
-        } else if (effect.equalsIgnoreCase("toggle")) {
-            thisProfile = InterpretToggleHintInProfile(toChange, amount);
-        } else if (effect.equalsIgnoreCase("setNewValue")) {
-            thisProfile = InterpretSetNewValueInProfile(toChange, amount);
-        } else {
-            thisProfile = toChange;//no other ttypes impl;emetned yet
+
+        switch (effect.toLowerCase()) {
+            case "setrateofevolutionequalzero":
+                if ((amount != 1.0) && (amount != 0.0)) {
+                    logger.error("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
+                } else {
+                    thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
+                }
+                break;
+            case "moderatebyvalue":
+                thisProfile = InterpretModeratingHintInProfile(toChange, amount);
+                break;
+            case "toggle":
+                thisProfile = InterpretToggleHintInProfile(toChange, amount);
+                break;
+            case "setnewvalue":
+                thisProfile = InterpretSetNewValueInProfile(toChange, amount);
+                break;
+            default:
+                thisProfile = toChange;//no other types implemented yet
         }
 
         //finally write the changed values to file
@@ -168,6 +298,12 @@ public class Hint {
         return thisProfile;
     }
 
+    /**
+     *
+     * @param toChange
+     * @param amount
+     * @return
+     */
     public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         IpatVariable currentVariable = null;
@@ -198,10 +334,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (kernel == null) { 
+            if (kernel == null) {
                 logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
-            }
-            else {
+            } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
@@ -240,7 +375,8 @@ public class Hint {
      * method that interprets the hints provided by the user and makes
      * appropriate application-specific changes ot the profile variables
      *
-     * @param thisProfile
+     * @param toChange
+     * @param amount
      * @return changed profile
      */
     public Profile InterpretSetRateOfEvolutionEqualZeroHintInProfile(Profile toChange, double amount) {
@@ -267,10 +403,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (kernel == null) { 
+            if (kernel == null) {
                 logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
-            }
-            else {
+            } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
@@ -310,7 +445,8 @@ public class Hint {
      * method that interprets the hints provided by the user and makes
      * appropriate application-specific changes ot the profile variables
      *
-     * @param thisProfile
+     * @param toChange
+     * @param amount
      * @return changed profile
      */
     public Profile InterpretModeratingHintInProfile(Profile toChange, double amount) {
@@ -354,10 +490,9 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-             if (kernel == null) { 
+            if (kernel == null) {
                 logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
-            }
-            else {
+            } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
                 // if we don't have a list of which kernel variables to change use all
@@ -406,7 +541,8 @@ public class Hint {
      * method that interprets the hints provided by the user and makes
      * appropriate application-specific changes ot the profile variables
      *
-     * @param thisProfile
+     * @param toChange
+     * @param amount
      * @return changed profile
      */
     public Profile InterpretToggleHintInProfile(Profile toChange, double amount) {
@@ -447,10 +583,9 @@ public class Hint {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (kernel != null) {
-                if (kernel == null) { 
-                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
-            }
-                else {
+                if (kernel == null) {
+                    logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+                } else {
                     HashMap vars = kernel.getVariables();
                     Iterator kvarIterator;
                     // if we don't have a list of which kernel variables to change use all
