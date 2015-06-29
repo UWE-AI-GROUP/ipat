@@ -93,6 +93,7 @@ public class Controller {
      * @param profileFolder
      * @param hintsXML
      * @param processor
+     * @param display
      * @throws IOException
      */
     public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, Processor processor, Display display) throws IOException {
@@ -381,9 +382,11 @@ public class Controller {
                     newCurrentGenerationOfProfiles[i].setFile(new File(fileRename));
                     newCurrentGenerationOfProfiles[i].randomiseProfileVariableValues();
                     newCurrentGenerationOfProfiles[i].randomiseKernelVariableValues();
+                    newCurrentGenerationOfProfiles[i].setGlobalScore(0);
                     //and writw back to disk for posterity
                     newCurrentGenerationOfProfiles[i].writeToFile();
-                    newCurrentGenerationOfProfiles[i].copyToNewFile(fileRename);               
+                    newCurrentGenerationOfProfiles[i].copyToNewFile(fileRename);  
+                    
                 }
             }
         this.noOfProfiles = newNoOfProfiles;

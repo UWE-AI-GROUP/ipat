@@ -324,10 +324,8 @@ public class Hint {
             } else {
                 //reset the value in thecopy of the variable
                 currentVariable.setValue(amount);
-                //remove the old variable with this name from thisProfile
-                thisProfile.removeVariable(currentVarName);
                 //write back in the changed variable
-                thisProfile.addVariable(currentVariable);
+                thisProfile.replaceVariable(currentVariable);
             }
         }
         //then for each of the affected kernels
@@ -363,8 +361,8 @@ public class Hint {
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
                 //finally need to write this new kernel back to the profile in the  nextGen arraylist
                 //delete the old one the add the new one
-                thisProfile.removeKernel(kernel.getName());
-                thisProfile.addKernel(changedKernel);
+                //hisProfile.replaceKernel(kernel.getName());
+                thisProfile.replaceKernel(changedKernel);
             } //end of code dealing with affected kernels
         }
 
@@ -393,10 +391,8 @@ public class Hint {
             currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
             //set the rate of evoltion to zero so mutation has no effect
             currentVariable.setRateOfEvolution(amount);
-            //remove the old variable with this name from thisProfile
-            thisProfile.removeVariable(currentVarName);
             //write back in the changed variable
-            thisProfile.addVariable(currentVariable);
+            thisProfile.replaceVariable(currentVariable);
         }
 
         //then for each of the affected kernels
@@ -432,8 +428,8 @@ public class Hint {
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
                 //finally need to write this new kernel back to the profile in the  nextGen arraylist
                 //delete the old one the add the new one
-                thisProfile.removeKernel(kernel.getName());
-                thisProfile.addKernel(changedKernel);
+               // thisProfile.removeKernel(kernel.getName());
+                thisProfile.replaceKernel(changedKernel);
             } //end of code dealing with affected kernels
         }
 
@@ -481,10 +477,8 @@ public class Hint {
 
             //reset the value in thecopy of the variable
             currentVariable.setValue(newValue);
-            //remove the old variable with this name from thisProfile
-            thisProfile.removeVariable(currentVarName);
             //write back in the changed variable
-            thisProfile.addVariable(currentVariable);
+            thisProfile.replaceVariable(currentVariable);
         }
         //then for each of the affected kernels
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
@@ -529,8 +523,8 @@ public class Hint {
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
                 //finally need to write this new kernel back to the profile in the  nextGen arraylist
                 //delete the old one the add the new one
-                thisProfile.removeKernel(kernel.getName());
-                thisProfile.addKernel(changedKernel);
+                //thisProfile.removeKernel(kernel.getName());
+                thisProfile.replaceKernel(changedKernel);
             } //end of code dealing with affected kernels
         }
 
@@ -573,10 +567,8 @@ public class Hint {
             }
             //reset the value in thecopy of the variable
             currentVariable.setValue(newValue);
-            //remove the old variable with this name from thisProfile
-            thisProfile.removeVariable(currentVarName);
             //write back in the changed variable
-            thisProfile.addVariable(currentVariable);
+            thisProfile.replaceVariable(currentVariable);
         }
         //then for each of the affected kernels
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
@@ -621,8 +613,8 @@ public class Hint {
                     Kernel changedKernel = new Kernel(kernel.getName(), vars);
                     //finally need to write this new kernel back to the profile in the  nextGen arraylist
                     //delete the old one the add the new one
-                    thisProfile.removeKernel(kernel.getName());
-                    thisProfile.addKernel(changedKernel);
+                    //thisProfile.removeKernel(kernel.getName());
+                    thisProfile.replaceKernel(changedKernel);
                 } //end of code dealing with affected kernels
             }
         }

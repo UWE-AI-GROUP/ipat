@@ -184,16 +184,11 @@ public class Profile {
      *
      * @param kernel the kernel
      */
-    public void addKernel(Kernel kernel) {
-        kernels.put(kernel.getName(), kernel);
-    }
-
-    /**
-     *
-     * @param kernelName
-     */
-    public void removeKernel(String kernelName) {
-        kernels.remove(kernelName);
+    public void addNewKernel(Kernel kernel) {
+        Kernel oldvalue = (Kernel) kernels.put(kernel.getName(), kernel);
+         if (oldvalue != null) {
+            logger.error("Error adding kernel " + kernel.getName() + " already exists in Profile");
+        }
     }
 
     public void replaceKernel(Kernel kernel) {
@@ -216,19 +211,13 @@ public class Profile {
         return found;
     }
 
-    /**
-     * Adds the profile level variable to the HashMap in thisProfile
-     *
-     * @param var the variable to be added to the solutionattributes hashtable
-     */
-    public void addVariable(IpatVariable var) {
-        profileLevelVariables.put(var.getName(), var);
+       public void addNewVariable(IpatVariable var) {
+        IpatVariable oldvalue = (IpatVariable) kernels.put(var.getName(), var);
+         if (oldvalue != null) {
+            logger.error("Error adding Profile Variable " + var.getName() + " already exists in Profile");
+        }
     }
-
-    public void removeVariable(String varname) {
-        profileLevelVariables.remove(varname);
-    }
-
+    
     public void replaceVariable(IpatVariable var) {
         IpatVariable oldval = (IpatVariable) profileLevelVariables.put(var.getName(), var);
         if (oldval == null) {

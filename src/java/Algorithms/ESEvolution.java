@@ -112,7 +112,7 @@ public class ESEvolution implements MetaHeuristic {
             // ###############################################################################################################################
             //delete the old one the add the new one
             //nextGen.get(which).removeKernel(kernel.getName());
-            nextGen.get(which).addKernel(kernel);
+            nextGen.get(which).replaceKernel(kernel);
 
         }// end of loop mutating individual kernels
         // need to ensure that enough kernels are still active
@@ -147,7 +147,7 @@ public class ESEvolution implements MetaHeuristic {
                 //  System.out.println("....now changing the profile in the nextgen arraylist");
                 //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
 
-                nextGen.get(which).addVariable(currentVariable);
+                nextGen.get(which).replaceVariable(currentVariable);
                 //HashMap tmpvars = nextGen.get(which).getSolutionAttributes();
                 //currentVariable = (IpatVariable) tmpvars.get(currentvarname);
                 // System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );

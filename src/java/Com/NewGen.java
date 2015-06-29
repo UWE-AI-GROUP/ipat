@@ -72,8 +72,9 @@ public class NewGen extends HttpServlet {
                 }
             }
             
-            interaction.updateProfileHints(scores, controller);
             int profileCount = Integer.parseInt( (String) vars.get("ProfileNum"));
+            
+            interaction.updateProfileHints(scores, controller);
             controller.setNoOfProfiles(profileCount);
             HashMap HTML_Strings = controller.mainloop();
             String json = new Gson().toJson(HTML_Strings);
