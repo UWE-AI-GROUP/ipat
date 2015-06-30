@@ -78,7 +78,7 @@ public class UMLProcessor implements Processor {
         //read the problem defintion from the xml file
         ReadProblemDefinition(artifact);
 
-//1. Read through the profile  and make  lists of which methods and attributes are in which class 
+//1. Read through the profile Â and make  lists of which methods and attributes are in which class 
         HashMap<String, IpatVariable> pv = profile.getProfileLevelVariables();
         if (pv == null) {
             logger.error("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile\n");
@@ -167,7 +167,7 @@ public class UMLProcessor implements Processor {
         }
 
         //3. For each of the classes create a javascript that will display a box that looks like a 
-        // UML class with the method and attribute names in (if present - their numerical id’s if not)
+        // UML class with the method and attribute names in (if present - their numerical idâ€™s if not)
         // initialsie the s tring and the poosiution values
         String jointjsClassesScript = "";
         double xpos = 0, ypos = 0, height = 0;
@@ -236,7 +236,7 @@ public class UMLProcessor implements Processor {
         }
 
 //
-//4. Create arrows whose thickness represents out of class uses and put it on the output frame  (showing the coupling)
+//4. Create arrows whose thickness represents out of class uses and put it on the output frame Â (showing the coupling)
         String jointjsCouplingScript = "";        //6.1
 //for each pair of classes
         for (int class1 = 0; class1 <= highestClasses; class1++) {
@@ -389,8 +389,7 @@ public class UMLProcessor implements Processor {
                 ArrayList value = entrySet.getValue();
                 totaluses += value.size();
             }
-            // TODO logging
-            //System.out.println("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file");
+            logger.debug("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file\n");
         } catch (Exception e) {
             logger.fatal(e.getMessage());
         }
