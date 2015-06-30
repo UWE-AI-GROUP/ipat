@@ -1,0 +1,131 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified"   >
+
+<xs:element name="profile" type="profileType"/>
+<xs:element name="kernel" type="kernelType"/>
+<xs:element name="variable" type="variableType"/>        
+<xs:element name="variableList" type="variableListType"/>
+<xs:element name="kernelList" type="kernelListType"/> 
+<xs:element name="globalscore" type="globalScoreType"/>
+<xs:element name="interaction" type ="interactionType"/>  
+<xs:element name="hint" type="hintType"/> 
+    
+    <xs:simpleType name="nameType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    
+    <xs:complexType name="globalScoreType">
+        <xs:sequence>
+            <xs:element name="value" type="xs:decimal"/>
+            <xs:element name="ubound" type="xs:decimal"/>
+            <xs:element name="lbound" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+        
+    <xs:simpleType name="varType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="boolean"/>
+            <xs:enumeration value="Boolean"/>
+            <xs:enumeration value="ordinal"/>
+            <xs:enumeration value="cardinal"/>
+            <xs:enumeration value="permutation"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+<xs:complexType name="variableType">
+    <xs:all>
+        <xs:element name="name" type="nameType"/>
+        <xs:element name="type" type="varType"/>
+        <xs:element name="lbound" type="xs:decimal"/>
+        <xs:element name="ubound" type="xs:decimal"/>
+        <xs:element name="granularity" type="xs:string"/>
+        <xs:element name="rateOfEvolution" type="xs:decimal"/>
+        <xs:element name="value" type="xs:decimal"/>
+        <xs:element name="default" type="xs:string"/>
+        <xs:element name="unit" type="xs:string"/>
+        <xs:element name="flag" type="xs:string"/>
+    </xs:all>
+</xs:complexType>
+
+
+<xs:complexType name="kernelType">
+    <xs:sequence>
+            <xs:element name="name" type="nameType" />
+            <xs:element name="variable" type= "variableType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="kernelListType">
+    <xs:sequence>
+  <xs:element name="kernel" type="kernelType" minOccurs="1" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+
+<xs:complexType name="variableListType">
+    <xs:sequence>
+  <xs:element name = "variable" type="variableType" minOccurs="1" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+
+
+<xs:complexType name="profileType">
+    <xs:sequence>
+        <xs:element name="variable" type="variableType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="kernel" type="kernelType" minOccurs="0" maxOccurs="unbounded" />
+         <xs:element name="globalscore" type="globalScoreType"/>
+     </xs:sequence>
+</xs:complexType>
+
+    
+        
+   <xs:simpleType name="displayType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="range"/>
+            <xs:enumeration value="checkbox"/>
+        </xs:restriction>
+    </xs:simpleType>
+        
+  <xs:simpleType name="effectType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="setRateOfEvolutionEqualZero"/>
+            <xs:enumeration value="moderateByValue"/>
+            <xs:enumeration value="toggle"/>
+            <xs:enumeration value="setNewValue"/>
+        </xs:restriction>
+    </xs:simpleType>        
+            
+            
+ 
+            
+
+    <xs:complexType  name="interactionType">
+        <xs:sequence>
+            <xs:element name="name" type="nameType" />  
+            <xs:element name="displaytype" type="displayType" /> 
+            <xs:element name="displayText" type="xs:string" />
+            <xs:element name="range-min" type="xs:decimal" />
+            <xs:element name="range-max" type="xs:decimal" />
+            <xs:element name="default" type="xs:string" />
+             <xs:element name="ProfileVariablesAffected" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+             <xs:element name="KernelAffected" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+              <xs:element name="KernelVariableAffected" type="xs:string" minOccurs="0" maxOccurs="unbounded"  />
+             <xs:element name="Effect" type="effectType" /> 
+        </xs:sequence>
+    </xs:complexType>
+ 
+
+
+<xs:complexType name="hintType">
+    <xs:sequence>
+         <xs:element name="interaction" type="interactionType" minOccurs="1" maxOccurs="unbounded"/>
+  </xs:sequence>
+</xs:complexType>
+
+
+
+</xs:schema>
+  

@@ -507,20 +507,23 @@ public class Hint {
                 while (kvarIterator.hasNext()) {
                     currentVarName = (String) kvarIterator.next();
                     currentVariable = (IpatVariable) vars.get(currentVarName);
-                    // TODO Checking for currentVariable nulls
-                    double oldValue = currentVariable.getValue();
-                    
-                    //calculate raw new value
-                    double newValue = oldValue * multiplier;
-                    //take account of granularity
-                    newValue = newValue - Math.IEEEremainder(newValue, currentVariable.getGranularity());
-                    //truncate to range
-                    newValue = Math.max(currentVariable.getLbound(), newValue);
-                    newValue = Math.min(currentVariable.getUbound(), newValue);
+                    if(currentVariable==null)
+                        System.out.println("couldn't find variable with name " + currentVarName + " in kernel " + kernelname);
+                    else
+                      {double oldValue = currentVariable.getValue();
 
-                    //reset the value in thecopy of the variable
-                    currentVariable.setValue(newValue);
-                    vars.put(currentVarName, currentVariable);
+                        //calculate raw new value
+                        double newValue = oldValue * multiplier;
+                        //take account of granularity
+                        newValue = newValue - Math.IEEEremainder(newValue, currentVariable.getGranularity());
+                        //truncate to range
+                        newValue = Math.max(currentVariable.getLbound(), newValue);
+                        newValue = Math.min(currentVariable.getUbound(), newValue);
+
+                        //reset the value in thecopy of the variable
+                        currentVariable.setValue(newValue);
+                        vars.put(currentVarName, currentVariable);
+                      }
                 }
                 Kernel changedKernel = new Kernel(kernel.getName(), vars);
                 //finally need to write this new kernel back to the profile in the  nextGen arraylist

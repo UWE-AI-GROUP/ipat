@@ -87,8 +87,8 @@ public class Profile {
         
         try {
             Document XmlDoc = new SAXBuilder().build(file);
-            Element root = XmlDoc.getRootElement();
-            Element profileNode = root.getChild("profile", root.getNamespace());
+            //Element root = XmlDoc.getRootElement();
+            Element profileNode = XmlDoc.getRootElement();//= root.getChild("profile", root.getNamespace());
             Iterator iterator = profileNode.getChildren().iterator();
             int i = 0;
             while (iterator.hasNext()) {
@@ -341,8 +341,8 @@ public class Profile {
         try {
 
             Document XmlDoc = new SAXBuilder().build(this.getFile());
-            Element root = XmlDoc.getRootElement();
-            Element profileNode = root.getChild("profile", root.getNamespace());
+            //Element root = XmlDoc.getRootElement();
+            Element profileNode = XmlDoc.getRootElement();//root.getChild("profile", root.getNamespace());
             List children = profileNode.getChildren();
             Iterator iterator = children.iterator();
             HashMap mySolutionAttributes = this.getProfileLevelVariables();
@@ -453,17 +453,18 @@ public class Profile {
                         elem.setText(varb.getUnit());
                     }
                 }
+                else if (hint.getName().equalsIgnoreCase("globalscore")) 
+                  {
+                    Element elem = hint.getChild("value");
+                    elem.setText("0");
+                  }
             }
-            Element scoreNode = root.getChild("globalscore",
-                    root.getNamespace());
-            Element elemi = scoreNode.getChild("value");
-            elemi.setText("0");
 
             //System.out.println("[SetProfile] Writing score " + 0 + " to profile: " + profile.getFile().toString());
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             String xmlString = outputter.outputString(XmlDoc);
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()))) {
+            try( BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()))) {
                 writer.write(xmlString);
             }
 

@@ -12,6 +12,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -180,8 +181,23 @@ public class UMLProcessor implements Processor {
 
             ypos = halfBoxSize + halfBoxSize * Math.sin(2 * Math.PI * vertex / numVertices);
             vertex++;
-            height = 150;
-
+            //next thtee lines build up the height programmatically
+            height = 10; //always be a name
+            //then add 10 for each attribute
+            if (classAttributesMap.containsKey(nextClass)) {
+                ArrayList memberslist = classAttributesMap.get(nextClass);
+                height += 20*(memberslist.size());
+            }
+            else
+              {height +=10;}
+            if (classMethodsMap.containsKey(nextClass)) {
+                ArrayList memberslist = classMethodsMap.get(nextClass);
+                height += 20*(memberslist.size());
+            }
+            else
+              {height+=10;}
+            //and 10 for each method
+            //create the string to add to our html
             //TODO change the box colour according to cohesion
             String textToAdd = classNames.get(nextClass)
                     + ": new uml.Class({position: { x:"
@@ -289,21 +305,38 @@ public class UMLProcessor implements Processor {
      */
     private void ReadProblemDefinition(Artifact artifact) {
         try {
-            //the problem defintion has the same name a the artefact but with a xml ending
-            String problemDefinition = artifact.getFilename();
-            String pathToArtefactFile = artifact.getFile().getParent(); // TODO filter the folder and pick up the files
-            problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
-            problemDefinition = problemDefinition + ".xml";// TODO pick up XML and ensure there is only one
-            File definitionFile = new File(pathToArtefactFile, problemDefinition);
-
-            //at this stage we'll put a copy in the session directpory as well
-            String pathToOutputFile = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("input")) + "output/" + problemDefinition;
-            File copyOfDefinition = new File(pathToOutputFile);
+  
+            FilenameFilter filter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".xml");
+            }
+        };
+        //read the xml file with thew problem defintion from the input folder and check there is ionly one
+        File[] xmlfiles_list =  artifact.getFile().getParentFile().listFiles(filter);
+        if (xmlfiles_list == null) {
+            logger.error("Error : xmlfiles_list  == null in UMLPRocessor.RedProblemDefintion. Please check that xml files with problem defintionms were selected\n");
+            System.exit(0);
+        }
+        else if (xmlfiles_list.length>1)
+            {
+            logger.error("Error : xmlfiles_list  >1in UMLPRocessor.RedProblemDefintion. Please check that only one xml files with problem defintionms was selected\n");
+            System.exit(0);
+        }
+        
+        
+        // if we;ve got this far then there must be just one problem defintion
+        File definitionFile = xmlfiles_list[0];
+        String problemDefinitionName = definitionFile.getName();
+        String inputFolderPath = definitionFile.getAbsolutePath();
+        String outputFileName = inputFolderPath.substring(0, inputFolderPath.lastIndexOf("input")) + "output/" + problemDefinitionName;
+            File copyOfDefinition = new File(outputFileName);
             if (!copyOfDefinition.exists()) {
                 logger.info("putting a copy of the problem definition in the output directory\n");
                 Files.copy(definitionFile.toPath(), copyOfDefinition.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
-
+            
+            
             //now we need to read this xml file into a structure so we can access the uses
             Document XmlDoc = new SAXBuilder().build(definitionFile);
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ipat>
-  <profile>
+
+<profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="../../Ipat.xsd">
     <variable>
       <name>Page_bg_Blue</name>
       <type>ordinal</type>
@@ -397,11 +398,11 @@
         <flag>active</flag>
       </variable>
     </kernel>
-  </profile>
+
   <globalscore>
     <value>0</value>
     <ubound>10</ubound>
     <lbound>0</lbound>
   </globalscore>
-</ipat>
+ </profile>
 
