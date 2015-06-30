@@ -271,7 +271,7 @@ public class Hint {
         switch (effect.toLowerCase()) {
             case "setrateofevolutionequalzero":
                 if ((amount != 1.0) && (amount != 0.0)) {
-                    logger.error("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1");
+                    logger.error("wrong value for amount with setRateOfEvolutionEqualZero hint should be 0 or 1\n");
                 } else {
                     thisProfile = InterpretSetRateOfEvolutionEqualZeroHintInProfile(toChange, amount);
                 }
@@ -307,20 +307,20 @@ public class Hint {
     public Profile InterpretSetNewValueInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         IpatVariable currentVariable = null;
-        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap profileLevelVars = thisProfile.getProfileLevelVariables();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
         assert ((amount >= rangeMin) && (amount <= rangeMax));
 
-        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        logger.debug("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount +"\n");   
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
             currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
             if (currentVariable == null) {
-                logger.error("error - trying to change  variable " + currentVarName + " which does not exist in profile");
+                logger.error("error - trying to change  variable " + currentVarName + " which does not exist in profile\n");
             } else {
                 //reset the value in thecopy of the variable
                 currentVariable.setValue(amount);
@@ -333,7 +333,7 @@ public class Hint {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (kernel == null) {
-                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint\n");
             } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -380,7 +380,7 @@ public class Hint {
     public Profile InterpretSetRateOfEvolutionEqualZeroHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         IpatVariable currentVariable = null;
-        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap profileLevelVars = thisProfile.getProfileLevelVariables();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
@@ -448,7 +448,7 @@ public class Hint {
     public Profile InterpretModeratingHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         IpatVariable currentVariable = null;
-        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap profileLevelVars = thisProfile.getProfileLevelVariables();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
 
@@ -458,12 +458,13 @@ public class Hint {
         amount = (amount - midpoint);
         double multiplier = Math.pow(2.0, amount);
 
-        //  System.out.println("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier);   
+        logger.debug("in InterpretModeratingHintInProfile(), range min = " + rangeMin + "rangeMax = " + rangeMax + "amount = " + amount + "multiplier is " + multiplier + "\n");   
         //start off with the profile variables that are affected
         for (Iterator profileVariableIterator = profileVariablesAffected.iterator(); profileVariableIterator.hasNext();) {
             currentVarName = (String) profileVariableIterator.next();
             //get the variable from the local copy in the hashtable
             currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
+            // TODO check for currentVariable !null
             //set the rate of evoltion to zero so mutation has no effect
             double oldValue = currentVariable.getValue();
 
@@ -484,8 +485,8 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (kernel == null) {
-                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+            if (kernel == null) { // TODO USE THIS FOR THE NULL CHECKING
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint\n");
             } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -506,8 +507,9 @@ public class Hint {
                 while (kvarIterator.hasNext()) {
                     currentVarName = (String) kvarIterator.next();
                     currentVariable = (IpatVariable) vars.get(currentVarName);
+                    // TODO Checking for currentVariable nulls
                     double oldValue = currentVariable.getValue();
-
+                    
                     //calculate raw new value
                     double newValue = oldValue * multiplier;
                     //take account of granularity
@@ -542,7 +544,7 @@ public class Hint {
     public Profile InterpretToggleHintInProfile(Profile toChange, double amount) {
         Profile thisProfile = toChange;
         IpatVariable currentVariable = null;
-        HashMap profileLevelVars = thisProfile.getSolutionAttributes();
+        HashMap profileLevelVars = thisProfile.getProfileLevelVariables();
         HashMap kernels = thisProfile.getKernels();
         String currentVarName;
         double newValue;
@@ -554,7 +556,7 @@ public class Hint {
             currentVariable = (IpatVariable) profileLevelVars.get(currentVarName);
 
             if (currentVariable == null) {
-                logger.error("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile");
+                logger.error("trying to change profile variable " + currentVarName + " but it doesnt exist in the profile\n");
             }
 
             //toggle the value of the variables
@@ -576,7 +578,7 @@ public class Hint {
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (kernel != null) {
                 if (kernel == null) {
-                    logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+                    logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint\n");
                 } else {
                     HashMap vars = kernel.getVariables();
                     Iterator kvarIterator;

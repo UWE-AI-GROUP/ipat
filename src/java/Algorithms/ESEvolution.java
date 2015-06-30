@@ -20,10 +20,12 @@ import org.apache.log4j.Logger;
  * The Class ESEvolution.
  */
 public class ESEvolution implements MetaHeuristic {
-    private static final Logger logger = Logger.getLogger(ESEvolution.class);
 
-    private ArrayList<Profile> best = new ArrayList<>(); //holds copies of all the current best solutions
-    private ArrayList<Profile> nextGen = new ArrayList<>(); //holds copies of all the new generation of  solutions
+    private static final Logger logger = Logger.getLogger(ESEvolution.class);
+    //holds copies of all the current best solutions
+    private final ArrayList<Profile> best = new ArrayList<>();
+    //holds copies of all the new generation of  solutions
+    private final ArrayList<Profile> nextGen = new ArrayList<>();
 
     /**
      * F1.
@@ -56,67 +58,46 @@ public class ESEvolution implements MetaHeuristic {
      * @return true, if successful
      */
     private boolean mutateProfile(int which, double mutation_rate) {
-  
-        int numberofactivekernels = 0;
         double newval;
-
-        String profilename = nextGen.get(which).getName();
-        //   System.out.println("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + profilename);
-        //  System.out.println(".......mutation parameter is " +mutation_rate);
         HashMap kernels = nextGen.get(which).getKernels();
-        // System.out.println(".....the number of kernels is " + kernels.size());
         Collection values = kernels.values();
         Iterator iterateKernels = values.iterator();
-        IpatVariable currentVariable = null;
+        IpatVariable currentVariable;
         String currentvarname;
-        // loop through each kernel in turn,
+        logger.debug("in evolution.mutateprofile() name of profile nextgen[" +which +"] is " + nextGen.get(which).getName() + "\n");
+        logger.debug(".......mutation parameter is : " +mutation_rate + "\n");
+        logger.debug(".......number of kernels is  : " + kernels.size() + "\n");
+        
         while (iterateKernels.hasNext()) {
-            //get the next kernel
             Kernel kernel = (Kernel) iterateKernels.next();
-
-            //get all of its variables
-            HashMap vars = kernel.getVariables();
-
-            Set keySet1 = vars.keySet();
+            HashMap kernelVariables = kernel.getVariables();
+            Set keySet1 = kernelVariables.keySet();
             Iterator eVar = keySet1.iterator();
-          //   System.out.println(".....Kernel " + kernel.getName() + " has " + vars.size() + " elements");
-
-            // and then mutate each of the variables within kernel in turn
+            logger.debug(".......Kernel " + kernel.getName() + " number of elements : " + kernelVariables.size() + "\n");
+            
             while (eVar.hasNext()) {
                 currentvarname = eVar.next().toString();
-                currentVariable = (IpatVariable) vars.get(currentvarname);
+                currentVariable = (IpatVariable) kernelVariables.get(currentvarname);
                 newval = mutateVariable(currentVariable, mutation_rate);
+                
                 if (newval != currentVariable.getValue()) {
-                 //     System.out.println("mutating variable " + currentvarname + " in kernel " + kernel.getName());
-                    //     System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
-
-                    // change value in local copy of variable
-                    currentVariable.setValue(newval);
-                  //   System.out.println("........have set value in currentVariable ");
-
-                    //change value in local copy of hashmap
-                    vars.put(currentvarname, currentVariable);
-
-                    //currentVariable = (IpatVariable) vars.get(currentvarname);
-                    //System.out.println("Value in vars is now" + currentVariable.getValue()    );
+                 logger.debug("mutating variable " + currentvarname + " in kernel " + kernel.getName() + "\n");
+                 logger.debug(".......old value " + currentVariable.getValue() + " is changing  to " + newval + "\n");
+                 currentVariable.setValue(newval);
+                 logger.debug(".......have set value in currentVariable\n");
+                 kernelVariables.put(currentvarname, currentVariable);
+                 logger.debug("Value in vars is now " + ((IpatVariable) kernelVariables.get(currentvarname)).getValue() + "\n");
                 }
             }
-            // finally mutate the probability that the kernel is active
+            // mutate the probability that the kernel is active
             if (Utils.GetRandDouble01() < mutation_rate) {
                 // mutatedProf.KernelFamily[k].active =
                 // (mutatedProf.KernelFamily[k].active = true)? false:true;
             }
-            // Aug 2011
-
-            //finally need to write this new kernel back to the profile in the  nextGen arraylist
-            // ###############################################################################################################################
-            //delete the old one the add the new one
-            //nextGen.get(which).removeKernel(kernel.getName());
             nextGen.get(which).replaceKernel(kernel);
-
-        }// end of loop mutating individual kernels
+        }
         // need to ensure that enough kernels are still active
-		/*
+        /*
          * while(numberofactivekernels< Attributess.minKernels) { chosen =
          * IpatUtils.GetRandIntInRange(1,MAX_KERNELS);
          * if(mutatedProf.KernelFamily[chosen].active ==false) {
@@ -124,41 +105,28 @@ public class ESEvolution implements MetaHeuristic {
          * numberofactivekernels++; } }
          */
 
-        HashMap vars = nextGen.get(which).getSolutionAttributes();
-        // System.out.println(".....the number of profile variables is " + vars.size());
-        Set keySet2 = vars.keySet();
-        Iterator pVar = keySet2.iterator();
-        // finally the profile level variables
-        // for(int pvar=0;pvar<vars.size();pvar++)
-        while (pVar.hasNext()) {
-            currentvarname = pVar.next().toString();
-            currentVariable = (IpatVariable) vars.get(currentvarname);
+        HashMap variables = nextGen.get(which).getProfileLevelVariables();
+        logger.debug(".......the number of profile variables is : " + variables.size() + "\n");
+        Set keySet2 = variables.keySet();
+        Iterator profileVariables = keySet2.iterator();
+        while (profileVariables.hasNext()) {
+            currentvarname = profileVariables.next().toString();
+            currentVariable = (IpatVariable) variables.get(currentvarname);
             newval = mutateVariable(currentVariable, mutation_rate);
             if (newval != currentVariable.getValue()) {
-                //   System.out.println("mutating profile variable " + currentvarname );
-                //   System.out.println("... old value " + currentVariable.getValue() + " is changing  to " + newval);
-                //set the new value in the local copy of the variable
+                logger.debug("mutating profile variable " + currentvarname + "\n");
+                logger.debug(".......old value " + currentVariable.getValue() + " is changing  to " + newval + "\n");
                 currentVariable.setValue(newval);
-                //   System.out.println("........have set value in currentVariable ");
-                //replace it in the local hash table
-                vars.put(currentvarname, currentVariable);
-                currentVariable = (IpatVariable) vars.get(currentvarname);
-                //  System.out.println("..............Value in vars is now" + currentVariable.getValue()    );
-                //  System.out.println("....now changing the profile in the nextgen arraylist");
-                //and replace (remove-add) the old variable in the profile in the nextGenarray with the one one
-
+                logger.debug(".......have set value in currentVariable\n");
+                variables.put(currentvarname, currentVariable);
+                currentVariable = (IpatVariable) variables.get(currentvarname);
+                logger.debug(".......Value in variables is now" + currentVariable.getValue()    );
+                logger.debug(".......now changing the profile in the nextgen arraylist");
                 nextGen.get(which).replaceVariable(currentVariable);
-                //HashMap tmpvars = nextGen.get(which).getSolutionAttributes();
-                //currentVariable = (IpatVariable) tmpvars.get(currentvarname);
-                // System.out.println("..............Value in nextGen is now" + currentVariable.getValue()  );
-
+                logger.debug(".......Value in nextGen is now" 
+                + ((IpatVariable) variables.get(nextGen.get(which).getProfileLevelVariables())).getValue() + "\n");
             }
         }
-
-        //finally write the mutated profile back to file
-        //nextGen.get(which).copyToNewFile(profilename);
-        //nextGen.get(which).printProfile();
-        //System.out.println("finished mutating profle" + which);
         return true;
     }
 
@@ -174,20 +142,20 @@ public class ESEvolution implements MetaHeuristic {
         int possibilities, chosen;
         double stepsize, dchosen, myrand;
         double newValue = 0;
-
-        //pick a random numnber
         myrand = Utils.GetRandDouble01();
-        //System.out.println("my random number is " + myrand);
+        logger.debug("random number in ESEvolution.mutateVariable is : " + myrand + "\n");
 
-        //the way that mutation paramter is interpreted, and mutation worksd, depedns on the type of variable
+        //the way that mutation paramter is interpreted, and mutation works, depends on the type of variable
+        
+        // boolean = negation ( 0 = 1 | 1 = 0)
         if (variableToChange.getType().equalsIgnoreCase("boolean")) {
-            if (myrand < mutation_rate * variableToChange.getRateOfEvolution()) {//Boolean - mutation sets 1s to 0s and vice versa
+            if (myrand < mutation_rate * variableToChange.getRateOfEvolution()) {
                 if (variableToChange.getValue() == 1.0) {
                     newValue = 0.0;
                 } else {
                     newValue = 1.0;
                 }
-                //System.out.println("..................flipping binary variable " + variableToChange.getName() + "to value " + variableToChange.getValue()) ;
+                logger.debug("flipping binary variable " + variableToChange.getName() + "to value " + variableToChange.getValue()) ;
             }
         } else if (variableToChange.getType().equalsIgnoreCase("cardinal")) {
             if (myrand < mutation_rate * variableToChange.getRateOfEvolution()) {// a list of different catgorical values with no natural oerdering so just pick a new value at random
@@ -198,7 +166,7 @@ public class ESEvolution implements MetaHeuristic {
                 chosen = Utils.GetRandIntInRange(0, possibilities);
                 // now compute what actual value this would be
                 newValue = variableToChange.getLbound() + variableToChange.getGranularity() * chosen;
-                //System.out.println("...............randomly choosing new value " + newValue + "for cardinal variable " + variableToChange.getName() );
+                logger.debug("...............randomly choosing new value " + newValue + "for cardinal variable " + variableToChange.getName() + "\n" );
             }
         } else if (variableToChange.getType().equalsIgnoreCase("ordinal")) {
             // ordinal varibles - for exanmple continuos variables of integers where sequence counts 
@@ -215,7 +183,7 @@ public class ESEvolution implements MetaHeuristic {
             if (newValue > variableToChange.getUbound()) {
                 newValue = variableToChange.getUbound();
             }
-            //System.out.println("...................choosing new value " + newValue + "for ordinal variable " + variableToChange.getName() );
+            logger.debug("...................choosing new value " + newValue + "for ordinal variable " + variableToChange.getName() );
         } else {
             logger.error("Error - unkown variable type " + variableToChange.getType() + "for variable " + variableToChange.getName());
         }
@@ -231,8 +199,10 @@ public class ESEvolution implements MetaHeuristic {
     public Profile getNextGenProfileAtIndex(int which) {
         //TODO add logging
         if (which < 0) {
+            logger.error("tried to acces nextGen item with negative index\n");
             throw new UnsupportedOperationException("tried to acces nextGen item with negative index");
         } else if (which > nextGen.size()) {
+            logger.error("tried to acces nextGen item with index " + which + "but there are only" + best.size() + "\n");
             throw new UnsupportedOperationException("tried to acces nextGen item with index " + which + "but there are only" + best.size());
         } else {
             Profile toreturn = nextGen.get(which);
@@ -247,20 +217,16 @@ public class ESEvolution implements MetaHeuristic {
      */
     @Override
     public void generateNextSolutions(int howMany) {
-        //TODO add logging
-
-        System.out.println("How Many in ESEvolution.generateNextSolutions : " + howMany);
-        
+       
+        logger.debug("How Many in ESEvolution.generateNextSolutions : " + howMany +"\n");
+       
         int copied, toCopy;
-        //check that the working memory is not empty
         if (best.size() <= 0) {
-            throw new UnsupportedOperationException("Can't call generateNextSolutions without calling UpdateWorkingMemory() First");
+            logger.error("Can't call generateNextSolutions without calling UpdateWorkingMemory() First\n");
         }
-        //clear  the array nextGen
+        
         nextGen.clear();
 
-        //if the user has resized the population so that we have more "best" solutions than we want new profiles
-        // then we must lose some of our "best" solutions at random
         while (best.size() > howMany) {
             best.remove(Utils.GetRandIntInRange(0, howMany));
         }
@@ -282,7 +248,7 @@ public class ESEvolution implements MetaHeuristic {
             File thisfile = best.get(toCopy).getFile();
             Profile toAdd = new Profile(thisfile);
             nextGen.add(toAdd);
-            //System.out.println("have made a copy of best[" + copied + "] with filename " + thisfile.getName());
+            logger.debug("have made a copy of best[" + copied + "] with filename " + thisfile.getName()+"\n");
         }
 
         // apply mutation where necessary - i.e. leaving one dulicate of each of the best
@@ -291,13 +257,13 @@ public class ESEvolution implements MetaHeuristic {
             //double rateToApply = 0.5; 
             // double rateToApply = 1.0; 
             double rateToApply = this.F1(nextGen.get(toMutate).getGlobalScore());
-            //System.out.println("global score for the profile " + nextGen.get(toMutate).getName() 
+            logger.debug("global score for the profile " + nextGen.get(toMutate).getName());
             //        + " is " + nextGen.get(toMutate).getGlobalScore() 
             //       + " and mutation parameter is " + rateToApply);
             //now apply mutation with this parameter
             this.mutateProfile(toMutate, rateToApply);
-            
-            //System.out.println("..... mutate profile " + toMutate + " complete");
+
+            logger.debug("..... mutate profile " + toMutate + " complete\n");
         }
 
         //make the folder to hold the files in which we will store the next generation
@@ -316,15 +282,15 @@ public class ESEvolution implements MetaHeuristic {
 
                 //get generation and increment it
                 generation = Integer.parseInt(profileName.substring((profileName.indexOf('_') + 1), profileName.indexOf('-')));
-                //TODO add logging 
-                //System.out.println("after reading generation  has value " + generation);
+          
+                logger.debug("after reading generation  has value " + generation + "\n");
                 generation++;
                 String outProfileName = "gen_" + generation + profileTemplate + k + ".xml";
 
                 // set name in profile to match new name
                 nextGen.get(k).setName(outProfileName);
 
-            // write out the profile to file for safe keeping
+                // write out the profile to file for safe keeping
                 //build the path by fetching the session details from the controller and adding generaios + this file name
                 String outProfilePath = Controller.outputFolder.getAbsolutePath() + "/generations/" + outProfileName;
 
@@ -334,9 +300,9 @@ public class ESEvolution implements MetaHeuristic {
                 nextGen.get(k).setFile(thisfile);
 
             } catch (StringIndexOutOfBoundsException ex) {
-                System.out.println("The profile names do not follow the correct convention to be processed."
-                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml");
-                System.out.println(ex.getMessage());
+                logger.error("The profile names do not follow the correct convention to be processed."
+                        + "/nLook within the Profiles Folder, and ensure the names appear as: gen_0-Profile_x.xml\n");
+                logger.error(ex.getMessage());
             }
         }
     }
@@ -347,7 +313,7 @@ public class ESEvolution implements MetaHeuristic {
      */
     @Override
     public void updateWorkingMemory(Profile[] evaluatedSolutions) {
-        int popmember = 0; //loop variable
+        int popmember; //loop variable
         //this is an EA so we are going to start by clearing the previous population if it isnt the first
         best.clear();
         //now we want to find out what the best fitness seen is
@@ -364,10 +330,8 @@ public class ESEvolution implements MetaHeuristic {
             }
         }
         // TESTING : check to see if the fitness values are being evaluated and assigned to "Best" List
-        //TODO add logging
-//        for (Profile best1 : best) {
-//            System.out.println("those assigned as best in ESEvolution.updateWorkingMemory(): " + best1.getName() + " : " + best1.getGlobalScore());
-//        }
+        for (Profile best1 : best) {
+            logger.debug("those assigned as best in ESEvolution.updateWorkingMemory(): " + best1.getName() + " : " + best1.getGlobalScore() + "\n");
+        }
     }
-
 }

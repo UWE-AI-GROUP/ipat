@@ -65,7 +65,7 @@ private static final Logger logger = Logger.getLogger(CSSProcessor.class);
 
         // ------------ CSS Generation ------------------------------//
         String css = "";
-        HashMap pv = profile.getSolutionAttributes();
+        HashMap pv = profile.getProfileLevelVariables();
         if (pv == null) {
             logger.error("Error: applyProfileToArtifcat in CSSProcessor. No solution attributes in Profile.");
         }

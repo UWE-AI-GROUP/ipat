@@ -38,11 +38,10 @@ public class UMLProcessor implements Processor {
     ArrayList<String> classNames;
 
     // TODO javadoc
-
     /**
      *
      */
-        public UMLProcessor() {
+    public UMLProcessor() {
         UsesMap = new HashMap<>();
         methodList = new ArrayList<>();
         attributeList = new ArrayList<>();
@@ -54,7 +53,6 @@ public class UMLProcessor implements Processor {
      Artifact - the raw artifact to be processed
      index - the identifier for the profile
      */
-
     /**
      *
      * @param profile
@@ -62,11 +60,10 @@ public class UMLProcessor implements Processor {
      * @param outputFolder
      * @return
      */
-    
     @Override
     public Artifact applyProfileToArtifact(Profile profile, Artifact artifact, String outputFolder) {
 
-        //System.out.println("in umprocessor.applyprofiletoartefact()");
+        logger.debug("in UMLProcessor.applyprofiletoartefact()\n");
         HashMap<Integer, ArrayList> classMethodsMap = new HashMap();
         HashMap<Integer, ArrayList> classAttributesMap = new HashMap();
         ArrayList<Integer> classesPresent = new ArrayList();
@@ -81,9 +78,9 @@ public class UMLProcessor implements Processor {
         ReadProblemDefinition(artifact);
 
 //1. Read through the profile  and make  lists of which methods and attributes are in which class 
-        HashMap<String, IpatVariable> pv = profile.getSolutionAttributes();
+        HashMap<String, IpatVariable> pv = profile.getProfileLevelVariables();
         if (pv == null) {
-            logger.error("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile.");
+            logger.error("Error: applyProfileToArtifcat in UMLProcessor. No solution attributes in Profile\n");
         } else {
             for (Map.Entry<String, IpatVariable> entrySet : pv.entrySet()) {
                 String elementName = entrySet.getKey();
@@ -97,7 +94,7 @@ public class UMLProcessor implements Processor {
                 }
                 //get the type of element it is - held as the unit
                 String elementtype = ipvar.getUnit();
-        //  System.out.println("profile variable " + elementName + "is of type (from unit) " + elementtype);
+                logger.debug("profile variable " + elementName + "is of type (from unit) " + elementtype + "\n");
 
                 //add this assignment in this design
                 classAssignments.put(elementName, elementClass);
@@ -113,8 +110,7 @@ public class UMLProcessor implements Processor {
                 }
                 //then add the element to the list of members for this cvlass
                 membersList.add(elementName);
-                //finally add the changed or new arraylist back to the appropriate hashmap
-                //and record the fact we haveseem it
+                //finally add the changed or new arraylist back to the appropriate hashmap and record the fact we have seen it
                 if (elementtype.equalsIgnoreCase("method")) {
                     classMethodsMap.put(elementClass, membersList);
                     methodsSeen.add(elementName);
@@ -124,18 +120,20 @@ public class UMLProcessor implements Processor {
                 }
             }
         }
-//2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
+        
+        //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
         if (Utils.haveSameElements(methodsSeen, methodList) == false) {
             logger.error("problem - the list of methods in the profile is not the same as in the problem defintion"
                     + "defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
         } else if (Utils.haveSameElements(attributesSeen, attributeList) == false) {
             logger.error("problem - the list of attributes in the profile is not the same a in the problem defintion"
                     + "defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
-        } else
-            ;//System.out.println("problem defintion read from xml matches variables in " + profile.getName());
+        } else {
+            logger.debug("problem defintion read from xml matches variables in " + profile.getName());
+        }
 
-//2. now make a list of all the in-class and between-class uses in this design candidate
-        //2.1start by sorting the list of classes present for appearances sake
+        //2.1 now make a list of all the in-class and between-class uses in this design candidate
+        //2.1 start by sorting the list of classes present for appearances sake
         Collections.sort(classesPresent);
         int highestClasses = 0;
         for (Integer classesPresent1 : classesPresent) {
@@ -144,9 +142,9 @@ public class UMLProcessor implements Processor {
             }
         }
 
-        //System.out.println("highest class id used is " + highestClasses);
+        logger.debug("highest class id used is " + highestClasses+"\n");
         int numUses[][] = new int[highestClasses + 1][highestClasses + 1];
-//2.2 loop through each class
+        //2.2 loop through each class
         for (Integer thisClass : classesPresent) {
             //get all the methods in this class
             ArrayList methodsInthisClass = classMethodsMap.get(thisClass);
@@ -159,7 +157,7 @@ public class UMLProcessor implements Processor {
                     for (String attrString : thisMethodAtts) {
                         //and then what class they are in
                         int attClass = classAssignments.get(attrString);
-                        //System.out.println("dealing with method " + thisMethod + "in class " + thisClass + ": it uses attribute " + attrString + " which is is class " + attClass);
+                        logger.debug("dealing with method " + thisMethod + "in class " + thisClass + ": it uses attribute " + attrString + " which is is class " + attClass+"\n");
                         //2.5 finally increment the numberof uses
                         numUses[thisClass][attClass]++;
                     }
@@ -167,14 +165,14 @@ public class UMLProcessor implements Processor {
             }
         }
 
-//3. For each of the classes create a javascript that will display a box that looks like a UML class with the method and attribute names in (if present - their numerical id’s if not)
-        //initialsie the s tring and the poosiution values
+        //3. For each of the classes create a javascript that will display a box that looks like a 
+        // UML class with the method and attribute names in (if present - their numerical id’s if not)
+        // initialsie the s tring and the poosiution values
         String jointjsClassesScript = "";
         double xpos = 0, ypos = 0, height = 0;
         double vertex = 0.0, numVertices = (double) classesPresent.size();
         double halfBoxSize = 250;
 
-        //then do the loop
         for (Iterator iterator = classesPresent.iterator(); iterator.hasNext();) {
             Integer nextClass = (Integer) iterator.next();
             //put the class boxes at the vertices of a regular polyogn
@@ -183,7 +181,7 @@ public class UMLProcessor implements Processor {
             ypos = halfBoxSize + halfBoxSize * Math.sin(2 * Math.PI * vertex / numVertices);
             vertex++;
             height = 150;
-            //create the string to add to our html
+
             //TODO change the box colour according to cohesion
             String textToAdd = classNames.get(nextClass)
                     + ": new uml.Class({position: { x:"
@@ -252,9 +250,9 @@ public class UMLProcessor implements Processor {
             String rawArtifactName = artifact.getFilename();
             rawArtifactName = rawArtifactName.substring(0, rawArtifactName.lastIndexOf('.'));
             // TESTING : distinguishing the raw artifact name from the processed one (processed one)
-            //  System.out.println("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName);
+            logger.debug ("Raw artifact name = " + rawArtifactName + " : profilename = " + profileName +"\n");
             processedArtifactName = profileName + "-" + rawArtifactName + ".html";
-            //System.out.println("Processed artifact name = " + processedArtifactName);
+            logger.debug("Processed artifact name = " + processedArtifactName+"\n");
             outHtmlPath = outputFolder + processedArtifactName;
             String htmlFile = "";
             BufferedReader reader = new BufferedReader(new FileReader(artifact.getFile().getAbsolutePath()));
@@ -284,12 +282,11 @@ public class UMLProcessor implements Processor {
         return null;
     }
 
-    
     /*
-    * 
-    * CBSProblem.html (generic) - find XML (singular) with appropriate attributes and methods, create problem definitions
-    * by linking up the XML with the problem.html
-    */
+     * 
+     * CBSProblem.html (generic) - find XML (singular) with appropriate attributes and methods, create problem definitions
+     * by linking up the XML with the problem.html
+     */
     private void ReadProblemDefinition(Artifact artifact) {
         try {
             //the problem defintion has the same name a the artefact but with a xml ending
@@ -298,12 +295,12 @@ public class UMLProcessor implements Processor {
             problemDefinition = problemDefinition.substring(0, problemDefinition.lastIndexOf('.'));
             problemDefinition = problemDefinition + ".xml";// TODO pick up XML and ensure there is only one
             File definitionFile = new File(pathToArtefactFile, problemDefinition);
-            
+
             //at this stage we'll put a copy in the session directpory as well
             String pathToOutputFile = pathToArtefactFile.substring(0, pathToArtefactFile.lastIndexOf("input")) + "output/" + problemDefinition;
             File copyOfDefinition = new File(pathToOutputFile);
             if (!copyOfDefinition.exists()) {
-                logger.info("putting a copy of the problem definition in the output directory");
+                logger.info("putting a copy of the problem definition in the output directory\n");
                 Files.copy(definitionFile.toPath(), copyOfDefinition.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
 
@@ -319,9 +316,9 @@ public class UMLProcessor implements Processor {
                 Element item = (Element) iterator.next();
                 if (item.getName().equalsIgnoreCase("designElement")) {
                     String name = item.getChildText("name");
-                    //if(name!= null) System.out.println("designElement name is " +name);
+                    if(name!= null) logger.error("designElement name is " +name + "\n");
                     String type = item.getChildText("type");
-                    //if(type!= null) System.out.println("designElement type is " +type);
+                    if(type!= null) logger.error("designElement type is " +type + "\n");
                     if (type.equalsIgnoreCase("method")) {
                         methodList.add(name);
                     } else {
@@ -331,26 +328,22 @@ public class UMLProcessor implements Processor {
                     String method = item.getChildText("methodName");
                     String attribute = item.getChildText("attributeName");
                     if ((!methodList.contains(method)) || (!attributeList.contains(attribute))) {
-                        // TODO logging
-                        // System.out.println("declared designUse names method" + method 
-                        //                    + " or attribute " + attribute 
-                        //                  + "that has not been declarted as a design element");
-                        //throw "";
+                 
+                       logger.error("declared designUse names method" +method+ " or attribute " +attribute+ "that has not been declarted as a design element\n");
+                      
                     } else {
-                        //System.out.println("designUse: method " + method 
-                        //                           + " uses attribute " + attribute);
+                        logger.debug("designUse: method " + method + " uses attribute " + attribute + "\n");
                         ArrayList methodUsesList;
                         if (UsesMap.containsKey(method)) //get the list of uses associated with this method
                         {
                             methodUsesList = UsesMap.get(method);
-                        } else 
-                        {
-                            //or make a new one if it doesn;t exist
+                        } else {
+                            //or make a new one if it doesn't exist
                             methodUsesList = new ArrayList();
                         }
                         //add the new attribute
                         methodUsesList.add(attribute);
-                        //TODO See Jim, redundant comments
+                      
                         //write this back to the HashMap
                         UsesMap.put(method, methodUsesList);
                     }
