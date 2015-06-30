@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+CBSproblem.html
+Copyright Jim Smith, UWE June 2015.
+
+definition of the elements of the CBS problem with the jointJS script to display the UML 
+-->
+
+<html>
+    <head>
+
+        <link rel="canonical" href="http://www.jointjs.com/" />
+        <meta name="description" content="IPAT Demo: Software Class Model Evolution for the Cinema Booking System Problem" />
+        <meta name="keywords" content="IPAT,JointJS, JavaScript, diagrams, diagramming library, UML, charts" />
+
+        <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="http://www.jointjs.com/css/style.css" />
+        <link rel="stylesheet" href="http://www.jointjs.com/css/joint.css" />
+        <link rel="stylesheet" href="http://www.jointjs.com/css/tutorial.css" />
+
+        <link rel="stylesheet" type="text/css" href="joint.ui.paperScroller.css" />
+        
+
+        <title>IPAT Demo: Software Class Model Evolution.</title>
+        
+    </head>
+    <body>
+   
+  <div id="paper" class="paper"/></div>
+<!--<script src="../joint.min.js"></script>-->
+<script src="../../../javascript/joint.min.js"></script>
+<script src="../../../javascript/joint.shapes.uml.js"></script>
+
+<script>
+    var graph = new joint.dia.Graph;
+
+var paper = new joint.dia.Paper({
+    el: $('#paper'),
+    width: 1000,
+    height: 600,
+    gridSize: 1,
+    model: graph
+});
+
+
+var uml = joint.shapes.uml;
+//empty container fo the classes which get add by UMLProcessor
+var classes = {
+
+};
+//added each class to the graph as a cell
+_.each(classes, function(c) { graph.addCell(c); });
+
+//empty array fo the links which get add by UMLProcessor
+var relations = [
+  
+];
+//add the links ot the graph
+_.each(relations, function(r) { graph.addCell(r); });
+//make the multiple links seperate
+_.each(classes, function(c){ adjustVertices(graph,c);});
+
+
+paper.scaleContentToFit();
+
+var myAdjustVertices = _.partial(adjustVertices, graph);
+
+// adjust vertices when a cell is removed or its source/target was changed
+graph.on('add remove change:source change:target', myAdjustVertices);
+
+// also when an user stops interacting with an element.
+paper.on('cell:pointerup', myAdjustVertices);
+
+
+
+
+</script>
+
+
+
+   
+
+
+        <link rel="stylesheet" href="http://www.jointjs.com/vendor/prism/prism.css" type="text/css" />
+        <script src="http://www.jointjs.com/vendor/prism/prism.js"></script>
+    </body>
+</html>
