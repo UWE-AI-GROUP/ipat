@@ -270,7 +270,7 @@ public class Profile {
      *
      * @return the profileLevelVariables
      */
-    public HashMap getSolutionAttributes() {
+    public HashMap getProfileLevelVariables() {
         return profileLevelVariables;
     }
 
@@ -345,7 +345,7 @@ public class Profile {
             Element profileNode = root.getChild("profile", root.getNamespace());
             List children = profileNode.getChildren();
             Iterator iterator = children.iterator();
-            HashMap mySolutionAttributes = this.getSolutionAttributes();
+            HashMap mySolutionAttributes = this.getProfileLevelVariables();
             HashMap kernels = this.getKernels();
             Set enuK = this.getKernels().keySet();
 
