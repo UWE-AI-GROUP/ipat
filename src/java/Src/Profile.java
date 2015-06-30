@@ -88,7 +88,7 @@ public class Profile {
         try {
             Document XmlDoc = new SAXBuilder().build(file);
             //Element root = XmlDoc.getRootElement();
-            Element profileNode = XmlDoc.getRootElement();//root.getChild("profile", root.getNamespace());
+            Element profileNode = XmlDoc.getRootElement();//= root.getChild("profile", root.getNamespace());
             Iterator iterator = profileNode.getChildren().iterator();
             int i = 0;
             while (iterator.hasNext()) {
@@ -475,7 +475,7 @@ public class Profile {
             XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
             String xmlString = outputter.outputString(XmlDoc);
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()))) {
+            try( BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile().getAbsolutePath()))) {
                 writer.write(xmlString);
             }
 
