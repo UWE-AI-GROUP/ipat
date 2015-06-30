@@ -123,8 +123,9 @@ public class ESEvolution implements MetaHeuristic {
                 logger.debug(".......Value in variables is now" + currentVariable.getValue()    );
                 logger.debug(".......now changing the profile in the nextgen arraylist");
                 nextGen.get(which).replaceVariable(currentVariable);
+                IpatVariable valInNextGen = (IpatVariable)nextGen.get(which).getProfileLevelVariables().get(currentvarname);
                 logger.debug(".......Value in nextGen is now" 
-                + ((IpatVariable) variables.get(nextGen.get(which).getProfileLevelVariables())).getValue() + "\n");
+                + valInNextGen.getValue() + "\n");
             }
         }
         return true;
