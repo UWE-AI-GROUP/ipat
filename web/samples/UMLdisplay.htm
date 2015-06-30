@@ -49,6 +49,7 @@ var classes = {
 
 };
 //added each class to the graph as a cell
+_.each(classes, function(c) { c.updateRectangles});
 _.each(classes, function(c) { graph.addCell(c); });
 
 //empty array fo the links which get add by UMLProcessor

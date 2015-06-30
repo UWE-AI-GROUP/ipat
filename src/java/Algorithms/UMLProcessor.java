@@ -183,7 +183,22 @@ public class UMLProcessor implements Processor {
 
             ypos = halfBoxSize + halfBoxSize * Math.sin(2 * Math.PI * vertex / numVertices);
             vertex++;
-            height = 150;
+            //next thtee lines build up the height programmatically
+            height = 10; //always be a name
+            //then add 10 for each attribute
+            if (classAttributesMap.containsKey(nextClass)) {
+                ArrayList memberslist = classAttributesMap.get(nextClass);
+                height += 20*(memberslist.size());
+            }
+            else
+              {height +=10;}
+            if (classMethodsMap.containsKey(nextClass)) {
+                ArrayList memberslist = classMethodsMap.get(nextClass);
+                height += 20*(memberslist.size());
+            }
+            else
+              {height+=10;}
+            //and 10 for each method
             //create the string to add to our html
             //TODO change the box colour according to cohesion
             String textToAdd = classNames.get(nextClass)
