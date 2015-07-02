@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 /**
@@ -125,12 +127,12 @@ public class UMLProcessor implements Processor {
         //2 check we have a class for every element in the problem definition and that everything we have aclassfor is in the problem defintion
         if (Utils.haveSameElements(methodsSeen, methodList) == false) {
             logger.error("problem - the list of methods in the profile is not the same as in the problem defintion"
-                    + "defintion has " + methodList.size() + " but profile has " + methodsSeen.size());
+                    + "defintion has " + methodList.size() + " but profile has " + methodsSeen.size() + "\n");
         } else if (Utils.haveSameElements(attributesSeen, attributeList) == false) {
             logger.error("problem - the list of attributes in the profile is not the same a in the problem defintion"
-                    + "defintion has " + attributeList.size() + " but profile has " + attributesSeen.size());
+                    + "defintion has " + attributeList.size() + " but profile has " + attributesSeen.size() + "\n");
         } else {
-            logger.debug("problem defintion read from xml matches variables in " + profile.getName());
+            logger.debug("problem defintion read from xml matches variables in " + profile.getName() + "\n");
         }
 
         //2.1 now make a list of all the in-class and between-class uses in this design candidate
@@ -390,7 +392,7 @@ public class UMLProcessor implements Processor {
                 totaluses += value.size();
             }
             logger.debug("read " + methodList.size() + " methods and " + attributeList.size() + " attributes and " + totaluses + " uses from problem defintion xml file\n");
-        } catch (Exception e) {
+        } catch (IOException | JDOMException e) {
             logger.fatal(e.getMessage());
         }
     }

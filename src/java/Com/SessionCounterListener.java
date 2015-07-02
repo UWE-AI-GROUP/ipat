@@ -6,6 +6,8 @@
 package Com;
 
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
  
@@ -13,6 +15,11 @@ public class SessionCounterListener implements HttpSessionListener {
  
   private static int totalActiveSessions;
  
+  public void contextInitialized(ServletContextEvent event) {
+      System.out.println("##### ROOT PATH " + event.getServletContext().getRealPath("/"));
+	System.setProperty("rootPath", event.getServletContext().getRealPath("/"));
+}
+  
   public static int getTotalActiveSession(){
 	return totalActiveSessions;
   }

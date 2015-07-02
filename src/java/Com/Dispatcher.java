@@ -28,6 +28,7 @@ import javax.servlet.RequestDispatcher;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.log4j.Logger;
 
+
 /**
  *
  * @author kieran
@@ -46,6 +47,8 @@ public class Dispatcher extends HttpServlet {
         this.contextPath = getServletContext().getRealPath("/");
         logger.info("session context path = " + contextPath);
         this.myRepository = new File(contextPath + "/tempFileRepository/");
+         System.out.println("##### ROOT PATH " + getServletContext().getRealPath("/"));
+	System.setProperty("rootPath", getServletContext().getRealPath("/"));
     }
 
     @Override

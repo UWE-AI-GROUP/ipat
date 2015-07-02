@@ -400,7 +400,7 @@ public class Hint {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
             if (kernel == null) {
-                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint");
+                logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint\n");
             } else {
                 HashMap vars = kernel.getVariables();
                 Iterator kvarIterator;
@@ -485,7 +485,7 @@ public class Hint {
         for (Iterator kernelIterator = kernelsAffected.iterator(); kernelIterator.hasNext();) {
             String kernelname = (String) kernelIterator.next();
             Kernel kernel = (Kernel) thisProfile.getKernelCalled(kernelname);
-            if (kernel == null) { // TODO USE THIS FOR THE NULL CHECKING
+            if (kernel == null) {
                 logger.error("Kernel " + kernelname + " not present in profile " + thisProfile.getName() + " within Hint\n");
             } else {
                 HashMap vars = kernel.getVariables();
@@ -508,7 +508,7 @@ public class Hint {
                     currentVarName = (String) kvarIterator.next();
                     currentVariable = (IpatVariable) vars.get(currentVarName);
                     if(currentVariable==null)
-                        System.out.println("couldn't find variable with name " + currentVarName + " in kernel " + kernelname);
+                        logger.error("couldn't find variable with name " + currentVarName + " in kernel " + kernelname + "\n");
                     else
                       {double oldValue = currentVariable.getValue();
 
