@@ -168,7 +168,8 @@ public class Controller {
         File[] profiles_list = profileFolder.listFiles(filter);
         if (profiles_list == null) {
             logger.error("Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.\n");
-           logger.error("profile folder with path : " + profileFolder.getAbsolutePath() + " with "+profileFolder.listFiles().length+" files : \n");
+           logger.error("profile folder with path : " + profileFolder.getAbsolutePath());
+           logger.error(" with "+profileFolder.listFiles().length+" files : \n");
             for (File profile : profileFolder.listFiles()) {
                 logger.error(profile + "\n");
             }
