@@ -16,8 +16,8 @@ public class SessionCounterListener implements HttpSessionListener {
   private static int totalActiveSessions;
  
   public void contextInitialized(ServletContextEvent event) {
-      System.out.println("##### ROOT PATH " + event.getServletContext().getRealPath("/"));
-	System.setProperty("rootPath", event.getServletContext().getRealPath("/"));
+	ServletContext context = event.getServletContext();
+	System.setProperty("rootPath", context.getRealPath("/"));
 }
   
   public static int getTotalActiveSession(){

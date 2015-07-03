@@ -47,8 +47,9 @@ public class Dispatcher extends HttpServlet {
         this.contextPath = getServletContext().getRealPath("/");
         logger.info("session context path = " + contextPath);
         this.myRepository = new File(contextPath + "/tempFileRepository/");
-         System.out.println("##### ROOT PATH " + getServletContext().getRealPath("/"));
-	System.setProperty("rootPath", getServletContext().getRealPath("/"));
+        File logFile = new File(contextPath + "/log/log4j-IPAT.log");
+        System.setProperty("rootPath", logFile.getAbsolutePath());
+       
     }
 
     @Override
@@ -58,6 +59,9 @@ public class Dispatcher extends HttpServlet {
             session.invalidate();
             session = req.getSession(true);
         }
+        
+        
+        
         Processor processor;
         String problemDataFolderName;
         // ### Add additional problem cases below ###

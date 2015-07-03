@@ -1,0 +1,2008 @@
+Jul 01, 2015 3:58:19 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Undeploying context [/IPAT]
+Jul 02, 2015 10:55:23 AM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /var/lib/tomcat7/webapps/IPAT.war
+log4j:ERROR Unexpected char [ ] at position 17 in conversion patterrn.
+log4j:ERROR setFile(null,true) call failed.
+java.io.FileNotFoundException: C:\Users\kieran\Documents\NetBeansProjects\UML_Evolver\ipat\log4j-application.log (Permission denied)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:221)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:142)
+	at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)
+	at org.apache.log4j.RollingFileAppender.setFile(RollingFileAppender.java:207)
+	at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)
+	at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)
+	at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)
+	at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)
+	at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:580)
+	at org.apache.log4j.helpers.OptionConverter.selectAndConfigure(OptionConverter.java:526)
+	at org.apache.log4j.LogManager.<clinit>(LogManager.java:127)
+	at org.apache.log4j.Logger.getLogger(Logger.java:117)
+	at Com.Dispatcher.<clinit>(Dispatcher.java:37)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at java.lang.Class.newInstance(Class.java:379)
+	at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:134)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1136)
+	at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:857)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:136)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:168)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:98)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:927)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:407)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1002)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:579)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+10:55:52 %50 [http-bio-8080-exec-14] - Com.Dispatcher.init - session context path = /var/lib/tomcat7/webapps/IPAT/
+sessionCreated - add one session into counter
+10:55:55 %50 [http-bio-8080-exec-19] - Com.Abort.doPost - Project Aborted by user 8BD3BE671873EA6357F74D83816FE1E8
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+10:56:04 %50 [http-bio-8080-exec-20] - Com.Dispatcher.doPost - Created repository directory /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+10:56:04 %50 [http-bio-8080-exec-20] - Com.Dispatcher.doPost - factory repository is /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+Jul 02, 2015 11:02:05 AM org.apache.catalina.startup.HostConfig checkResources
+INFO: Undeploying context [/IPAT]
+Jul 02, 2015 11:13:57 AM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /var/lib/tomcat7/webapps/IPAT.war
+Jul 02, 2015 11:13:58 AM org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(/var/lib/tomcat7/webapps/IPAT/WEB-INF/lib/servlet-api.jar) - jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
+log4j:ERROR Unexpected char [ ] at position 17 in conversion patterrn.
+log4j:ERROR setFile(null,true) call failed.
+java.io.FileNotFoundException: ./log/log4j-IPAT.log (No such file or directory)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:221)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:142)
+	at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)
+	at org.apache.log4j.RollingFileAppender.setFile(RollingFileAppender.java:207)
+	at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)
+	at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)
+	at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)
+	at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)
+	at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:580)
+	at org.apache.log4j.helpers.OptionConverter.selectAndConfigure(OptionConverter.java:526)
+	at org.apache.log4j.LogManager.<clinit>(LogManager.java:127)
+	at org.apache.log4j.Logger.getLogger(Logger.java:117)
+	at Com.Dispatcher.<clinit>(Dispatcher.java:38)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at java.lang.Class.newInstance(Class.java:379)
+	at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:134)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1136)
+	at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:857)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:136)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:168)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:98)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:927)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:407)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1002)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:579)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+11:14:05 %50 [http-bio-8080-exec-26] - Com.Dispatcher.init - session context path = /var/lib/tomcat7/webapps/IPAT/
+##### ROOT PATH /var/lib/tomcat7/webapps/IPAT/
+sessionCreated - add one session into counter
+11:14:06 %50 [http-bio-8080-exec-27] - Com.Abort.doPost - Project Aborted by user E22393D75EBCAE3DD06B97132EA49667
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+11:14:29 %50 [http-bio-8080-exec-27] - Com.Dispatcher.doPost - Created repository directory /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+11:14:29 %50 [http-bio-8080-exec-27] - Com.Dispatcher.doPost - factory repository is /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+11:14:29 %50 [http-bio-8080-exec-27] - Com.Dispatcher.doPost - filename read is HTMLPage1.htm
+
+11:14:29 %50 [http-bio-8080-exec-27] - Com.Dispatcher.doPost - File(s) uploaded by user : 
+
+input path : /var/lib/tomcat7/webapps/IPAT/Client Data/B32499FB4F4BD88BCF4AB394F660B5B9/input
+
+output path : /var/lib/tomcat7/webapps/IPAT/Client Data/B32499FB4F4BD88BCF4AB394F660B5B9/output
+
+profile path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/Profiles
+
+hintsXML path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/hints.xml
+
+11:14:29 %50 [http-bio-8080-exec-27] - Src.Controller.initialisation - initial no of Profiles = 6
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_3.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_5.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_1.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_2.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_6.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_4.xml : 5
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - How Many in ESEvolution.generateNextSolutions : 6
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[0] with filename gen_0-profile_3.xml
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[1] with filename gen_0-profile_5.xml
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[2] with filename gen_0-profile_1.xml
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[3] with filename gen_0-profile_2.xml
+
+11:14:29 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[4] with filename gen_0-profile_6.xml
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[5] with filename gen_0-profile_4.xml
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_0.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_1.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_2.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_3.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_4.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_5.xml
+11:14:30 %50 [http-bio-8080-exec-27] - Com.Dispatcher.doPost - Initialisation of profiles for session (B32499FB4F4BD88BCF4AB394F660B5B9) is complete
+Awaiting user to update parameters to generate next generation of results.
+
+11:30:32 %50 [http-bio-8080-exec-23] - Com.NewGen.doPost - ProfileNum has been found inside VariableChange Servlet with value: 6
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Num of Hints =4
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 0
+
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 0
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:32 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 1
+
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 5
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:32 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 2
+
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 0
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:32 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:32 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 3
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 4
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updating hints for Profile: 5
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated globalScore : 0
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated FreezeBGColours : false
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFontSize : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.Hint.InterpretModeratingHintInProfile - in InterpretModeratingHintInProfile(), range min = 0.0rangeMax = 2.0amount = 0.0multiplier is 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Src.Interaction.updateProfileHints - Updated ChangeFGContrast : 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_1-profile_1.xml : 5
+
+How Many in Controller.setNoOfProfiles after : 6
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_1-profile_1.xml : 5
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - How Many in ESEvolution.generateNextSolutions : 6
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[0] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[1] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[2] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[3] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[4] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[5] with filename gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - global score for the profile gen_1-profile_1.xml
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - in evolution.mutateprofile() name of profile nextgen[1] is gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......mutation parameter is : 0.25
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......number of kernels is  : 4
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel p number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5436128534103271
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 131.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 171.0 is changing  to 131.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 131.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9709716166683448
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.24355791677265126
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 232.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 232.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 232.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.11394674386239112
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 6.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.16898434644819615
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.13398706720631437
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...............randomly choosing new value 5.0for cardinal variable font-family
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 3.0 is changing  to 5.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 5.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.16313438941896896
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable italicto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9370778537087229
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.14818966120829158
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable bulletto value 0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bullet in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel img number of elements : 2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.19523599865166186
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...............randomly choosing new value 3.0for cardinal variable margin
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable margin in kernel img
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 3.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 3.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4945399280494266
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable border
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h1 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.19097038536870847
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4704357386184155
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.03763434769798868
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 38.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 98.0 is changing  to 38.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 38.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.44280855146379317
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 24.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 6.0 is changing  to 24.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 24.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9221580169052741
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.0876988021703422
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...............randomly choosing new value 8.0for cardinal variable font-family
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 8.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 8.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.752693424908904
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.01272378279376718
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 246.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 246.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 246.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5000068946042424
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h2 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.33670484259809663
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 218.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 231.0 is changing  to 218.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 218.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6062246598218041
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5708832997835012
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7408876703202061
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 64.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 61.0 is changing  to 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.07444188269589913
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.21537856616511508
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...............randomly choosing new value 7.0for cardinal variable font-family
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 5.0 is changing  to 7.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 7.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.28658611577891324
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2069401959120103
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8742721231462325
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......the number of profile variables is : 3
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.921875900660922
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 23.0for ordinal variable Page_bg_Red
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Red
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 18.0 is changing  to 23.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now23.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now23.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5252947862074158
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 143.0for ordinal variable Page_bg_Green
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Green
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 233.0 is changing  to 143.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now143.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now143.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9414848738030577
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable Page_bg_Blue
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Blue
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 63.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - ..... mutate profile 1 complete
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - global score for the profile gen_1-profile_1.xml
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - in evolution.mutateprofile() name of profile nextgen[2] is gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......mutation parameter is : 0.25
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......number of kernels is  : 4
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel p number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.12576410531896864
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 156.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 171.0 is changing  to 156.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 156.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5530440010416435
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9307805150998327
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 236.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 236.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 236.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.25251954850892966
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 6.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.768053459878286
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8296533839247994
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 3.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.34673312582657534
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.46514403900160883
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6809398039799824
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel img number of elements : 2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9211436833069873
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable margin in kernel img
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.325615473045341
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable border
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h1 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.13105028606179725
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 33.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 33.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 33.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.21749099520873283
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable boldto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.18053768333644915
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 110.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 98.0 is changing  to 110.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 110.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2614962910547243
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 6.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6163945348918735
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5350446569175358
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.34333888973662197
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7521786366017998
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2634191554949987
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h2 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.1387684119035738
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 245.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 231.0 is changing  to 245.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 245.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5179698031118897
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7299797589484006
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 246.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 246.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 246.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7124782642701045
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 64.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 61.0 is changing  to 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5137452553747086
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 2.611748039554884E-4
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...............randomly choosing new value 1.0for cardinal variable font-family
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 5.0 is changing  to 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.059415650922935326
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable italicto value 0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.14778342631938235
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9434936134414468
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......the number of profile variables is : 3
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.19770945577330667
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable Page_bg_Red
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Red
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 18.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.03010982538707352
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable Page_bg_Green
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Green
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 233.0 is changing  to 255.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now255.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now255.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5636935635155855
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable Page_bg_Blue
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Blue
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 63.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - ..... mutate profile 2 complete
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - global score for the profile gen_1-profile_1.xml
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - in evolution.mutateprofile() name of profile nextgen[3] is gen_1-profile_1.xml
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......mutation parameter is : 0.25
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......number of kernels is  : 4
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel p number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6348630768413934
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 212.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 171.0 is changing  to 212.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 212.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7127095540337102
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.16180010663922073
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.1631000398218786
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 21.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 6.0 is changing  to 21.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 21.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.00544428696270971
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4528628190628532
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 3.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.0166454656944105
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable italicto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.834679547643414
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 20.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel p
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 20.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 20.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9955605159134195
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel img number of elements : 2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8464995203204649
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable margin in kernel img
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.3911276282132031
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 3.0for ordinal variable border
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable border in kernel img
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 3.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 3.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h1 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.43223638997992575
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 12.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 12.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 12.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2597299738118082
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.014305320774635422
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 101.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 98.0 is changing  to 101.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 101.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6544127847578061
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 13.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 6.0 is changing  to 13.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 13.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.20491247729809314
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 1.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.44403171819291953
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h1
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7062536284351454
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.11699731817712289
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_red_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6193897534191474
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h2 number of elements : 9
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6186638030400148
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 215.0for ordinal variable color_blue_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 231.0 is changing  to 215.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 215.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.06828780265087231
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable boldto value 0.0
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9893142292864109
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_green_fg
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7699621841806802
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 64.0for ordinal variable font-size
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 61.0 is changing  to 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 64.0
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7219302420871697
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6131570165836444
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h2
+
+11:30:33 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 5.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.0011769898242574017
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable italicto value 0.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7501169356669954
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 242.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 242.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 242.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.05182898666336366
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable bulletto value 0.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bullet in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......the number of profile variables is : 3
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5291309503935477
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 43.0for ordinal variable Page_bg_Red
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Red
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 18.0 is changing  to 43.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now43.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now43.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.46718927634866136
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable Page_bg_Green
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Green
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 233.0 is changing  to 255.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now255.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now255.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.3099569628770861
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 23.0for ordinal variable Page_bg_Blue
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Blue
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 63.0 is changing  to 23.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now23.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now23.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - ..... mutate profile 3 complete
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - global score for the profile gen_1-profile_1.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - in evolution.mutateprofile() name of profile nextgen[4] is gen_1-profile_1.xml
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......mutation parameter is : 0.25
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......number of kernels is  : 4
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel p number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.08011893729639308
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 198.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 171.0 is changing  to 198.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 198.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5464812434649775
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9674851529893095
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9718136568883551
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 14.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 6.0 is changing  to 14.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 14.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6794747223173736
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8140090073563215
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 3.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.25186565310983633
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9977373458129946
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 1.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.051131725747178836
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable bulletto value 0.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bullet in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel img number of elements : 2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5440121026095383
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable margin in kernel img
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7645426861210888
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 0.0for ordinal variable border
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h1 number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.18933657503919266
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 33.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 33.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 33.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9281205055050511
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6903512542296678
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 108.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 98.0 is changing  to 108.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 108.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4610006249901052
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 23.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 6.0 is changing  to 23.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 23.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.27564714468773555
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7370915326947005
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6214294230196329
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.47263746819990105
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 201.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 201.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 201.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.359606200028335
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h2 number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.12073190213553664
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 222.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 231.0 is changing  to 222.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 222.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8304697144046935
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7623510252187342
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.009068601738479898
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 62.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 61.0 is changing  to 62.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 62.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9558103106715891
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.25093193029157823
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 5.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8802661547780735
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.3123507955246868
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 245.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 245.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 245.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.021620877058768806
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable bulletto value 0.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bullet in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......the number of profile variables is : 3
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.748300025534084
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 33.0for ordinal variable Page_bg_Red
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Red
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 18.0 is changing  to 33.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now33.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now33.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7066201305931463
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 113.0for ordinal variable Page_bg_Green
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Green
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 233.0 is changing  to 113.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now113.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now113.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4353399874332514
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 78.0for ordinal variable Page_bg_Blue
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Blue
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 63.0 is changing  to 78.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now78.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now78.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - ..... mutate profile 4 complete
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - global score for the profile gen_1-profile_1.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - in evolution.mutateprofile() name of profile nextgen[5] is gen_1-profile_1.xml
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......mutation parameter is : 0.25
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......number of kernels is  : 4
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel p number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9067365210606979
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 196.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 171.0 is changing  to 196.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 196.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.7920442302887948
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5678991389191235
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 248.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 248.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 248.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2152631645792059
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 6.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.08973090634273917
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 1.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.89433885595389
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 3.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.809726695804487
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.845081509020195
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 14.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel p
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 14.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 14.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8292920095282583
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel img number of elements : 2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2939268275725463
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable margin in kernel img
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.04922499132532321
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 2.0for ordinal variable border
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable border in kernel img
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 2.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 2.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h1 number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.4948278703978878
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 27.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 27.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 27.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.1956683694327881
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable boldto value 1.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable bold in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.9354738371827744
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 63.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 98.0 is changing  to 63.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 63.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5818889422126864
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 6.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.01620705567616154
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable numberedto value 1.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable numbered in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 1.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2919725212890991
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 2.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8132286748618024
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.618970516712316
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 255.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.5346505047883917
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Kernel h2 number of elements : 9
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.23437488641033444
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 201.0for ordinal variable color_blue_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_blue_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 231.0 is changing  to 201.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 201.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6744112611817583
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.2459489887625821
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 228.0for ordinal variable color_green_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_green_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 228.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 228.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.295793470079489
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 64.0for ordinal variable font-size
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-size in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 61.0 is changing  to 64.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 64.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6997473740823779
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.670323871420254
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable font-family in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 5.0 is changing  to 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 0.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.23756153595384266
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - flipping binary variable italicto value 0.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable italic in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 0.0 is changing  to 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 1.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.02969712124259183
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 214.0for ordinal variable color_red_fg
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating variable color_red_fg in kernel h2
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 255.0 is changing  to 214.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - Value in vars is now 214.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.6314482103665945
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......the number of profile variables is : 3
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.35854894046069874
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 38.0for ordinal variable Page_bg_Red
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Red
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 18.0 is changing  to 38.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now38.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now38.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.20476580261317057
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 143.0for ordinal variable Page_bg_Green
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Green
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 233.0 is changing  to 143.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now143.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now143.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - random number in ESEvolution.mutateVariable is : 0.8150670112901728
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateVariable - ...................choosing new value 148.0for ordinal variable Page_bg_Blue
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - mutating profile variable Page_bg_Blue
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......old value 63.0 is changing  to 148.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......have set value in currentVariable
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in variables is now148.0
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......now changing the profile in the nextgen arraylist
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.mutateProfile - .......Value in nextGen is now148.0
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - ..... mutate profile 5 complete
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 1
+
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_0.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_1.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_2.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_3.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_4.xml
+11:30:34 %50 [http-bio-8080-exec-23] - Src.Controller.getResultArtifacts - Processing : gen_2-profile_5.xml
+Jul 02, 2015 11:51:42 AM org.apache.catalina.startup.HostConfig checkResources
+INFO: Undeploying context [/IPAT]
+Jul 02, 2015 11:53:00 AM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /var/lib/tomcat7/webapps/IPAT.war
+Jul 02, 2015 11:53:00 AM org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(/var/lib/tomcat7/webapps/IPAT/WEB-INF/lib/servlet-api.jar) - jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
+log4j:ERROR Unexpected char [ ] at position 17 in conversion patterrn.
+log4j:ERROR setFile(null,true) call failed.
+java.io.FileNotFoundException: {rootPath}/log4j-IPAT.log (No such file or directory)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:221)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:142)
+	at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)
+	at org.apache.log4j.RollingFileAppender.setFile(RollingFileAppender.java:207)
+	at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)
+	at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)
+	at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)
+	at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)
+	at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:580)
+	at org.apache.log4j.helpers.OptionConverter.selectAndConfigure(OptionConverter.java:526)
+	at org.apache.log4j.LogManager.<clinit>(LogManager.java:127)
+	at org.apache.log4j.Logger.getLogger(Logger.java:117)
+	at Com.Dispatcher.<clinit>(Dispatcher.java:38)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at java.lang.Class.newInstance(Class.java:379)
+	at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:134)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1136)
+	at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:857)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:136)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:168)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:98)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:927)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:407)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1002)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:579)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+11:53:08 %50 [http-bio-8080-exec-27] - Com.Dispatcher.init - session context path = /var/lib/tomcat7/webapps/IPAT/
+##### ROOT PATH /var/lib/tomcat7/webapps/IPAT/
+sessionCreated - add one session into counter
+11:53:10 %50 [http-bio-8080-exec-25] - Com.Abort.doPost - Project Aborted by user 2C2DEAC735FDE7A2D430E1E9F1CBBF35
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+11:53:14 %50 [http-bio-8080-exec-31] - Com.Dispatcher.doPost - Created repository directory /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+11:53:14 %50 [http-bio-8080-exec-31] - Com.Dispatcher.doPost - factory repository is /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+11:53:14 %50 [http-bio-8080-exec-31] - Com.Dispatcher.doPost - filename read is HTMLPage1.htm
+
+11:53:14 %50 [http-bio-8080-exec-31] - Com.Dispatcher.doPost - File(s) uploaded by user : 
+
+input path : /var/lib/tomcat7/webapps/IPAT/Client Data/F376532EC6DED2C1B124B8C96EF176A9/input
+
+output path : /var/lib/tomcat7/webapps/IPAT/Client Data/F376532EC6DED2C1B124B8C96EF176A9/output
+
+profile path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/Profiles
+
+hintsXML path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/hints.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Src.Controller.initialisation - initial no of Profiles = 6
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_3.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_5.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_1.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_2.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_6.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_4.xml : 5
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - How Many in ESEvolution.generateNextSolutions : 6
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[0] with filename gen_0-profile_3.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[1] with filename gen_0-profile_5.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[2] with filename gen_0-profile_1.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[3] with filename gen_0-profile_2.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[4] with filename gen_0-profile_6.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[5] with filename gen_0-profile_4.xml
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:15 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:16 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:16 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:16 %50 [http-bio-8080-exec-31] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_0.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_1.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_2.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_3.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_4.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_5.xml
+11:53:16 %50 [http-bio-8080-exec-31] - Com.Dispatcher.doPost - Initialisation of profiles for session (F376532EC6DED2C1B124B8C96EF176A9) is complete
+Awaiting user to update parameters to generate next generation of results.
+
+sessionDestroyed - deduct one session from counter
+Jul 02, 2015 3:27:02 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Undeploying context [/IPAT]
+Jul 02, 2015 3:27:16 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /var/lib/tomcat7/webapps/IPAT.war
+Jul 02, 2015 3:27:16 PM org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(/var/lib/tomcat7/webapps/IPAT/WEB-INF/lib/servlet-api.jar) - jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
+log4j:WARN No appenders could be found for logger (Com.Dispatcher).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+sessionCreated - add one session into counter
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+Jul 02, 2015 3:35:54 PM org.apache.catalina.startup.HostConfig checkResources
+INFO: Undeploying context [/IPAT]
+Jul 02, 2015 3:36:09 PM org.apache.catalina.startup.HostConfig deployWAR
+INFO: Deploying web application archive /var/lib/tomcat7/webapps/IPAT.war
+Jul 02, 2015 3:36:09 PM org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(/var/lib/tomcat7/webapps/IPAT/WEB-INF/lib/servlet-api.jar) - jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
+log4j:ERROR Unexpected char [ ] at position 17 in conversion patterrn.
+log4j:ERROR setFile(null,true) call failed.
+java.io.FileNotFoundException: /var/lib/tomcat7/webapps/IPAT (Is a directory)
+	at java.io.FileOutputStream.open(Native Method)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:221)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:142)
+	at org.apache.log4j.FileAppender.setFile(FileAppender.java:294)
+	at org.apache.log4j.RollingFileAppender.setFile(RollingFileAppender.java:207)
+	at org.apache.log4j.FileAppender.activateOptions(FileAppender.java:165)
+	at org.apache.log4j.config.PropertySetter.activate(PropertySetter.java:307)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:172)
+	at org.apache.log4j.config.PropertySetter.setProperties(PropertySetter.java:104)
+	at org.apache.log4j.PropertyConfigurator.parseAppender(PropertyConfigurator.java:842)
+	at org.apache.log4j.PropertyConfigurator.parseCategory(PropertyConfigurator.java:768)
+	at org.apache.log4j.PropertyConfigurator.configureRootCategory(PropertyConfigurator.java:648)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:514)
+	at org.apache.log4j.PropertyConfigurator.doConfigure(PropertyConfigurator.java:580)
+	at org.apache.log4j.helpers.OptionConverter.selectAndConfigure(OptionConverter.java:526)
+	at org.apache.log4j.LogManager.<clinit>(LogManager.java:127)
+	at org.apache.log4j.Logger.getLogger(Logger.java:117)
+	at Com.Dispatcher.<clinit>(Dispatcher.java:38)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at java.lang.Class.newInstance(Class.java:379)
+	at org.apache.catalina.core.DefaultInstanceManager.newInstance(DefaultInstanceManager.java:134)
+	at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:1136)
+	at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:857)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:136)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:168)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:98)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:927)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:407)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1002)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:579)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
+15:36:19 %50 [http-bio-8080-exec-48] - Com.Dispatcher.init - session context path = /var/lib/tomcat7/webapps/IPAT/
+sessionCreated - add one session into counter
+15:36:19 %50 [http-bio-8080-exec-44] - Com.Abort.doPost - Project Aborted by user F262DEB130C1FDAFE5778686B568C51D
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+15:36:33 %50 [http-bio-8080-exec-41] - Com.Dispatcher.doPost - Created repository directory /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+15:36:33 %50 [http-bio-8080-exec-41] - Com.Dispatcher.doPost - factory repository is /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+15:36:33 %50 [http-bio-8080-exec-41] - Com.Dispatcher.doPost - filename read is HTMLPage1.htm
+
+15:36:33 %50 [http-bio-8080-exec-41] - Com.Dispatcher.doPost - File(s) uploaded by user : 
+
+input path : /var/lib/tomcat7/webapps/IPAT/Client Data/0280832722EB22E9D4EA86B7FF3D74EF/input
+
+output path : /var/lib/tomcat7/webapps/IPAT/Client Data/0280832722EB22E9D4EA86B7FF3D74EF/output
+
+profile path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/Profiles
+
+hintsXML path : /var/lib/tomcat7/webapps/IPAT/data/CSS Evolution/hints.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.initialisation - initial no of Profiles = 6
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_3.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_5.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_1.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_2.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_6.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.updateWorkingMemory - those assigned as best in ESEvolution.updateWorkingMemory(): gen_0-profile_4.xml : 5
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - How Many in ESEvolution.generateNextSolutions : 6
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[0] with filename gen_0-profile_3.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[1] with filename gen_0-profile_5.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[2] with filename gen_0-profile_1.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[3] with filename gen_0-profile_2.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[4] with filename gen_0-profile_6.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - have made a copy of best[5] with filename gen_0-profile_4.xml
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Algorithms.ESEvolution.generateNextSolutions - after reading generation  has value 0
+
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_0.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_1.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_2.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_3.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_4.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Src.Controller.getResultArtifacts - Processing : gen_1-profile_5.xml
+15:36:34 %50 [http-bio-8080-exec-41] - Com.Dispatcher.doPost - Initialisation of profiles for session (0280832722EB22E9D4EA86B7FF3D74EF) is complete
+Awaiting user to update parameters to generate next generation of results.
+
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+11:40:22 %50 [http-bio-8080-exec-51] - Com.Abort.doPost - Project Aborted by user 507D8C6E93B2B42F7271F4A398065955
+sessionDestroyed - deduct one session from counter
+sessionCreated - add one session into counter
+11:42:02 %50 [http-bio-8080-exec-55] - Com.Dispatcher.doPost - factory repository is /var/lib/tomcat7/webapps/IPAT/tempFileRepository
+
+11:42:02 %50 [http-bio-8080-exec-55] - Com.Dispatcher.doPost - filename read is CBSproblem.xml
+
+11:42:02 %50 [http-bio-8080-exec-55] - Com.Dispatcher.doPost - filename read is UMLdisplay.htm
+
+11:42:02 %50 [http-bio-8080-exec-55] - Com.Dispatcher.doPost - File(s) uploaded by user : 
+
+input path : /var/lib/tomcat7/webapps/IPAT/Client Data/6347427CB01D4D89DAE3D959257F7BF0/input
+
+output path : /var/lib/tomcat7/webapps/IPAT/Client Data/6347427CB01D4D89DAE3D959257F7BF0/output
+
+profile path : /var/lib/tomcat7/webapps/IPAT/data/UML Evolution/Profiles
+
+hintsXML path : /var/lib/tomcat7/webapps/IPAT/data/UML Evolution/hints.xml
+
+11:42:02 %50 [http-bio-8080-exec-55] - Src.Controller.bootstrapApplication - Error : profiles_list  == null in bootstrap application. Please check the web.xml in WEB-INF to ensure paths to config folders are correct.
+
+Jul 03, 2015 11:42:02 AM org.apache.coyote.AbstractProtocol pause
+INFO: Pausing ProtocolHandler ["http-bio-8080"]
+Jul 03, 2015 11:42:02 AM org.apache.catalina.core.StandardService stopInternal
+INFO: Stopping service Catalina
+Jul 03, 2015 11:42:02 AM org.apache.catalina.core.StandardWrapper unload
+INFO: Waiting for 1 instance(s) to be deallocated
+Jul 03, 2015 11:42:03 AM org.apache.catalina.core.StandardWrapper unload
+INFO: Waiting for 1 instance(s) to be deallocated
+Jul 03, 2015 11:42:04 AM org.apache.catalina.core.StandardWrapper unload
+INFO: Waiting for 1 instance(s) to be deallocated
+Jul 03, 2015 11:42:04 AM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads
+SEVERE: The web application [/IPAT] is still processing a request that has yet to finish. This is very likely to create a memory leak. You can control the time allowed for requests to finish by using the unloadDelay attribute of the standard Context implementation.
+Jul 03, 2015 11:42:04 AM org.apache.coyote.AbstractProtocol stop
+INFO: Stopping ProtocolHandler ["http-bio-8080"]
+Jul 03, 2015 11:42:04 AM org.apache.coyote.AbstractProtocol destroy
+INFO: Destroying ProtocolHandler ["http-bio-8080"]
