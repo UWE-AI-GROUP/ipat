@@ -8,10 +8,12 @@ package Src;
  pKernel surrogate model instead of the real web or app several times between actual user interactions via
  the web/app.
  */
+import Algorithms.CSSProcessor;
 import Algorithms.ESEvolution;
 import Algorithms.Hint;
 import Algorithms.MetaHeuristic;
 import Algorithms.Processor;
+import Algorithms.UMLProcessor;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -35,8 +37,8 @@ public class Controller {
 
     private static final Logger logger = Logger.getLogger(Controller.class);
 
-    Processor Processor;
-    Display display;
+    Processor processor;
+    Display display = new Display();
     MetaHeuristic metaHeuristic = new ESEvolution();
     HashMap<String, Hint> hints = new HashMap<>();
 
@@ -93,17 +95,35 @@ public class Controller {
      * @param outputFolder
      * @param profileFolder
      * @param hintsXML
-     * @param processor
+     * @param caseName
      * @param display
      * @throws IOException
      */
-    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, Processor processor, Display display) throws IOException {
-        this.outputFolder = outputFolder;
-        this.inputFolder = inputFolder;
-        this.profileFolder = profileFolder;
-        this.hintsXML = hintsXML;
-        this.Processor = processor;
-        this.display = display;
+    public Controller(File inputFolder, File outputFolder, File profileFolder, File hintsXML, String caseName) throws IOException {
+        Controller.outputFolder = outputFolder;
+        Controller.inputFolder = inputFolder;
+        Controller.profileFolder = profileFolder;
+        Controller.hintsXML = hintsXML;
+        
+        
+                // ### Add additional problem cases below ###
+        switch (caseName) {
+            case "/UML Evolution":
+                this.processor = new UMLProcessor();
+                break;
+            case "/CSS Evolution":
+                this.processor = new CSSProcessor();
+                break;
+                
+//            case "{/Folder Name}":    
+//                 this.processor = new YourProcessor();
+//                break;
+                
+            default:
+                logger.info("Trouble with the instantiation of the Processor in Dispatchers doGet(). No case"
+                        + " for this URL extension. Ensure case Strings in Dispatcher.doGet() exactly match those in web.xml");
+                throw new AssertionError();
+        }
     }
 
     /**
@@ -123,7 +143,7 @@ public class Controller {
             currentGenerationOfProfiles[i] = metaHeuristic.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
-        HashMap<String, String> results = display.loadWebDisplay(this);
+        HashMap<String, String> results = display.loadDisplay(this);
         return results;
     }
 
@@ -147,7 +167,7 @@ public class Controller {
             currentGenerationOfProfiles[i] = metaHeuristic.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
-      HashMap<String, String> results =  display.loadWebDisplay(this);
+      HashMap<String, String> results =  display.loadDisplay(this);
         return results;
     }
 
@@ -291,7 +311,7 @@ public class Controller {
 
                 rawArtifact = raw_artifacts[artifactID];
                 //System.out.println(rawArtifact.getFilename());
-                processedArtifact = Processor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
+                processedArtifact = processor.applyProfileToArtifact(currentProfile, rawArtifact, outputFolder.getAbsolutePath() + "/");
                 processedArtifacts[count] = processedArtifact;
                 count++;
 

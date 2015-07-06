@@ -27,8 +27,9 @@
     <servlet-mapping>
         <servlet-name>Dispatcher</servlet-name>
         <url-pattern>/FileUpload</url-pattern>
-        <url-pattern>/CSS</url-pattern>
-        <url-pattern>/UML</url-pattern>
+        <url-pattern>/CSS Evolution</url-pattern>
+        <url-pattern>/UML Evolution</url-pattern>
+       <!-- <url-pattern>/Folder Name</url-pattern> -->
     </servlet-mapping>
     <servlet>
         <servlet-name>Abort</servlet-name>

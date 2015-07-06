@@ -58,31 +58,8 @@ public class Dispatcher extends HttpServlet {
         if (!session.isNew()) {
             session.invalidate();
             session = req.getSession(true);
-        }
-        
-        
-        
-        Processor processor;
-        String problemDataFolderName;
-        // ### Add additional problem cases below ###
-        switch (req.getServletPath()) {
-            case "/UML":
-                processor = new UMLProcessor();
-                problemDataFolderName = "UML Evolution";
-                break;
-            case "/CSS":
-                processor = new CSSProcessor();
-                problemDataFolderName = "CSS Evolution";
-                break;
-            default:
-                logger.info("Trouble with the instantiation of the Processor in Dispatchers doGet(). No case"
-                        + " for this URL extension. Ensure case Strings in Dispatcher.doGet() exactly match those in web.xml");
-                throw new AssertionError();
-        }
-
-        session.setAttribute("processor", processor);
-        session.setAttribute("problemDataFolderName", problemDataFolderName);
-
+        }     
+        session.setAttribute("problemDataFolderName", req.getServletPath());
         RequestDispatcher RD = req.getRequestDispatcher("main.jsp");
         RD.forward(req, resp);
 
@@ -104,7 +81,6 @@ public class Dispatcher extends HttpServlet {
         if (session == null) {
 
         }
-        Processor processor = (Processor) session.getAttribute("processor");
         String problemDataFolderName = (String) session.getAttribute("problemDataFolderName");
         File inputFolder = null;
         File outputFolder = null;
@@ -114,6 +90,9 @@ public class Dispatcher extends HttpServlet {
 
         File file;
 
+         // #######################################
+        System.out.println("OI YOU NO! " + request.getServletPath());
+        
         Boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
             logger.info("Error, system did not think there was a multipart request.\n");
@@ -162,8 +141,8 @@ public class Dispatcher extends HttpServlet {
                         dataPath = getServletContext().getInitParameter("clientFolder");
                     }
                     // initialise the Paths for the hints and profiles to be read from based on use case
-                    profilePath = new File(contextPath + "/data/" + problemDataFolderName + "/Profiles/");
-                    hintsXML = new File(contextPath + "/data/" + problemDataFolderName + "/hints.xml");
+                    profilePath = new File(contextPath + "/data" + problemDataFolderName + "/Profiles/");
+                    hintsXML = new File(contextPath + "/data" + problemDataFolderName + "/hints.xml");
 
                     File input = new File(dataPath + session.getId() + "/input/");
                     input.mkdirs();
@@ -193,9 +172,8 @@ public class Dispatcher extends HttpServlet {
                 + "\nhintsXML path : " + hintsXML.getAbsolutePath()+"\n");
 
         if (inputFolder != null && outputFolder != null && profilePath != null && hintsXML != null) {
-
-            Display webDisplay = new WebDisplay();
-            Controller controller = new Controller(inputFolder, outputFolder, profilePath, hintsXML, processor, webDisplay);
+            
+            Controller controller = new Controller(inputFolder, outputFolder, profilePath, hintsXML, problemDataFolderName);
             HashMap HTML_Strings = controller.initialisation();
             session.setAttribute("Controller", controller);
 
