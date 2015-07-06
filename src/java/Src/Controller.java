@@ -10,6 +10,7 @@ package Src;
  */
 import Algorithms.ESEvolution;
 import Algorithms.Hint;
+import Algorithms.MetaHeuristic;
 import Algorithms.Processor;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -36,7 +37,7 @@ public class Controller {
 
     Processor Processor;
     Display display;
-    ESEvolution evolution = new ESEvolution();
+    MetaHeuristic metaHeuristic = new ESEvolution();
     HashMap<String, Hint> hints = new HashMap<>();
 
     /**
@@ -116,10 +117,10 @@ public class Controller {
         logger.info("initial no of Profiles = " + noOfProfiles);
         loadRawArtifacts();
         hints = loadHintsXML();
-        evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        evolution.generateNextSolutions(noOfProfiles);
+        metaHeuristic.updateWorkingMemory(currentGenerationOfProfiles);
+        metaHeuristic.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
-            currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
+            currentGenerationOfProfiles[i] = metaHeuristic.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
         HashMap<String, String> results = display.loadWebDisplay(this);
@@ -140,10 +141,10 @@ public class Controller {
         Interaction interaction = new Interaction();
         interaction.updateProfileHints(scores, this);
         setNoOfProfiles(profileCount);
-        evolution.updateWorkingMemory(currentGenerationOfProfiles);
-        evolution.generateNextSolutions(noOfProfiles);
+        metaHeuristic.updateWorkingMemory(currentGenerationOfProfiles);
+        metaHeuristic.generateNextSolutions(noOfProfiles);
         for (int i = 0; i < noOfProfiles; i++) {
-            currentGenerationOfProfiles[i] = evolution.getNextGenProfileAtIndex(i);
+            currentGenerationOfProfiles[i] = metaHeuristic.getNextGenProfileAtIndex(i);
         }
         getResultArtifacts();
       HashMap<String, String> results =  display.loadWebDisplay(this);
@@ -400,7 +401,7 @@ public class Controller {
             }
         this.noOfProfiles = newNoOfProfiles;
         this.currentGenerationOfProfiles = newCurrentGenerationOfProfiles;
-        evolution.updateWorkingMemory(currentGenerationOfProfiles);
+        metaHeuristic.updateWorkingMemory(currentGenerationOfProfiles);
         System.out.println("How Many in Controller.setNoOfProfiles after : " + this.noOfProfiles);
     }
     
