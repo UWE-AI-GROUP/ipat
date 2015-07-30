@@ -20,12 +20,15 @@ private static final Logger logger = Logger.getLogger(Interaction.class);
     /**
      *
      * @param data
+     * @param currentGenerationOfProfiles
+     * @param hints
      * @param controller
+     * @return 
      */
-    public void updateProfileHints(HashMap data, Controller controller) {
+    public Profile[] updateProfileHints(HashMap data, Profile[] currentGenerationOfProfiles, HashMap<String, Hint> hints) {
 
-        int numOfProfiles = controller.currentGenerationOfProfiles.length;
-        int numOfHints = controller.hints.size();
+        int numOfProfiles = currentGenerationOfProfiles.length;
+        int numOfHints = hints.size();
         HashMap<String, HashMap> averageCounters = new HashMap();
         HashMap<String, HashMap> ordered = new HashMap();
         Hint hintProc;
@@ -131,8 +134,8 @@ private static final Logger logger = Logger.getLogger(Interaction.class);
             logger.debug("Updating hints for Profile: " + i + "\n");
 
             // run through the hints getting each averageMap
-            Set<String> hints = ordered.keySet();
-            Iterator<String> iterator = hints.iterator();
+            Set<String> hint = ordered.keySet();
+            Iterator<String> iterator = hint.iterator();
             while (iterator.hasNext()) {
                 String key = iterator.next();
                 HashMap profilesHintAverages = ordered.get(key);
@@ -140,7 +143,7 @@ private static final Logger logger = Logger.getLogger(Interaction.class);
                 if (key.equalsIgnoreCase("globalScore")) {
                     Object value = profilesHintAverages.get(i);
                     Double intValue =  (Double) value;
-                    controller.currentGenerationOfProfiles[i].setGlobalScore(intValue.intValue());
+                    currentGenerationOfProfiles[i].setGlobalScore(intValue.intValue());
                     logger.info("Updated " + key + " : " + intValue.intValue());
                     
                 } else {
@@ -150,22 +153,23 @@ private static final Logger logger = Logger.getLogger(Interaction.class);
 
                     if (value instanceof Boolean) {
                         Boolean booleanValue = (Boolean) value;
-                        hintProc = controller.hints.get(key);
+                        hintProc = hints.get(key);
                         if (booleanValue) {
                             logger.info("Updated " + key + " : true");
-                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 0.0);
+                            currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(currentGenerationOfProfiles[i], 0.0);
                         } else {
                             logger.info("Updated " + key + " : false");
-                            controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], 1.0);
+                            currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(currentGenerationOfProfiles[i], 1.0);
                         }
                     } else {
                         Double doubleValue = (Double) value;
-                        hintProc = controller.hints.get(key);
+                        hintProc = hints.get(key);
                         logger.info("Updated " + key + " : " + doubleValue);
-                        controller.currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(controller.currentGenerationOfProfiles[i], doubleValue);
+                        currentGenerationOfProfiles[i] = hintProc.InterpretHintInProfile(currentGenerationOfProfiles[i], doubleValue);
                     }
                 }
             }
         }
+        return currentGenerationOfProfiles;
     }
 }

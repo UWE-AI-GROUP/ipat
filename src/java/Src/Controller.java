@@ -159,7 +159,7 @@ public class Controller {
      */
     public HashMap mainloop(HashMap scores, int profileCount ) {
         Interaction interaction = new Interaction();
-        interaction.updateProfileHints(scores, this);
+        currentGenerationOfProfiles = interaction.updateProfileHints(scores, currentGenerationOfProfiles, hints);
         setNoOfProfiles(profileCount);
         metaHeuristic.updateWorkingMemory(currentGenerationOfProfiles);
         metaHeuristic.generateNextSolutions(noOfProfiles);

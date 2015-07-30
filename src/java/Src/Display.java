@@ -96,6 +96,8 @@ public class Display {
         HM.put("byImage", cells);
         HM.put("hintString", hintString);
         HM.put("count", Integer.toString(artifacts.length));
+        
+        System.out.println("Here she blows : " + HM.get("byProfile"));
         return HM;
     }
     
